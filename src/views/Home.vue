@@ -38,354 +38,55 @@
         </div>
         <div class="wc-PageView ">
             <div class="wc-PageView_Main wc-InPlayPage_MainContainer ">
-                <div class="ip-InPlayModule ">
-                    <div class="ip-ControlBar ">
+                <div class="ip-ControlBar ">
                         <div class="ip-ControlBar_ButtonBar ">
-                            <div class="ip-ControlBar_BBarItem ">
-                                盘口查看
-                            </div>
                             <div class="ip-ControlBar_BBarItem wl-ButtonBar_Selected ">
-                                赛事查看
-                            </div>
-                            <div class="ip-ControlBar_BBarItem ">
-                                比賽日程
+                                Dota 2 今日赛事
                             </div>
                         </div>
                     </div>
-                    <div class="ipe-EventViewView ">
-                        <div class="ipn-EventViewNavigation ipn-EventViewNavigation-expanded ">
-                            <div class="ipn-EventViewNavigationNativeScroller ipn-EventViewNavigationNativeScroller-scrollable ">
-                                <div class="ipn-EventViewNavigationNativeScroller_ContentContainer ">
-                                    <div class="ipn-EventViewNavigation_Classifications ipn-EventViewNavigationNativeScroller_Content ">
-                                        <div class="ipn-ControlBar ">
-                                            <span class="ipn-ControlBar_CollapseButton "></span>
-                                            <span class="ipn-ControlBar_Button ipn-ControlBar-selected ">全部</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                        <div class="ipn-Classification ipn-Classification-closed ">
-                                            <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
-                                            <span class="ipn-ClassificationButton_Label ">美式足球</span>
-                                        </div>
-                                    </div>
+                <div class="ipe-EcventViewView ">
+                        <div class="ipn-EventViewNavigation ipn-EventViewNavigation-expanded">
+                            <div :class="sidebar ? 'ipn-EventViewNavigation_Classifications ipn-EventViewNavigationNativeScroller_Content' : 'ipn-EventViewNavigation_Classifications ipn-EventViewNavigationNativeScroller_Content ipn-EventViewNavigation-scrollcollapse'">
+                                <div :class="sidebar ?'ipn-ControlBar ' :'ipn-ControlBar ipn-Classification-closed'">
+                                    <span :class="sidebar?'ipn-ControlBar_CollapseButton':'ipn-ControlBar_CollapseButton ipn_right'" @click="sidebar = !sidebar"></span>
                                 </div>
-                            </div>
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-Classification-closed'">
+                                    <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
+                                    <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">美式足球</span>
+                                </div>
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-Classification-closed'">
+                                   <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
+                                   <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">美式足球</span>
+                                </div>
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-Classification-closed'">
+                                    <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
+                                    <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">美式足球</span>
+                                </div>
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-Classification-closed'">
+                                    <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
+                                    <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">美式足球</span>
+                                </div>
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-Classification-closed'">
+                                    <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
+                                    <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">美式足球</span>
+                                </div>
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-Classification-closed'">
+                                    <span class="ci-ClassificationIcon ci-ClassificationIcon-12 ipn-ClassificationButton_Icon "></span>
+                                    <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">美式足球</span>
+                                </div>
+                                    </div>
                         </div>
                         <div class="ipe-EventViewDetail ">
-                            <div class="ipe-EventViewDetail_MarketGrid gl-MarketGrid ">
-                                <div class="gl-FavouritesContainer "></div><div class="gl-MarketGroup gl-MarketGrid_PairL ">
-                                <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                    <span class="gl-MarketGroupButton_Text">亚洲让分盘(0-2)</span>
-                                </div>
-                                <div class="gl-MarketGroup_Wrapper "><div class="gl-MarketGroupContainer ">
-                                    <div class="gl-Market2 gl-Market_General gl-Market_PWidth-50 ">
-                                        <div class="gl-MarketColumnHeader ">荷兹利亚马卡比</div>
-                                        <div class="gl-ParticipantCentered gl-Participant_General ipe-CouponParticipantCenteredAdditionalRowHeight gl-ParticipantCentered_BlankName ">
-                                            <span class="gl-ParticipantCentered_Name"></span>
-                                            <span class="gl-ParticipantCentered_Handicap"> 0.0</span>
-                                            <span class="gl-ParticipantCentered_Odds">1.725</span>
-                                        </div>
+                            <div class="ipe-EventViewDetailNativeScroller ipe-EventViewDetailNativeScroller-scrollable  ">
+                                <div class="ipe-EventViewDetailNativeScroller_ContentContainer ">
+                                    <div class="ipe-EventViewDetail_MarketGrid gl-MarketGrid ">
                                     </div>
-                                    <div class="gl-Market2 gl-Market_General gl-Market_PWidth-50 gl-Market_LastInRow ">
-                                        <div class="gl-MarketColumnHeader " style="">彼达提克瓦夏普</div>
-                                        <div class="gl-ParticipantCentered gl-Participant_General ipe-CouponParticipantCenteredAdditionalRowHeight gl-ParticipantCentered_BlankName ">
-                                            <span class="gl-ParticipantCentered_Name"></span>
-                                            <span class="gl-ParticipantCentered_Handicap"> 0.0</span>
-                                            <span class="gl-ParticipantCentered_Odds">2.075</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="gl-MarketGroup_FavouriteButton ">
-                                </div>
-                            </div>
-                                <div class="gl-MarketGroup gl-MarketGrid_PairR ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                        <span class="gl-MarketGroupButton_Text">大小盘(0-2)</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_Wrapper ">
-                                        <div class="gl-MarketGroupContainer gl-MarketGroupContainer_HasLabels ">
-                                            <div class="gl-MarketLabel gl-Market_General gl-Market_HasLabels gl-Market_PWidth-25 ">
-                                                <div class="gl-MarketColumnHeader ">&nbsp;</div>
-                                                <div class="gl-ParticipantRowValue ">
-                                                    <span class="gl-ParticipantRowValue_Name"> 2.5</span>
-                                                </div>
-                                            </div>
-                                            <div class="gl-MarketValues gl-Market_General gl-Market_PWidth-37-5 ">
-                                                <div class="gl-MarketColumnHeader ">高于</div>
-                                                <div class="gl-ParticipantOddsOnly gl-Participant_General ipe-CouponParticipantOddsOnlyAdditionalRowHeight ">
-                                                    <span class="gl-ParticipantOddsOnly_Odds">1.750</span>
-                                                </div>
-                                            </div>
-                                            <div class="gl-MarketValues gl-Market_General gl-Market_PWidth-37-5 gl-Market_LastInRow ">
-                                                <div class="gl-MarketColumnHeader ">低于</div>
-                                                <div class="gl-ParticipantOddsOnly gl-Participant_General ipe-CouponParticipantOddsOnlyAdditionalRowHeight ">
-                                                    <span class="gl-ParticipantOddsOnly_Odds">2.050</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                        <span class="gl-MarketGroupButton_Text">全场赛果</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_Wrapper ">
-                                        <div class="gl-MarketGroupContainer ">
-                                            <div class="gl-Market gl-Market_General gl-Market_PWidth-100 ">
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-3 ">
-                                                    <span class="gl-Participant_Name">荷兹利亚马卡比</span>
-                                                    <span class="gl-Participant_Odds">29.00</span></div>
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-3 ">
-                                                    <span class="gl-Participant_Name">平局</span>
-                                                    <span class="gl-Participant_Odds">15.00</span>
-                                                </div>
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-3 ">
-                                                    <span class="gl-Participant_Name">彼达提克瓦夏普</span>
-                                                    <span class="gl-Participant_Odds">1.030</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                        <span class="gl-MarketGroupButton_Text" style="">第3进球</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_Wrapper ">
-                                        <div class="gl-MarketGroupContainer ">
-                                            <div class="gl-Market gl-Market_General gl-Market_PWidth-100 ">
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-3 ">
-                                                    <span class="gl-Participant_Name">荷兹利亚马卡比</span>
-                                                    <span class="gl-Participant_Odds">3.00</span>
-                                                </div>
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-3 ">
-                                                    <span class="gl-Participant_Name">无第3个进球</span><span class="gl-Participant_Odds">2.00</span>
-                                                </div>
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-3 ">
-                                                    <span class="gl-Participant_Name" style="">彼达提克瓦夏普</span>
-                                                    <span class="gl-Participant_Odds">3.50</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                        <span class="gl-MarketGroupButton_Text">比赛进球</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_Wrapper ">
-                                        <div class="gl-MarketGroupContainer gl-MarketGroupContainer_HasLabels ">
-                                            <div class="gl-MarketLabel gl-Market_General gl-Market_HasLabels gl-Market_PWidth-25 ">
-                                                <div class="gl-MarketColumnHeader " style="">&nbsp;</div>
-                                                <div class="gl-ParticipantRowValue "><span class="gl-ParticipantRowValue_Name">2.5</span>
-                                                </div>
-                                            </div>
-                                            <div class="gl-MarketValues gl-Market_General gl-Market_PWidth-37-5 ">
-                                            <div class="gl-MarketColumnHeader " style="">高于</div>
-                                                <div class="gl-ParticipantOddsOnly gl-Participant_General ipe-CouponParticipantOddsOnlyAdditionalRowHeight ">
-                                                    <span class="gl-ParticipantOddsOnly_Odds">1.72</span>
-                                                </div>
-                                            </div>
-                                            <div class="gl-MarketValues gl-Market_General gl-Market_PWidth-37-5 gl-Market_LastInRow ">
-                                                <div class="gl-MarketColumnHeader ">低于</div>
-                                                <div class="gl-ParticipantOddsOnly gl-Participant_General ipe-CouponParticipantOddsOnlyAdditionalRowHeight ">
-                                                    <span class="gl-ParticipantOddsOnly_Odds">2.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open gl-MarketGroup_HasButtonBar ">
-                                        <span class="gl-MarketGroupButton_Text">最终比分</span>
-                                        <span class="gl-MarketGroup_ButtonBar ">
-                                            <div class="gl-MarketGroup_BBarItem wl-ButtonBar_Selected ">滑动条</div>
-                                            <div class="gl-MarketGroup_BBarItem ">全部</div>
-                                        </span>
-                                    </div><div class="gl-MarketGroup_Wrapper ">
-                                    <div class="gl-MarketGroupContainer ">
-                                        <div class="gl-MarketSliders gl-Market_PWidth-100 ">
-                                            <div class="gl-MarketSliders_SliderOneContainer ">
-                                                <svg height="87" width="100%" class="gl-MarketSliders_SliderOne gl-Slider ">
-                                                    <rect stroke="#5E5E5E" fill="#757575" x="-0.5" y="43.5" height="6" width="100%" class="gl-Slider_Path ">
-                                                    </rect>
-                                                    <rect stroke="#5E5E5E" fill="#189670" x="-0.5" y="43.5" height="6" width="0%" class="gl-Slider_PathHighlight "></rect>
-                                                    <circle fill="#ddd" cy="46.5" r="7.5" cx="0%" class="gl-Slider_Marker "></circle>
-                                                    <svg y="49" x="0%" class="gl-NumericSliderLabelField ">
-                                                        <rect fill="#999" x="0" y="6" width="1" height="5"></rect>
-                                                        <text fill="#ffdf1b">
-                                                            <tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">0</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <svg y="49" x="33.33333333333333%" class="gl-NumericSliderLabelField ">
-                                                        <rect fill="#999" x="0" y="6" width="1" height="5"></rect>
-                                                        <text fill="#ddd">
-                                                            <tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">1</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <svg y="49" x="66.66666666666666%" class="gl-NumericSliderLabelField ">
-                                                        <rect fill="#999" x="0" y="6" width="1" height="5"></rect>
-                                                        <text fill="#ddd">
-                                                            <tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">2</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <svg y="49" x="99.99999999999999%" class="gl-NumericSliderLabelField ">
-                                                        <rect fill="#999" x="0" y="6" width="1" height="5">
-                                                        </rect>
-                                                        <text fill="#ddd">
-                                                        <tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">3</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <rect width="105%" height="100%" opacity="0"></rect>
-                                                </svg>
-                                                <div class="gl-MarketSliders_SliderTitleContOne ">
-                                                    <span class="gl-MarketSliders_SliderTitle ">荷兹利亚马卡比</span>
-                                                </div>
-                                            </div>
-                                            <div class="gl-MarketSliders_Gap "></div>
-                                            <div class="gl-MarketSliders_SliderTwoContainer ">
-                                                <svg height="87" width="100%" class="gl-MarketSliders_SliderTwo gl-Slider ">
-                                                    <rect stroke="#5E5E5E" fill="#757575" x="-0.5" y="43.5" height="6" width="100%" class="gl-Slider_Path "></rect>
-                                                    <rect stroke="#5E5E5E" fill="#189670" x="-0.5" y="43.5" height="6" width="0%" class="gl-Slider_PathHighlight ">
-                                                    </rect>
-                                                    <circle fill="#ddd" cy="46.5" r="7.5" cx="0%" class="gl-Slider_Marker "></circle>
-                                                    <svg y="49" x="0%" class="gl-NumericSliderLabelField "><rect fill="#999" x="0" y="6" width="1" height="5">
-                                                    </rect>
-                                                        <text fill="#ffdf1b"><tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">2</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <svg y="49" x="33.33333333333333%" class="gl-NumericSliderLabelField ">
-                                                        <rect fill="#999" x="0" y="6" width="1" height="5"></rect>
-                                                        <text fill="#ddd"><tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">3</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <svg y="49" x="66.66666666666666%" class="gl-NumericSliderLabelField ">
-                                                        <rect fill="#999" x="0" y="6" width="1" height="5"></rect>
-                                                        <text fill="#ddd"><tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">4</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <svg y="49" x="99.99999999999999%" class="gl-NumericSliderLabelField ">
-                                                    <rect fill="#999" x="0" y="6" width="1" height="5"></rect>
-                                                        <text fill="#ddd">
-                                                            <tspan y="22" x="-3" class="gl-NumericSliderLabelField_NumTextSpan ">5</tspan>
-                                                        </text>
-                                                    </svg>
-                                                    <rect width="105%" height="100%" opacity="0"></rect>
-                                                </svg>
-                                                <div class="gl-MarketSliders_SliderTitleContTwo ">
-                                                    <span class="gl-MarketSliders_SliderTitle ">彼达提克瓦夏普</span>
-                                                </div>
-                                            </div>
-                                            <div class="gl-MarketSliders_OddsContainer ">
-                                                <div class="gl-ParticipantSliderResultField gl-Participant_General ">
-                                                    <span class="gl-ParticipantSliderResultField_Name">0-2</span>
-                                                    <span class="gl-ParticipantSliderResultField_Odds">2.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div><div class="gl-MarketGroup ">
-                                <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                    <span class="gl-MarketGroupButton_Text">让分盘 3项</span>
-                                </div><div class="gl-MarketGroup_Wrapper ">
-                                <div class="gl-MarketGroupContainer gl-MarketGroupContainer_HasLabels ">
-                                    <div class="gl-MarketLabel gl-Market_General gl-Market_HasLabels gl-Market_PWidth-25 ">
-                                        <div class="gl-ParticipantRowName ">
-                                            <span class="gl-ParticipantRowName_Name">荷兹利亚马卡比</span>
-                                        </div>
-                                        <div class="gl-ParticipantRowName ">
-                                            <span class="gl-ParticipantRowName_Name">平局</span>
-                                        </div>
-                                        <div class="gl-ParticipantRowName ">
-                                            <span class="gl-ParticipantRowName_Name">彼达提克瓦夏普</span>
-                                        </div>
-                                    </div>
-                                    <div class="gl-MarketValues gl-Market_General gl-Market_PWidth-75 gl-Market_LastInRow ">
-                                        <div class="gl-ParticipantCentered gl-Participant_General ipe-CouponParticipantCenteredAdditionalRowHeight gl-ParticipantCentered_BlankName ">
-                                            <span class="gl-ParticipantCentered_Name"></span>
-                                            <span class="gl-ParticipantCentered_Handicap"> +2</span>
-                                            <span class="gl-ParticipantCentered_Odds">3.40</span>
-                                        </div>
-                                        <div class="gl-ParticipantCentered gl-Participant_General ipe-CouponParticipantCenteredAdditionalRowHeight gl-ParticipantCentered_BlankName ">
-                                            <span class="gl-ParticipantCentered_Name"></span>
-                                            <span class="gl-ParticipantCentered_Handicap"> -2</span>
-                                            <span class="gl-ParticipantCentered_Odds">1.72</span>
-                                        </div>
-                                        <div class="gl-ParticipantCentered gl-Participant_General ipe-CouponParticipantCenteredAdditionalRowHeight gl-ParticipantCentered_BlankName ">
-                                            <span class="gl-ParticipantCentered_Name"></span><span class="gl-ParticipantCentered_Handicap"> -2</span>
-                                            <span class="gl-ParticipantCentered_Odds">4.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                <div class="gl-MarketGroup_FavouriteButton "></div>
-                            </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton gl-MarketGroup_Open ">
-                                        <span class="gl-MarketGroupButton_Text">平局退款</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_Wrapper ">
-                                        <div class="gl-MarketGroupContainer ">
-                                            <div class="gl-Market gl-Market_General gl-Market_PWidth-100 ">
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-2 ">
-                                                    <span class="gl-Participant_Name">荷兹利亚马卡比</span>
-                                                    <span class="gl-Participant_Odds">21.00</span>
-                                                </div>
-                                                <div class="gl-Participant gl-Participant_General gl-Market_CN-2 ">
-                                                    <span class="gl-Participant_Name">彼达提克瓦夏普</span>
-                                                    <span class="gl-Participant_Odds">1.002</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton ">
-                                        <span class="gl-MarketGroupButton_Text">最后进球球队</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
-                                </div>
-                                <div class="gl-MarketGroup ">
-                                    <div class="gl-MarketGroupButton gl-MarketGroup_HasFavouriteButton ">
-                                        <span class="gl-MarketGroupButton_Text">进球数 - 奇/偶</span>
-                                    </div>
-                                    <div class="gl-MarketGroup_FavouriteButton "></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <div class="wc-PageView_RightColumn wc-InPlayPage_RightColumn wc-InPlayPage_RightColumnStandard "></div>
         </div>
     </div>
@@ -394,7 +95,14 @@
 <script>
     export default {
         name: 'home',
-        components: {}
+        components: {},
+        data () {
+            return {
+                sidebar: true
+            }
+        },
+        mounted () {},
+        methods: {}
     }
 </script>
 <style scoped lang="scss">
@@ -575,8 +283,7 @@
     .ipn-EventViewNavigation {
         transition-timing-function: cubic-bezier(.77, 0, .175, 1);
         background-color: #333;
-        transition-duration: .65s;
-        transition-property: width;
+        transition: width .2s ease-in-out;
         width: 214px;
         cursor: pointer;
         display: table-cell;
@@ -584,22 +291,41 @@
         border-right: 1px solid #303030;
         position: relative;
     }
+    .ipn-Classification.ipn-Classification-closed,.ipn-ControlBar.ipn-Classification-closed{
+        min-width: 64px;
+        transition: min-width .2s ease-in-out;
+    }
+    .ipn-ClassificationButton_Label.ipn-ClassificationButton_cls{
+        opacity: 0;
+        visibility: hidden;
+        overflow: visible;
+        transition: opacity .2s ease-in-out;
+    }
+    .ipn-EventViewNavigation-expanded .ipn-ControlBar_CollapseButton.ipn_right{
+        background-image: url(../assets/right.svg);
+    }
+    .ipn-ClassificationButton_Icon {
+        position: absolute;
+        right: 17px;
+        top: 0;
+        width: 24px;
+        height: 28px;
+        transition: right .2s;
+        background-size: auto 15px;
+        background-image: url(../assets/ftb.svg);
+    }
     .ipn-EventViewNavigation-expanded .ipn-EventViewNavigationNativeScroller {
-        transition-duration: .65s;
+        transition-duration: .2s;
         background-color: #333;
     }
     .ipn-EventViewNavigationNativeScroller {
         height: 100%;
         overflow: hidden;
         z-index: 20;
-        transition-property: width;
-        transition-timing-function: ease-in-out;
     }
     .ipn-EventViewNavigationNativeScroller_ContentContainer {
         overflow: auto;
-        transition-duration: .65s;
-        transition-property: margin-right, width;
-        transition-timing-function: ease-in-out;
+        transition: width .2s ease-in-out;
         max-height: calc(100vh - 132px);
     }
     .ipn-EventViewNavigationNativeScroller_Content {
@@ -612,14 +338,13 @@
         height: 30px;
         position: relative;
         border-bottom: 1px solid #3d3d3d;
-        transition-property: border, background-color, width;
-        transition-duration: .3s;
         min-width: 213px;
+        transition: border, background-color, width .2s ease-in-out;
     }
     .ipn-ControlBar_CollapseButton {
         position: absolute;
         right: 12px;
-        transition: right .65s, background-color;
+        transition: right .3s, background-color;
         padding: 11px 10px 10px 13px;
         margin-top: 8px;
     }
@@ -647,11 +372,6 @@
         color: #777;
         font-size: 11px;
     }
-    .ipn-ControlBar_Button.ipn-ControlBar-selected, .ipn-ControlBar_MediaButton.ipn-ControlBar-selected {
-        border-bottom: 2px solid #999;
-        color: #c7c7c7;
-        cursor: default;
-    }
     .ipn-Classification {
         width: 100%;
         min-width: 213px;
@@ -664,14 +384,16 @@
         color: #e4e4e4;
         background-color: #25765c;
         border-bottom: 1px solid #274526;
+        transition: min-width .3s ease-in-out;
     }
+    .ipn-Classification-closed
     .ci-ClassificationIcon-12.ci-ClassificationIcon {
         top: 1px;
         position: absolute;
         right: 17px;
         width: 24px;
         height: 28px;
-        transition: right .65s;
+        transition: right .3s;
         background-image: url(../assets/ftb.svg);
         background-repeat: no-repeat;
         background-size: auto 14px;
@@ -695,21 +417,24 @@
         bottom: 1px;
         -moz-osx-font-smoothing: grayscale;
         opacity: 1;
-        transition-property: opacity, width;
-        transition-duration: .3s;
-        transition-delay: .3s;
+        transition: opacity, width .3s ease-in-out;
     }
     .ipe-EventViewDetail {
         display: table-cell;
+        width: 100%;
+    }
+    .ipe-EventViewDetailNativeScroller {
         position: relative;
         border-right: 1px solid #373737;
+    }
+    .ipe-EventViewDetailNativeScroller_ContentContainer {
         overflow-y: scroll;
         overflow-x: hidden;
-        max-height: calc(100vh - 135px)
+        max-height: calc(100vh - 135px);
     }
-    .ipe-EventViewDetail:after {
+    .ipe-EventViewDetailNativeScroller:after {
         content: " ";
-        width: 14px;
+        width: 16px;
         height: 100%;
         position: absolute;
         top: 0;
@@ -721,6 +446,9 @@
         transition-duration: .2s;
         pointer-events: none;
     }
+    .ipe-EventViewDetailNativeScroller_Content {
+        border-right: 1px solid #373737;
+    }
     .wc-PageView_RightColumn {
         -webkit-flex: 0 0 auto;
         -ms-flex: 0 0 auto;
@@ -728,7 +456,7 @@
         background-color: #474747;
         position: relative;
         transition-timing-function: cubic-bezier(.77,0,.175,1);
-        transition-duration: .65s;
+        transition-duration: .3s;
         transition-property: width,min-width;
         width: 277px;
         max-width: 592px;
@@ -744,10 +472,15 @@
         background-color: #474747;
         position: relative;
         transition-timing-function: cubic-bezier(.77,0,.175,1);
-        transition-duration: .65s;
+        transition-duration: .3s;
         transition-property: width,min-width;
         width: 277px;
         max-width: 592px;
         border-left: 2px solid #4d4d4d;
+    }
+    .ipn-EventViewNavigation-scrollcollapse {
+        overflow: hidden;
+        width: 64px;
+        padding-right: 14px;
     }
 </style>

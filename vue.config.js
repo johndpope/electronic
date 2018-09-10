@@ -6,7 +6,7 @@ module.exports = {
             .use('eslint-loader')
             .tap(options => merge(options, { emitWarning: false }));
     },
-    productionSourceMap: false,
+    productionSourceMap: true,
     css: {
         sourceMap: process.env.NODE_ENV !== 'production',
     },
