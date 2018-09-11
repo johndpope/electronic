@@ -13,12 +13,16 @@ module.exports = {
     devServer: {
         port: 9000,
         proxy: {
-            '/api': {
-                target: 'http://vuewebapp.lottofight.game.com',
+            '/webApi/*': {
+                // target: 'http://192.168.1.37:18083',     // Arron本地
+                target: 'http://192.168.1.44:18084',        // 测试开发
+                // target: 'http://192.168.1.45:18083',
                 pathRewrite: {
-                    '^/api': '/',
+                    "/webApi": ""
                 },
-            },
+                changeOrigin: true,
+                secure: false
+            }
         },
     },
 };

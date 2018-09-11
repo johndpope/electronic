@@ -7,9 +7,6 @@ util.ajaxForm = axios.create({
   timeout: 30000,
   transformRequest: [function transformRequest (data) {
     let ret = ''
-    // for (let it in data) {
-    //   ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-    // }
     for (let it in data) {
       let value = encodeURIComponent(data[it])
       if (value === 'null') {
@@ -37,10 +34,6 @@ function interceptionFn (el) {
   el.interceptors.request.use(config => {
     return config
   }, error => {
-    notify({
-      content: '请求超时！',
-      btn: 'close'
-    })
     return Promise.reject(error.response)
   })
 
@@ -48,8 +41,6 @@ function interceptionFn (el) {
   el.interceptors.response.use(data => {
     return data
   }, error => {
-    // console.log(error.response)
-    // return Promise.reject(error.response.data.resultMsg)
     return Promise.reject(error.response)
   })
 }
@@ -60,15 +51,7 @@ interceptionFn(util.ajaxJson)
 const handleRequest = (request) => {
   return new Promise((resolve, reject) => {
     request.then(resp => {
-      // console.log(resp)
       const data = resp.data
-
-      // if (data.resultCode) {
-      //   resolve(data.resultMsg)
-      // } else {
-      //   return reject(createError(resp.status, data.resultMsg))
-      // }
-
       if (resp.status === 200) {
         if (data.resultCode) {
           resolve(data.resultMsg)
@@ -90,4 +73,11 @@ const handleRequest = (request) => {
   })
 }
 
-export default {}
+export default {
+    postBetGame (data) {
+        return handleRequest(util.ajaxForm.post('/sv/match/betGame', data))
+    },
+    postMatchCount (data) {
+        return handleRequest(util.ajaxForm.post('/s2/match/matchCount', data))
+    }
+}
