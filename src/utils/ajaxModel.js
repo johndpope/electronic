@@ -79,5 +79,8 @@ export default {
     },
     postMatchCount (data) {
         return handleRequest(util.ajaxForm.post('/s2/match/matchCount', data))
+    },
+    postMatches (data) {
+        return handleRequest(util.ajaxForm.post('/sv/match/matches', data))
     }
 }

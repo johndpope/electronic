@@ -33,12 +33,22 @@
         <div class="wc-PageView ">
             <div class="wc-PageView_Main wc-InPlayPage_MainContainer ">
                 <div class="ip-ControlBar ">
-                        <div class="ip-ControlBar_ButtonBar ">
-                            <div class="ip-ControlBar_BBarItem wl-ButtonBar_Selected ">
-                                Dota 2 今日赛事
-                            </div>
-                        </div>
+                    <div class="ip-ControlBar_BBarItem wl-ButtonBar_Selected ">
+                        Dota 2 今日赛事
                     </div>
+                    <div class="ip-ControlBar_msg">
+                        公告：
+                        <marquee class="ip-msg" behavior="scroll" direction="left"  onmouseover=this.stop() onmouseout=this.start()>
+                            2018年9月8日下午，大方县公安局接到群众报警称，猫场镇碧脚村有人被杀伤。接警后，民警立即赶到现场，
+                            将伤者陈某(男，40岁，纳雍锅圈岩乡人，)送到医院救治，陈某经送医后因伤势过重抢救无效死亡。
+                            该案发生后，我局高度重视，迅速成立专案组，全力开展侦破工作，迅速锁定犯罪嫌疑人沙某(男，37岁，居住大方县猫场镇前进村)并组织多个追捕组进行抓捕。
+                            9月9日上午10时许，犯罪嫌疑人迫于强大压力，向我局投案自首。目前，犯罪嫌疑人沙某已被依法刑事拘留，案件还在进一步办理中。
+                        </marquee>
+                    </div>
+                    <div class="ip-ControlBar-btn">
+                        <button>选择联赛</button>
+                    </div>
+                </div>
                 <div class="ipe-EcventViewView ">
                         <div :class="sidebar?'ipn-EventViewNavigation ipn-EventViewNavigation-expanded':'ipn-EventViewNavigation ipn-EventViewNavigation-expanded ipn_w'">
                             <div :class="sidebar ? 'ipn-EventViewNavigation_Classifications ipn-Scroller_Content' : 'ipn-EventViewNavigation_Classifications ipn-Scroller_Content ipn-EventViewNavigation-scrollcollapse'">
@@ -46,9 +56,10 @@
                                     <span :class="sidebar?'ipn-ControlBar_CollapseButton':'ipn-ControlBar_CollapseButton ipn_right'" @click="sidebar = !sidebar"></span>
                                 </div>
                                 <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-closed'" v-for="(item,key) in eventBarList" :key="key">
-                                    <div class="ipn-Classification-num">
+                                    <span class="ipn-Classification-num">
                                         <span class="ci-ClassificationIcon ci-ClassificationIcon-12 "></span>
-                                    </div>
+                                        <span class="ipn-Class-num">{{ item.count }}</span>
+                                    </span>
                                     <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">
                                         {{ item.category }}
                                     </span>
@@ -60,8 +71,8 @@
                                 <div class="ipe-EventViewDetailNativeScroller_ContentContainer ">
                                     <div class="ipe-EventViewDetail_MarketGrid gl-MarketGrid ">
                                         <table class="ipe-table">
-                                            <tbody>
-                                             <tr>
+                                            <thead>
+                                              <tr>
                                                 <td class="col-time" rowspan="2">
                                                     <span>时间</span>
                                                 </td>
@@ -72,7 +83,7 @@
                                                 <td colspan="3" class="ipe-bor">地图1 </td>
                                                 <td class="col-more" rowspan="2">+</td>
                                              </tr>
-                                             <tr>
+                                              <tr>
                                                 <td class="col-1x2">胜负盘</td>
                                                 <td class="col-hdp">让分盘</td>
                                                 <td class="col-ou">大小盘</td>
@@ -80,6 +91,30 @@
                                                 <td class="col-hdp">让分盘</td>
                                                 <td class="col-ou">大小盘</td>
                                             </tr>
+                                            </thead>
+                                            <tbody v-for="(items, key) in matchList" :key="key">
+                                              <tr>
+                                                 <td colspan="9" class="ipe-table-sc-title">{{ items.league }}</td>
+                                              </tr>
+                                              <tr>
+                                                 <td colspan="9">
+                                                     <table class="ipe-table-sc-table">
+                                                         <tbody v-for="(itemes, key) in items.gameMatches" :key="key">
+                                                           <tr>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                               <td>{{ itemes.matchTime }}</td>
+                                                           </tr>
+                                                         </tbody>
+                                                     </table>
+                                                 </td>
+                                              </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -101,17 +136,19 @@ export default {
     data () {
         return {
             sidebar: true,
-            eventType: 1,
-            eventBarList: []
+            eventType: 3,
+            eventBarList: [],
+            matchList:[]
         }
     },
     created () {
         this.handleGetEvents()
+        this.handleGetMatches()
     },
     mounted () {
     },
     methods: {
-      ...mapActions([ 'postBetGameS', 'postMatchCountS' ]),
+      ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postMatchesS' ]),
         handleGetEvents () {
           let data = {
              rtype: this.eventType
@@ -128,6 +165,17 @@ export default {
                })
               }
           })
+        },
+        handleGetMatches () {
+            let data = {
+                rtype: this.eventType
+            }
+            this.postMatchesS(data).then(res => {
+                if(res.length !==0) {
+                    console.log(res)
+                    this.matchList = res
+                }
+            })
         }
     }
  }
@@ -231,16 +279,9 @@ export default {
             .ip-ControlBar {
                 background-color: #474747;
                 border-bottom: 1px solid #303030;
-                .ip-ControlBar_ButtonBar {
-                    display: inline-block;
-                    -webkit-flex: 1 0 auto;
-                    -ms-flex: 1 0 auto;
-                    flex: 1 0 auto;
-                    text-align: right;
-                    padding-left: 15px;
-                    pointer-events: none;
-                }
+                position: relative;
                 .ip-ControlBar_BBarItem {
+                    padding-left: 15px;
                     font-size: 12px;
                     color: #bbb;
                     display: inline-block;
@@ -248,6 +289,34 @@ export default {
                     line-height: 29px;
                     pointer-events: auto;
                     padding-right: 25px;
+                }
+                .ip-ControlBar-btn{
+                    position: absolute;
+                    right: 17px;
+                    top: 4px;
+                    height: 80%;
+                    button{
+                        height: 100%;
+                        width: 80px;
+                        border-radius: 5px;
+                        outline: none;
+                        border: none;
+                        background-color: #999;
+                        color: #fff;
+                    }
+                }
+                .ip-ControlBar_msg{
+                    position: absolute;
+                    top: 0;
+                    right: 120px;
+                    width: 79.7%;
+                    height: 29px;
+                    line-height: 29px;
+                    color: #e4e4e4;
+                    .ip-msg{
+                        position: absolute;
+                        width: 98%;
+                    }
                 }
                 .ip-ControlBar_BBarItem.wl-ButtonBar_Selected {
                     color: #ffdf1b;
@@ -259,6 +328,23 @@ export default {
             table-layout: fixed;
             width: 100%;
             height: 100%;
+            .ipn-Classification-num{
+                display: flex;
+                align-items: center;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                right: 17px;
+            }
+            .ipn-Class-num{
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                line-height: 20px;
+                border-radius: 50%;
+                background-color: #517372;
+            }
             .ipn-EventViewNavigation {
                 background-color: #333;
                 transition: width .35s ease-in-out;
@@ -388,7 +474,7 @@ export default {
                 bottom: 1px;
                 -moz-osx-font-smoothing: grayscale;
                 opacity: 1;
-                transition: opacity, width .3s ease-in-out;
+                transition: opacity, width 1s ease-in-out;
             }
             .ipe-EventViewDetail {
                 display: table-cell;
@@ -424,13 +510,21 @@ export default {
             }
             .ipe-table{
                 width: 100%;
-                background-color: #48504e;
                 text-align: center;
                 .ipe-bor{
                     border-bottom: 1px solid #999;
                 }
-                td{
+                thead td{
                     border-right: 1px solid #999;
+                    background-color: #48504e;
+                }
+                .ipe-table-sc-title{
+                    padding: 5px 0 5px 10px;
+                    text-align: left;
+                    background-color: #189970;
+                }
+                .ipe-table-sc-table{
+                    width: 100%;
                 }
             }
             .ipn-EventViewNavigation-scrollcollapse {

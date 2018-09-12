@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ajaxModel from '../src/utils/ajaxModel'
-import { GET_EVENTS } from '../src/utils/types';
+import { GET_EVENTS, GET_MATCHES } from '../src/utils/types';
 
 Vue.use(Vuex)
 
@@ -12,7 +12,10 @@ export default new Vuex.Store({
   mutations: {
    [GET_EVENTS] (stat) {
      return stat
-   }
+   },
+  [GET_MATCHES] (stat) {
+     return stat
+  }
   },
   actions: {
       // 下注
@@ -20,15 +23,13 @@ export default new Vuex.Store({
           commit('startWaiting')
           let re = ''
           await ajaxModel.postBetGame(data).then(res => {
-              commit('endWaiting')
               re = res
           }).catch(err => {
-              commit('endWaiting')
               throw err
           })
           return re
       },
-      // 查询赛事
+      // 查询赛事数量
       async postMatchCountS ({ commit }, data) {
           commit(GET_EVENTS)
           let re = ''
@@ -39,5 +40,16 @@ export default new Vuex.Store({
           })
           return re
       },
+      // 查询查询赛事列表
+      async postMatchesS ({ commit }, data) {
+          commit(GET_MATCHES)
+          let re = ''
+          await ajaxModel.postMatches(data).then(res => {
+              re = res
+          }).catch(err => {
+              throw err
+          })
+          return re
+      }
   }
 })
