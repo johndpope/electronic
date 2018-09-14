@@ -14,7 +14,7 @@
             </div>
             <div class="hm-HeaderModule_Secondary ">
                 <div class="hm-HeaderModule_TimeLastLogin ">
-                    <time class="hm-Clock ">10:37:37 GMT+8</time>
+                    <time class="hm-Clock ">{{ times }} GMT+8</time>
                 </div>
                 <div class="hm-HeaderModule_Menus ">
                     <div></div>
@@ -138,7 +138,8 @@ export default {
             sidebar: true,
             eventType: 3,
             eventBarList: [],
-            matchList:[]
+            matchList:[],
+            times: null
         }
     },
     created () {
@@ -146,6 +147,7 @@ export default {
         this.handleGetMatches()
     },
     mounted () {
+        this.setTime()
     },
     methods: {
       ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postMatchesS' ]),
@@ -176,6 +178,16 @@ export default {
                     this.matchList = res
                 }
             })
+        },
+        setTime () {
+          setInterval(() => {
+              let h, m, s
+              let timer = new Date()
+              h = timer.getHours()
+              m = timer.getMinutes() > 10 ? timer.getMinutes() : '0' + timer.getMinutes()
+              s = timer.getSeconds() > 10 ? timer.getSeconds() : '0' + timer.getSeconds()
+              this.times = h + ':' + m + ':' + s
+          },1000)
         }
     }
  }
