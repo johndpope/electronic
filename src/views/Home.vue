@@ -45,7 +45,7 @@
                             9月9日上午10时许，犯罪嫌疑人迫于强大压力，向我局投案自首。目前，犯罪嫌疑人沙某已被依法刑事拘留，案件还在进一步办理中。
                         </marquee>
                     </div>
-                    <div class="ip-ControlBar-btn">
+                    <div @click="showModal = true" class="ip-ControlBar-btn">
                         <button>选择联赛</button>
                     </div>
                 </div>
@@ -125,6 +125,89 @@
                 </div>
             <div class="wc-PageView_RightColumn wc-InPlayPage_RightColumn wc-InPlayPage_RightColumnStandard "></div>
         </div>
+        <div class="model" v-if="showModal">
+            <div class="models" @click="showModal = false"></div>
+            <div class="league-select">
+                <div class="s-dialog-header">
+                    <i class="fa icon league-header"></i>
+                    <h4>选择联赛</h4>
+                    <a class="s-dialog-close btn-cancel" @click="showModal = false">
+                        <i class="icon close"></i>
+                    </a>
+                </div>
+                <div class="button-panel">
+                    <label class="all-leagues-container">
+                        <input id="all-leagues" class="all-leagues" type="checkbox" value="1" checked="checked" data-all-sports="29">
+                        <label class="icon-all-leagues" for="all-leagues">
+                        </label>
+                        全选
+                    </label>
+                </div>
+                <div class="s-dialog-body">
+                    <label class="league-opt">
+                        <input id="league-9097" class="league" type="checkbox" data-id="29" value="9097" checked="checked">
+                        <label class="icon-league" for="league-9097"></label>
+                        韩国- 挑战K联赛
+                    </label>
+                    <label class="league-opt">
+                        <input id="league-2332" class="league" type="checkbox" data-id="29" value="2332" checked="checked">
+                        <label class="icon-league" for="league-2332"></label>
+                        挪威 - 乙级联赛 </label>
+                    <label class="league-opt">
+                        <input id="league-2025" class="league" type="checkbox" data-id="29" value="2025" checked="checked">
+                        <label class="icon-league" for="league-2025"></label>
+                        芬兰甲级联赛
+                    </label>
+                    <label class="league-opt">
+                    <input id="league-2101" class="league" type="checkbox" data-id="29" value="2101" checked="checked">
+                        <label class="icon-league" for="league-2101"></label>
+                        冰岛 - 杯赛 </label>
+                    <label class="league-opt">
+                        <input id="league-2513" class="league" type="checkbox" data-id="29" value="2513" checked="checked">
+                        <label class="icon-league" for="league-2513"></label>
+                        瑞典 - 南部甲级联赛
+                    </label>
+                    <label class="league-opt">
+                        <input id="league-9757" class="league" type="checkbox" data-id="29" value="9757" checked="checked">
+                        <label class="icon-league" for="league-9757"></label>
+                        俄罗斯 - 乙级联赛 </label>
+                    <label class="league-opt">
+                      <input id="league-1834" class="league" type="checkbox" data-id="29" value="1834" checked="checked">
+                      <label class="icon-league" for="league-1834"></label>
+                       巴西 - 甲级联赛
+                     </label>
+                    <label class="league-opt">
+                        <input id="league-1835" class="league" type="checkbox" data-id="29" value="1835" checked="checked">
+                        <label class="icon-league" for="league-1835"></label>
+                        巴西 - 乙级联赛
+                    </label>
+                    <label class="league-opt">
+                        <input id="league-10747" class="league" type="checkbox" data-id="29" value="10747" checked="checked">
+                        <label class="icon-league" for="league-10747"></label>
+                        阿尔及利亚 - 青年U21联赛
+                    </label>
+                    <label class="league-opt">
+                        <input id="league-1739" class="league" type="checkbox" data-id="29" value="1739" checked="checked">
+                        <label class="icon-league" for="league-1739"></label>
+                        阿根廷 - 乙级联赛
+                    </label>
+                    <label class="league-opt">
+                        <input id="league-1740" class="league" type="checkbox" data-id="29" value="1740" checked="checked">
+                        <label class="icon-league" for="league-1740"></label>
+                        阿根廷 - 甲级联赛
+                    </label>
+                    <label class="league-opt">
+                        <input id="league-1742" class="league" type="checkbox" data-id="29" value="1742" checked="checked">
+                        <label class="icon-league" for="league-1742"></label>
+                        亚美尼亚 - 超级联赛
+                    </label>
+                    </div>
+                <div class="s-dialog-footer">
+                    <button class="s-button btn-cancel" @click="showModal = false">取消</button>
+                    <button class="s-button primary btn-ok">继续</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -139,7 +222,8 @@ export default {
             eventType: 3,
             eventBarList: [],
             matchList:[],
-            times: null
+            times: null,
+            showModal: false
         }
     },
     created () {
@@ -555,7 +639,115 @@ export default {
         max-width: 592px;
         border-left: 2px solid #4d4d4d;
     }
-
+    .models{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        opacity: .6;
+        background-color: #000;
+        transition: opacity .6s ease-in-out;
+        z-index: 50;
+    }
+    .league-select{
+        position: fixed;
+        min-width: 600px;
+        max-width: 40%;
+        left: 30%;
+        top: 28%;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        border: 2px solid #132848;
+        background-color: #fff;
+        z-index: 100;
+        .s-dialog-header {
+            clear: both;
+            line-height: 32px;
+            background: #189970;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#189970 ',endColorstr='#189970 ',GradientType=0);
+            padding-left: 10px;
+            h4 {
+                font-weight: bold;
+                color: #fff;
+            }
+            .s-dialog-close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                cursor: pointer;
+                i {
+                    display: inline-block;
+                    width: 28px;
+                    height: 28px;
+                    background: url(../assets/betSlipClose.png) no-repeat center center;
+                }
+            }
+        }
+        .button-panel {
+            background-color: #e1e1e1;
+            text-align: left;
+            font-weight: 700;
+            color: #0b1422;
+            padding: 8px 8px 8px 10px;
+            border: 1px solid #e1e9ff;
+            label {
+                position: relative;
+                padding-left: 10px;
+                cursor: pointer;
+               input {
+                    position: absolute;
+                    top: 2px;
+                    left: 0;
+                    bottom: 0;
+                    cursor: pointer;
+                }
+            }
+        }
+        .s-dialog-body {
+            height: auto;
+            max-height: 300px;
+            max-width: 97.5%;
+            padding: 5px 11px 11px 11px;
+            overflow-y: auto;
+            clear: both;
+            label.league-opt {
+                display: inline-block;
+                width: 46%;
+                position: relative;
+                padding: 4px 0 4px 18px;
+                color: #0b1422;
+                input{
+                    vertical-align: middle;
+                }
+            }
+        }
+        .s-dialog-footer {
+            clear: both;
+            padding: 6px 0;
+            text-align: center;
+            button {
+                width: 60px;
+                margin-right: 16px;
+            }
+           .btn-cancel {
+                font-size: 14px;
+                background: #9d9d9d;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9d9d9d',endColorstr='#9d9d9d',GradientType=0);
+                box-shadow: 0 2px #767676;
+                border-radius: 3px;
+                border: 1px solid #9d9d9d;
+                color: #fff;
+            }
+          .s-button.primary {
+                font-size: 14px;
+                background: #f60!important;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff6600',endColorstr='#ff6600',GradientType=0);
+                box-shadow: 0 2px #e83200;
+                border-radius: 3px;
+                border: 1px solid #f60;
+                color: #fff!important;
+            }
+        }
+    }
     @media (min-width: 1109px) {
         .hm-BigButtons_Inner {
             border-spacing: 20px 0;
