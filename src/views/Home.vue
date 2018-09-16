@@ -133,7 +133,10 @@
                         全部删除
                     </div>
                     <ul class="bet_details">
-                        <li></li>
+                        <li>
+                            <div class="bet_details_body">
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="bet_prompt" v-if="false">
@@ -689,6 +692,8 @@ export default {
             padding: 3px 10px;
             border-top: solid 1px #116c4f;
             border-bottom: solid 1px #aaa;
+        }
+        .bet_details_body{
         }
     }
     .models{
