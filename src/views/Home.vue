@@ -123,7 +123,23 @@
                         </div>
                     </div>
                 </div>
-            <div class="wc-PageView_RightColumn wc-InPlayPage_RightColumn wc-InPlayPage_RightColumnStandard "></div>
+            <div class="wc-PageView_RightColumn">
+                <p class="wc-PageView_header">
+                   <span>投注单</span>
+                </p>
+                <div class="bet_info" v-if="true">
+                    <p class="wc-PageView_header text_r">标准投注单</p>
+                    <div class="bet_deleteAll">
+                        全部删除
+                    </div>
+                    <ul class="bet_details">
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="bet_prompt" v-if="false">
+                   点击赔率以添加选项
+                </div>
+            </div>
         </div>
         <div class="model" v-if="showModal">
             <div class="models" @click="showModal = false"></div>
@@ -638,6 +654,42 @@ export default {
         width: 277px;
         max-width: 592px;
         border-left: 2px solid #4d4d4d;
+        .wc-PageView_header{
+            height: 28px;
+            line-height: 28px;
+            border-top:1px solid #4d4d4d;
+            background-color:#14805e;
+            text-align: center;
+            color: #ffdf1b;
+            span{
+                display: inline-block;
+                height: 100%;
+                border-bottom: 2px solid #ffdf1b;
+            }
+        }
+        .text_r {
+            border-top:1px solid #179970;
+            text-align: right;
+            padding-right: 5px;
+        }
+        .bet_prompt{
+            color: #ddd;
+            text-align: center;
+            line-height: 18px;
+            padding: 32px 10px;
+            background-color: #666;
+            border-bottom: none;
+            border-top: solid 1px #116c4f;
+            cursor: default;
+        }
+        .bet_deleteAll{
+            position: relative;
+            color:#666;
+            background-color: #c7c7c7;
+            padding: 3px 10px;
+            border-top: solid 1px #116c4f;
+            border-bottom: solid 1px #aaa;
+        }
     }
     .models{
         position: absolute;
