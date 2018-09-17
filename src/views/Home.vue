@@ -135,6 +135,11 @@
                     <ul class="bet_details">
                         <li>
                             <div class="bet_details_body">
+                                <h4 class="bet_details_body_title">西汉姆</h4>
+                                <p class="bet_details_body_type">全场赛果</p>
+                                <p class="bet_details_body_event">埃弗顿 <span>VS</span>西汉姆</p>
+                                <p class="bet_details_body_event"><input type="text" placeholder="本金">返还0.00</p>
+                                <p class="bet_details_body_event">最高投金</p>
                             </div>
                         </li>
                     </ul>
@@ -232,9 +237,10 @@
 
 <script>
 import { mapActions } from 'vuex'
+import IconFont from '@/components/IconFont/index.vue';
 export default {
     name: 'home',
-    components: {},
+    components: { IconFont },
     data () {
         return {
             sidebar: true,
@@ -694,6 +700,17 @@ export default {
             border-bottom: solid 1px #aaa;
         }
         .bet_details_body{
+            padding-left: 25px;
+            background-color: #bbb;
+            .bet_details_body_title{
+                color:#333;
+                font-size: 13px;
+                padding: 0 3px;
+            }
+            .bet_details_body_event{
+                padding: 0 2px;
+                color: #666;
+            }
         }
     }
     .models{
