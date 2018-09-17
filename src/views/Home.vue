@@ -72,7 +72,7 @@
                                     <div class="ipe-EventViewDetail_MarketGrid gl-MarketGrid ">
                                         <table class="ipe-table">
                                             <thead>
-                                              <tr>
+                                            <tr>
                                                 <td class="col-time" rowspan="2">
                                                     <span>时间</span>
                                                 </td>
@@ -82,8 +82,8 @@
                                                 <td class="ipe-bor" colspan="3">比赛</td>
                                                 <td colspan="3" class="ipe-bor">地图1 </td>
                                                 <td class="col-more" rowspan="2">+</td>
-                                             </tr>
-                                              <tr>
+                                            </tr>
+                                            <tr>
                                                 <td class="col-1x2">胜负盘</td>
                                                 <td class="col-hdp">让分盘</td>
                                                 <td class="col-ou">大小盘</td>
@@ -93,28 +93,281 @@
                                             </tr>
                                             </thead>
                                             <tbody v-for="(items, key) in matchList" :key="key">
-                                              <tr>
-                                                 <td colspan="9" class="ipe-table-sc-title">{{ items.league }}</td>
-                                              </tr>
-                                              <tr>
-                                                 <td colspan="9">
-                                                     <table class="ipe-table-sc-table">
-                                                         <tbody v-for="(itemes, key) in items.gameMatches" :key="key">
-                                                           <tr>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                               <td>{{ itemes.matchTime }}</td>
-                                                           </tr>
-                                                         </tbody>
-                                                     </table>
-                                                 </td>
-                                              </tr>
+                                            <tr>
+                                                <td colspan="9" class="ipe-table-sc-title">{{ items.league }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="9">
+                                                    <table class="events no-select">
+                                                        <tbody>
+                                                        <tr class=" mkline status_I e884219327" id="e884219327_0">
+                                                            <td class="col-icons">
+                                                            </td>
+                                                            <td class="col-time">
+                                                                <span>23:30</span>
+                                                                <span class="liveTm">滚球</span>
+                                                            </td>
+                                                            <td class="col-fav">
+                                                                <a class="bookmark" data-event-id="884219327">
+                                                                    <i class="fav icon"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td class="col-name live-c">
+                                                                <span class="sel" title="拉赫蒂">拉赫蒂‎</span>
+                                                                <span class="favSel" title="HJK赫尔辛基">HJK赫尔辛基‎</span>
+                                                                <span class="d">和局</span>
+                                                                <span class="icons">
+                                                        <i class="live-center"></i>
+                                                    </span>
+                                                            </td>
+                                                            <td class="col-1x2">
+                                                                <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="0" id="884219327|0|1|0|0|0">
+                                                                    <span>5.260</span>
+                                                                </a>
+                                                                <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="1" id="884219327|0|1|1|0|0">
+                                                                    <span>1.763</span>
+                                                                </a>
+                                                                <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="2" id="884219327|0|1|2|0|0">
+                                                                    <span>3.520</span>
+                                                                </a>
+                                                            </td>
+                                                            <td class="col-hdp">
+                                                                <div class="hdp">
+                                                                    <span>&nbsp;</span>
+                                                                    <span>0.5-1</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="0" id="884219327|0|2|0|0|0.75">
+                                                                        <span>0.877</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="1" id="884219327|0|2|1|0|-0.75">
+                                                                        <span>1.020</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-ou">
+                                                                <div class="hdp">
+                                                                    <span>2-2.5</span>
+                                                                    <span>u</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="0" id="884219327|0|3|3|0|2.25">
+                                                                        <span>0.862</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="572152072" data-pl-res="2" data-team-type="1" id="884219327|0|3|4|0|2.25">
+                                                                        <span>1.020</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-1x2 ht" data-bt="1" data-period="1">
+                                                                <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="0" id="884219327|1|1|0|0|0">
+                                                                    <span>5.340</span>
+                                                                </a>
+                                                                <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="1" id="884219327|1|1|1|0|0">
+                                                                    <span>2.530</span>
+                                                                </a>
+                                                                <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="2" id="884219327|1|1|2|0|0">
+                                                                    <span>2.170</span>
+                                                                </a>
+                                                            </td>
+                                                            <td class="col-hdp ht" data-bt="2" data-period="1">
+                                                                <div class="hdp">
+                                                                    <span>&nbsp;</span>
+                                                                    <span>0-0.5</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="0" id="884219327|1|2|0|0 | 0.25">
+                                                                        <span>0.892</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="1" id="884219327|1|2|1|0|-0.25">
+                                                                        <span>0.990</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-ou ht">
+                                                                <div class="hdp">
+                                                                    <span>1.0</span>
+                                                                    <span>u</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="0" id="884219327|1|3|3|0|1">
+                                                                        <span>1.120</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="572155136" data-pl-res="2" data-team-type="1" id="884219327|1|3|4|0|1">
+                                                                        <span>0.769</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-more">
+                                                                <a id="forecast_884219327" title="预测" class="forecast" data-eid="884219327" data-score="null">
+                                                                    &nbsp;
+                                                                    <i class="fa icon forecast"></i>
+                                                                    &nbsp;
+                                                                </a>
+                                                                <span id="more_884219327" class="more" data-eid="884219327">
+                                                        <i class="fa fa-refresh fa-spin"></i>
+                                                        <span class="sign">+</span>
+                                                        <span>10</span>&nbsp;</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class=" mkline status_I e884219327" id="e884219327_1">
+                                                            <td class="col-icons"> </td>
+                                                            <td class="col-time">
+                                                            </td>
+                                                            <td class="col-fav">
+                                                            </td>
+                                                            <td class="col-name live-c">
+                                                            </td>
+                                                            <td class="col-1x2">
+                                                            </td>
+                                                            <td class="col-hdp">
+                                                                <div class="hdp">
+                                                                    <span>&nbsp;</span>
+                                                                    <span>1.0</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059231027" data-pl-res="2" data-team-type="0" id="884219327|0|2|0|1|1">
+                                                                        <span>0.588</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059231027" data-pl-res="2" data-team-type="1" id="884219327|0|2|1|1|-1">
+                                                                        <span>1.460</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-ou">
+                                                                <div class="hdp">
+                                                                    <span>1.5-2</span>
+                                                                    <span>u</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059231026" data-pl-res="2" data-team-type="0" id="884219327|0|3|3|1|1.75">
+                                                                        <span>0.413</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059231026" data-pl-res="2" data-team-type="1" id="884219327|0|3|4|1|1.75">
+                                                                        <span>1.880</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-1x2 ht" data-bt="1" data-period="1">
+                                                            </td>
+                                                            <td class="col-hdp ht" data-bt="2" data-period="1">
+                                                                <div class="hdp">
+                                                                    <span>&nbsp;</span>
+                                                                    <span>0.5</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059266707" data-pl-res="2" data-team-type="0" id="884219327|1|2|0|1 | 0.5">
+                                                                        <span>0.540</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059266707" data-pl-res="2" data-team-type="1" id="884219327|1|2|1|1|-0.5">
+                                                                        <span>1.510</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-ou ht">
+                                                                <div class="hdp">
+                                                                    <span>0.5</span>
+                                                                    <span>u</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059266706" data-pl-res="2" data-team-type="0" id="884219327|1|3|3|1|0.5">
+                                                                        <span>0.452</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059266706" data-pl-res="2" data-team-type="1" id="884219327|1|3|4|1|0.5">
+                                                                        <span>1.750</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-more">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class=" mkline status_I e884219327" id="e884219327_2">
+                                                            <td class="col-icons"> </td>
+                                                            <td class="col-time">  </td>
+                                                            <td class="col-fav">  </td>
+                                                            <td class="col-name live-c">  </td>
+                                                            <td class="col-1x2">  </td>
+                                                            <td class="col-hdp">
+                                                                <div class="hdp">
+                                                                    <span>&nbsp;</span>
+                                                                    <span>0.5</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059231029" data-pl-res="2" data-team-type="0" id="884219327|0|2|0|1|0.5">
+                                                                        <span>1.140</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059231029" data-pl-res="2" data-team-type="1" id="884219327|0|2|1|1|-0.5">
+                                                                        <span>0.775</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-ou">
+                                                                <div class="hdp">
+                                                                    <span>2.0</span>
+                                                                    <span>u</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059231028" data-pl-res="2" data-team-type="0" id="884219327|0|3|3|1|2">
+                                                                        <span>0.561</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059231028" data-pl-res="2" data-team-type="1" id="884219327|0|3|4|1|2">
+                                                                        <span>1.460</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-1x2 ht" data-bt="1" data-period="1">
+                                                            </td>
+                                                            <td class="col-hdp ht" data-bt="2" data-period="1">
+                                                                <div class="hdp">
+                                                                    <span>0.0</span>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059266709" data-pl-res="2" data-team-type="0" id="884219327|1|2|0|1 | 0">
+                                                                        <span>1.970</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059266709" data-pl-res="2" data-team-type="1" id="884219327|1|2|1|1|0">
+                                                                        <span>0.387</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-ou ht">
+                                                                <div class="hdp">
+                                                                    <span>0.5-1</span>
+                                                                    <span>u</span>
+                                                                </div>
+                                                                <div class="odds">
+                                                                    <a class="odds " data-oddsid="7059266708" data-pl-res="2" data-team-type="0" id="884219327|1|3|3|1|0.75">
+                                                                        <span>0.666</span>
+                                                                    </a>
+                                                                    <a class="odds " data-oddsid="7059266708" data-pl-res="2" data-team-type="1" id="884219327|1|3|4|1|0.75">
+                                                                        <span>1.270</span>
+                                                                    </a>
+                                                                    <span>&nbsp;</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-more">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="more-bets " id="e884219327_more">
+                                                            <td colspan="11" class="more-bets">
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -647,6 +900,10 @@ export default {
                 .ipe-table-sc-table{
                     width: 100%;
                 }
+            }
+            .events{
+                width: 100%;
+                border-collapse: separate;
             }
             .ipn-EventViewNavigation-scrollcollapse {
                 overflow: hidden;
