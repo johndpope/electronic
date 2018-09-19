@@ -40,6 +40,16 @@ html, body {
   background: #f2f2f2;
   overflow-x: hidden;
 }
+table{
+  border:0;
+  border-collapse:collapse;
+}
+
+table tr{
+  border:none;
+  padding:0;
+  margin:0;
+}
 .clearfix:after{
   display: block;
   clear: both;
