@@ -33,7 +33,7 @@
         <div class="wc-PageView ">
             <div class="wc-PageView_Main wc-InPlayPage_MainContainer ">
                 <div class="ip-ControlBar ">
-                    <div class="ip-ControlBar_BBarItem wl-ButtonBar_Selected ">
+                    <div class="ip-ControlBar_BBarItem ">
                         Dota 2 今日赛事
                     </div>
                     <div class="ip-ControlBar_msg">
@@ -50,46 +50,45 @@
                     </div>
                 </div>
                 <div class="ipe-EcventViewView ">
-                        <div :class="sidebar?'ipn-EventViewNavigation ipn-EventViewNavigation-expanded':'ipn-EventViewNavigation ipn-EventViewNavigation-expanded ipn_w'">
-                            <div :class="sidebar ? 'ipn-EventViewNavigation_Classifications ipn-Scroller_Content' : 'ipn-EventViewNavigation_Classifications ipn-Scroller_Content ipn-EventViewNavigation-scrollcollapse'">
+                        <div :class="sidebar?'ipn-EventViewNavigation ipn-EventV-expanded':'ipn-EventViewNavigation ipn-EventV-expanded ipn_w'">
+                            <div :class="sidebar ? ' ipn-Scroller_Content' : 'ipn-Scroller_Content ipn-EventViewNavigation-scrollcollapse'">
                                 <div :class="sidebar ?'ipn-ControlBar ' :'ipn-ControlBar ipn-closed'">
-                                    <span :class="sidebar?'ipn-ControlBar_CollapseButton':'ipn-ControlBar_CollapseButton ipn_right'" @click="sidebar = !sidebar"></span>
+                                    <span :class="sidebar?'ipn-Bar_C':'ipn-Bar_C ipn_right'" @click="sidebar = !sidebar"></span>
                                 </div>
                                 <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-closed'" v-for="(item,key) in eventBarList" :key="key">
                                     <span class="ipn-Classification-num">
                                         <span class="ci-ClassificationIcon ci-ClassificationIcon-12 "></span>
                                         <span class="ipn-Class-num">{{ item.count }}</span>
                                     </span>
-                                    <span :class="sidebar ? 'ipn-ClassificationButton_Label':'ipn-ClassificationButton_cls ipn-ClassificationButton_Label'">
+                                    <span :class="sidebar ? 'ipn-Class_Label':'ipn-ClassificationButton_cls ipn-Class_Label'">
                                         {{ item.category }}
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="ipe-EventViewDetail ">
-                            <div class="ipe-EventViewDetailNativeScroller ipe-EventViewDetailNativeScroller-scrollable  ">
-                                <div class="ipe-EventViewDetailNativeScroller_ContentContainer ">
-                                    <div class="ipe-EventViewDetail_MarketGrid gl-MarketGrid ">
+                            <div class="ipe-EventVScroller ">
+                                <div class="ipe-Event_ContentContainer ">
+                                    <div class="ipe-EventViewDetail_MarketGrid ">
                                         <table class="ipe-table">
                                             <thead class="fs">
                                              <tr>
-                                                <td class="col-time" rowspan="2">
-                                                    <span>时间</span>
+                                                <td class="col-time">
+                                                    时间
                                                 </td>
-                                                <td class="col-names"  rowspan="2">
-                                                    <span>赛事</span>
+                                                <td class="col-names">
+                                                   赛事
                                                 </td>
-                                                <td class="ipe-bor" colspan="3">比赛</td>
-                                                <td colspan="3" class="ipe-bor">地图1 </td>
-                                                <td class="col-more" rowspan="2">+</td>
-                                             </tr>
-                                             <tr>
-                                                <td class="col-1x2">胜负盘</td>
-                                                <td class="col-hdp">让分盘</td>
-                                                <td class="col-ou">大小盘</td>
-                                                <td class="col-1x2">胜负盘</td>
-                                                <td class="col-hdp">让分盘</td>
-                                                <td class="col-ou">大小盘</td>
+                                                <td class="ipe-bor">
+                                                    胜负盘
+                                                </td>
+                                                <td class="ipe-bor">
+                                                    全场让球
+                                                </td>
+                                                 <td class="ipe-bor">
+                                                    全场大/小
+                                                 </td>
+                                                <td>+</td>
                                              </tr>
                                             </thead>
                                             <tbody v-for="(items, key) in matchList" :key="key">
@@ -100,80 +99,44 @@
                                                 <td colspan="9">
                                                     <table class="events no-select">
                                                         <tbody class="ipe-table-bg">
-                                                          <tr class=" mkline status_I e884219327" id="e884219327_0">
+                                                          <tr class=" mkline status_I e884219327" >
                                                             <td class="col-time">
-                                                                <span>23:30</span>
-                                                                <span class="liveTm">滚球</span>
+                                                              23:30<span class="liveTm">滚球</span>
                                                             </td>
                                                             <td class="col-names live-c">
                                                                 <span class="sel" title="拉赫蒂">拉赫蒂‎</span>
                                                                 <br>
                                                                 <span class="favSel" title="HJK赫尔辛基">HJK赫尔辛基‎</span>
-                                                                <br>
-                                                                <span class="d">和局</span>
-                                                            </td>
-                                                            <td class="col-1x2">
-                                                                <a class="sf_odds " data-oddsid="572152072" data-pl-res="2" data-team-type="0" id="884219327|0|1|0|0|0">
-                                                                  5.260
-                                                                </a>
-                                                                <br>
-                                                                <a class="sf_odds " data-oddsid="572152072" data-pl-res="2" data-team-type="1" id="884219327|0|1|1|0|0">
-                                                                  1.763
-                                                                </a>
                                                             </td>
                                                             <td class="col-hdp">
-                                                                <span class="half_50">0.5-1</span>
-                                                                <a class="odds half_50" data-oddsid="572152072" data-pl-res="2" data-team-type="0" id="884219327|0|2|0|0|0.75">
+                                                                  <a class="sf_odds ">
+                                                                      5.340
+                                                                  </a>
+                                                                  <a class="sf_odds ">
+                                                                      2.530
+                                                                  </a>
+                                                              </td>
+                                                            <td class="col-hdp">
+                                                                <a class="half_50s">0.5-1</a>
+                                                                <a class="odds half_50" >
                                                                    0.877
                                                                 </a>
                                                                 <br>
-                                                                <a class="odds half_50 f_r" data-oddsid="572152072" data-pl-res="2" data-team-type="1" id="884219327|0|2|1|0|-0.75">
+                                                                <a class="odds half_50 f_r">
                                                                    1.020
                                                                 </a>
                                                             </td>
-                                                            <td class="col-ou">
-                                                                <div class="hdp half_50">
-                                                                    <span>2-2.5</span>
-                                                                    <span>u</span>
-                                                                </div>
-                                                                <a class="odds half_50" data-oddsid="572152072" data-pl-res="2" data-team-type="0" id="884219327|0|3|3|0|2.25">
-                                                                   0.862
-                                                                </a>
-                                                                <a class="odds half_50 f_r" data-oddsid="572152072" data-pl-res="2" data-team-type="1" id="884219327|0|3|4|0|2.25">
-                                                                   1.020
-                                                                </a>
-                                                            </td>
-                                                            <td class="col-1x2 ht" data-bt="1" data-period="1">
-                                                                <a class="sf_odds " data-oddsid="572155136" data-pl-res="2" data-team-type="0" id="884219327|1|1|0|0|0">
-                                                                    5.340
-                                                                </a>
-                                                                <a class="sf_odds " data-oddsid="572155136" data-pl-res="2" data-team-type="1" id="884219327|1|1|1|0|0">
-                                                                   2.530
-                                                                </a>
-                                                            </td>
-                                                            <td class="col-hdp ht" data-bt="2" data-period="1">
-                                                                <span class="half_50">0-0.5</span>
-                                                                <a class="odds half_50" data-oddsid="572155136" data-pl-res="2" data-team-type="0" id="884219327|1|2|0|0 | 0.25">
+                                                            <td class="col-hdp">
+                                                                <a class="half_50s">0-0.5</a>
+                                                                <a class="odds half_50">
                                                                     0.892
                                                                 </a>
-                                                                <a class="odds half_50 f_r" data-oddsid="572155136" data-pl-res="2" data-team-type="1" id="884219327|1|2|1|0|-0.25">
+                                                                <a class="odds half_50 f_r">
                                                                     0.990
                                                                 </a>
                                                             </td>
-                                                            <td class="col-ou ht">
-                                                                <div class="hdp half_50">
-                                                                    <span>1.0</span>
-                                                                    <span>u</span>
-                                                                </div>
-                                                                <a class="odds half_50" data-oddsid="572155136" data-pl-res="2" data-team-type="0" id="884219327|1|3|3|0|1">
-                                                                   1.120
-                                                                </a>
-                                                                <a class="odds half_50 f_r" data-oddsid="572155136" data-pl-res="2" data-team-type="1" id="884219327|1|3|4|0|1">
-                                                                   0.769
-                                                                </a>
-                                                            </td>
                                                             <td class="col-more">
-                                                              <span id="more_884219327" class="more" data-eid="884219327" @click = "showMore = key">
+                                                              <span id="more_884219327" class="more" @click = "showMore = key">
                                                                 <span class="sign">+</span>
                                                                 <span>10</span>
                                                               </span>
@@ -185,262 +148,6 @@
                                              </tr>
                                              <tr v-if="showMore === key">
                                                  <td colspan="9">
-                                                     <div class="more-bets status_I e896671053">
-                                                         <table class="more-HDPOU">
-                                                             <thead>
-                                                             <tr>
-                                                                 <th colspan="7">全场 - 让球盘 / 大小盘</th>
-                                                             </tr>
-                                                             <tr>
-                                                                 <td>赛事</td>
-                                                                 <td class="hdp">让球盘</td>
-                                                                 <td class="odds">主队</td>
-                                                                 <td class="odds">客队</td>
-                                                                 <td class="hdp">总进球</td>
-                                                                 <td class="odds">大</td>
-                                                                 <td class="odds">小</td>
-                                                             </tr>
-                                                             </thead>
-                                                             <tbody>
-                                                              <tr class="mkline">
-                                                                 <td>
-                                                                     <span class="sel" title="Avondale FC (n)">主队</span>
-                                                                     <span class="favSel" title="FC雪梨">客队</span>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span class="hdp">2-2.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433350" data-pl-res="2" data-team-type="0" id="896671053|0|2|0|1|2.25">
-                                                                         <span>0.507</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433350" data-pl-res="2" data-team-type="1" id="896671053|0|2|1|1|-2.25">
-                                                                         <span>1.500</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span>3.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433355" data-pl-res="2" data-team-type="0" id="896671053|0|3|3|1|3.5">
-                                                                         <span>1.180</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds ">
-                                                                     <a class="odds " data-oddsid="7072433355" data-pl-res="2" data-team-type="1" id="896671053|0|3|4|1|3.5">
-                                                                         <span>0.666</span>
-                                                                     </a>
-                                                                 </td>
-                                                             </tr>
-                                                             <tr class="mkline">
-                                                                 <td>
-                                                                     <span class="sel" title="Avondale FC (n)">主队</span>
-                                                                     <span class="favSel" title="FC雪梨">客队</span>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span class="hdp">1-1.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433356" data-pl-res="2" data-team-type="0" id="896671053|0|2|0|1|1.25">
-                                                                         <span>1.460</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433356" data-pl-res="2" data-team-type="1" id="896671053|0|2|1|1|-1.25">
-                                                                         <span>0.523</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                   <span>3.5-4</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433357" data-pl-res="2" data-team-type="0" id="896671053|0|3|3|1|3.75">
-                                                                         <span>1.490</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds ">
-                                                                     <a class="odds " data-oddsid="7072433357" data-pl-res="2" data-team-type="1" id="896671053|0|3|4|1|3.75">
-                                                                         <span>0.490</span>
-                                                                     </a>
-                                                                 </td>
-                                                             </tr>
-                                                             </tbody>
-                                                         </table>
-                                                         <table class="more-HDPOU">
-                                                             <thead>
-                                                             <tr>
-                                                                 <th colspan="7">上半场 - 让球盘 / 大小盘</th>
-                                                             </tr>
-                                                             <tr>
-                                                                 <td>赛事</td>
-                                                                 <td class="hdp">让球盘</td>
-                                                                 <td class="odds">主队</td>
-                                                                 <td class="odds">客队</td>
-                                                                 <td class="hdp">总进球</td>
-                                                                 <td class="odds">大</td>
-                                                                 <td class="odds">小</td>
-                                                             </tr>
-                                                             </thead>
-                                                             <tbody>
-                                                             <tr class="mkline">
-                                                                 <td>
-                                                                     <span class="sel" title="Avondale FC (n)">主队</span>
-                                                                     <span class="favSel" title="FC雪梨">客队</span>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span class="hdp">1-1.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433430" data-pl-res="2" data-team-type="0" id="896671053|1|2|0|1|1.25">
-                                                                         <span>0.302</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433430" data-pl-res="2" data-team-type="1" id="896671053|1|2|1|1|-1.25">
-                                                                         <span>2.070</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span>1.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433435" data-pl-res="2" data-team-type="0" id="896671053|1|3|3|1|1.5">
-                                                                         <span>1.200</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds ">
-                                                                     <a class="odds " data-oddsid="7072433435" data-pl-res="2" data-team-type="1" id="896671053|1|3|4|1|1.5">
-                                                                         <span>0.649</span>
-                                                                     </a>
-                                                                 </td>
-                                                             </tr>
-                                                             <tr class="mkline">
-                                                                 <td>
-                                                                     <span class="sel" title="Avondale FC (n)">主队</span>
-                                                                     <span class="favSel" title="FC雪梨">客队</span>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span class="hdp">0-0.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433436" data-pl-res="2" data-team-type="0" id="896671053|1|2|0|1|0.25">
-                                                                         <span>1.860</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433436" data-pl-res="2" data-team-type="1" id="896671053|1|2|1|1|-0.25">
-                                                                         <span>0.357</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span>1.5-2</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="7072433437" data-pl-res="2" data-team-type="0" id="896671053|1|3|3|1|1.75">
-                                                                         <span>1.670</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds ">
-                                                                     <a class="odds " data-oddsid="7072433437" data-pl-res="2" data-team-type="1" id="896671053|1|3|4|1|1.75">
-                                                                         <span>0.418</span>
-                                                                     </a>
-                                                                 </td>
-                                                             </tr>
-                                                             </tbody>
-                                                         </table>
-                                                         <table class="more-TT">
-                                                             <thead>
-                                                              <tr>
-                                                                 <th colspan="6">全场 - 球队总得分</th>
-                                                              </tr>
-                                                              <tr>
-                                                                 <td class="hdp">主队进球</td>
-                                                                 <td class="odds">主队大</td>
-                                                                 <td class="odds">主队小</td>
-                                                                 <td class="hdp">客队进球</td>
-                                                                 <td class="odds">客队大</td>
-                                                                 <td class="odds">客队小</td>
-                                                              </tr>
-                                                             </thead>
-                                                             <tbody>
-                                                              <tr class="mkline">
-                                                                  <td class="hdp">
-                                                                      <span class="hdp">0.5</span>
-                                                                  </td>
-                                                                  <td class="odds">
-                                                                      <a class="odds " data-oddsid="573184204" data-pl-res="2" data-team-type="0" id="896671053|0|4|5|0|0.5">
-                                                                          <span>0.775</span>
-                                                                      </a>
-                                                                  </td>
-                                                                  <td class="odds">
-                                                                      <a class="odds " data-oddsid="573184204" data-pl-res="2" data-team-type="0" id="896671053|0|4|6|0|0.5">
-                                                                          <span>1.030</span>
-                                                                      </a>
-                                                                  </td>
-                                                                  <td class="hdp">
-                                                                      <span class="hdp">2-2.5</span>
-                                                                  </td>
-                                                                  <td class="odds">
-                                                                      <a class="odds " data-oddsid="573184204" data-pl-res="2" data-team-type="1" id="896671053|0|5|7|0|2.25">
-                                                                          <span>0.709</span>
-                                                                      </a>
-                                                                  </td>
-                                                                  <td class="odds">
-                                                                      <a class="odds " data-oddsid="573184204" data-pl-res="2" data-team-type="1" id="896671053|0|5|8|0|2.25">
-                                                                          <span>1.100</span>
-                                                                      </a>
-                                                                  </td>
-                                                              </tr>
-                                                             </tbody>
-                                                         </table>
-                                                         <table class="more-TT">
-                                                             <thead>
-                                                             <tr>
-                                                                 <th colspan="6">上半场 - 球队总得分</th>
-                                                             </tr>
-                                                             <tr>
-                                                                 <td class="hdp">主队进球</td>
-                                                                 <td class="odds">主队大</td>
-                                                                 <td class="odds">主队小</td>
-                                                                 <td class="hdp">客队进球</td>
-                                                                 <td class="odds">客队大</td>
-                                                                 <td class="odds">客队小</td>
-                                                             </tr>
-                                                             </thead>
-                                                             <tbody>
-                                                             <tr class="mkline">
-                                                                 <td class="hdp">
-                                                                     <span class="hdp">0.5</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="573184209" data-pl-res="2" data-team-type="0" id="896671053|1|4|5|0|0.5">
-                                                                         <span>2.220</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="573184209" data-pl-res="2" data-team-type="0" id="896671053|1|4|6|0|0.5">
-                                                                         <span>0.251</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="hdp">
-                                                                     <span class="hdp">1.0</span>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="573184209" data-pl-res="2" data-team-type="1" id="896671053|1|5|7|0|1">
-                                                                         <span>0.925</span>
-                                                                     </a>
-                                                                 </td>
-                                                                 <td class="odds">
-                                                                     <a class="odds " data-oddsid="573184209" data-pl-res="2" data-team-type="1" id="896671053|1|5|8|0|1">
-                                                                         <span>0.877</span>
-                                                                     </a>
-                                                                 </td>
-                                                             </tr>
-                                                             </tbody>
-                                                         </table>
-                                                     </div>
                                                  </td>
                                              </tr>
                                             </tbody>
@@ -566,13 +273,14 @@
 <script>
 import { mapActions } from 'vuex'
 import IconFont from '@/components/IconFont/index.vue';
+// import lotteryData from '@/utils/lottery.json'
 export default {
     name: 'home',
     components: { IconFont },
     data () {
         return {
             sidebar: true,
-            eventType: 3,
+            eventType: 1,
             eventBarList: [],
             matchList:[],
             times: null,
@@ -586,6 +294,8 @@ export default {
     },
     mounted () {
         this.setTime()
+        // this.matchList = lotteryData.resultMsg
+        // console.log(this.matchList)
     },
     methods: {
       ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postMatchesS' ]),
@@ -612,8 +322,8 @@ export default {
             }
             this.postMatchesS(data).then(res => {
                 if(res.length !==0) {
-                    console.log(res)
                     this.matchList = res
+                    console.log(res)
                 }
             })
         },
@@ -622,8 +332,8 @@ export default {
               let h, m, s
               let timer = new Date()
               h = timer.getHours()
-              m = timer.getMinutes() > 10 ? timer.getMinutes() : '0' + timer.getMinutes()
-              s = timer.getSeconds() > 10 ? timer.getSeconds() : '0' + timer.getSeconds()
+              m = timer.getMinutes() < 10 ? '0' + timer.getMinutes() : timer.getMinutes()
+              s = timer.getSeconds() < 10 ? '0' + timer.getSeconds() : timer.getSeconds()
               this.times = h + ':' + m + ':' + s
           },1000)
         }
@@ -769,7 +479,7 @@ export default {
                         width: 98%;
                     }
                 }
-                .ip-ControlBar_BBarItem.wl-ButtonBar_Selected {
+                .ip-ControlBar_BBarItem {
                     color: #ffdf1b;
                 }
             }
@@ -814,22 +524,22 @@ export default {
                 width: 64px;
                 transition: min-width .35s ease-in-out;
             }
-            .ipn-ClassificationButton_Label.ipn-ClassificationButton_cls{
+            .ipn-Class_Label.ipn-ClassificationButton_cls{
                 opacity: 0;
                 visibility: hidden;
                 overflow: visible;
                 transition: opacity .35s ease-in-out;
             }
-            .ipn-ClassificationButton_Label.ipn-ClassificationButton_cls{
+            .ipn-Class_Label.ipn-ClassificationButton_cls{
                 opacity: 0;
                 visibility: hidden;
                 overflow: visible;
                 transition: opacity .35s ease-in-out;
             }
-            .ipn-EventViewNavigation-expanded .ipn-ControlBar_CollapseButton.ipn_right{
+            .ipn-EventV-expanded .ipn-Bar_C.ipn_right{
                 background-image: url(../assets/right.svg);
             }
-            .ipn-EventViewNavigation-expanded .ipn-EventViewNavigationNativeScroller {
+            .ipn-EventV-expanded .ipn-EventViewNavigationNativeScroller {
                 transition-duration: .35s;
                 background-color: #333;
             }
@@ -856,17 +566,17 @@ export default {
                 min-width: 213px;
                 transition: border, background-color, min-width .35s ease-in-out;
             }
-            .ipn-ControlBar_CollapseButton {
+            .ipn-Bar_C {
                 position: absolute;
                 right: 12px;
                 transition: right .3s, background-color;
                 padding: 11px 10px 10px 13px;
                 margin-top: 8px;
             }
-            .asia-browser .ipn-ControlBar_CollapseButton {
+            .asia-browser .ipn-Bar_C {
                 padding-bottom: 6px;
             }
-            .ipn-EventViewNavigation-expanded .ipn-ControlBar_CollapseButton {
+            .ipn-EventV-expanded .ipn-Bar_C {
                 background-image: url(../assets/ssuo.svg);
                 background-repeat: no-repeat;
             }
@@ -908,11 +618,11 @@ export default {
                 width: 24px;
                 height: 28px;
                 transition: right .3s;
-                background-image: url(../assets/ftb.svg);
+                background-image: url('../assets/f t b.svg');
                 background-repeat: no-repeat;
                 background-size: auto 14px;
             }
-            .ipn-ClassificationButton_Label {
+            .ipn-Class_Label {
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
@@ -931,18 +641,18 @@ export default {
                 display: table-cell;
                 width: 100%;
             }
-            .ipe-EventViewDetailNativeScroller {
+            .ipe-EventVScroller {
                 position: relative;
                 border-right: 1px solid #373737;
                 height: 100%;
                 color: #ddd;
             }
-            .ipe-EventViewDetailNativeScroller_ContentContainer {
+            .ipe-Event_ContentContainer {
                 overflow-y: scroll;
                 overflow-x: hidden;
                 max-height: calc(100vh - 135px);
             }
-            .ipe-EventViewDetailNativeScroller:after {
+            .ipe-EventVScroller:after {
                 content: " ";
                 width: 16px;
                 height: 100%;
@@ -956,17 +666,16 @@ export default {
                 transition-duration: .35s;
                 pointer-events: none;
             }
-            .ipe-EventViewDetailNativeScroller_Content {
-                border-right: 1px solid #373737;
-            }
             .ipe-table{
                 width: 100%;
                 text-align: center;
-                .ipe-bor{
-                    border-bottom: 1px solid #999;
+                .fs td {
+                    padding: 10px 0;
+                }
+                .ipe-bor,.col-hdp{
+                    width: 304px;
                 }
                 thead td{
-                    border-right: 1px solid #999;
                     background-color: #48504e;
                 }
                 .ipe-table-sc-title{
@@ -982,9 +691,7 @@ export default {
                 }
                 .col-time{
                     width: 100px;
-                }
-                .col-1x2,.col-hdp,.col-ou{
-                    width: 154px;
+                    border-right: 1px solid #999;
                 }
                 .ipe-table-bg{
                     background-color: #7b7b7b;
@@ -993,27 +700,21 @@ export default {
                  display: inline-block;
                  width: 100%;
                 }
-                a:hover{
+                a.sf_odds:hover,a.half_50:hover{
                     background-color: #b5b0b0;
                 }
-                .half_50{
+                .half_50,.half_50s{
                     display: inline-block;
                     width: 50%;
                 }
+                .half_50s {
+                    color: #fde972;
+                }
+                .half_50,.sf_odds{
+                    padding: 5px 0;
+                }
                 .f_r{
                     float: right;
-                }
-                .more-HDPOU,.more-TT{
-                    width: 100%;
-                   tr td, tr th{
-                       padding: 5px 0;
-                   }
-                    thead td {
-                        border-right: none;
-                    }
-                }
-                .more-HDPOU thead tr:first-child,.more-TT thead tr:first-child {
-                    text-align: left;
                 }
                 .more {
                     background: #0b1d3b;
@@ -1023,6 +724,9 @@ export default {
                     display: inline-block;
                     width: 32px;
                     cursor: pointer;
+                }
+                .col-hdp,.col-names,thead td,.ipe-bor{
+                    border-right: 1px solid #999;
                 }
             }
             .events{
