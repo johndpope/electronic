@@ -6,32 +6,29 @@
                 </a>
                 <div class="hm-BigButtons">
                     <nav class="hm-BigButtons_Inner ">
-                        <a class="hm-BigButton ">今日</a>
-                        <a class="hm-BigButton hm-BigButton_Highlight ">早盘</a>
-                        <a class="hm-BigButton ">滚球</a>
+                        <a :class="eventType === 1 ? 'h-BigBtn h-BigBtn_Hlight' : 'h-BigBtn'" @click="handleSelectEType('jr')">今日</a>
+                        <a :class="eventType === 2 ? 'h-BigBtn h-BigBtn_Hlight' : 'h-BigBtn'" @click="handleSelectEType('zp')">早盘</a>
+                        <a :class="eventType === 3 ? 'h-BigBtn h-BigBtn_Hlight' : 'h-BigBtn'" @click="handleSelectEType('gq')">滚球</a>
                     </nav>
                 </div>
             </div>
             <div class="hm-HeaderModule_Secondary ">
-                <div class="hm-HeaderModule_TimeLastLogin ">
+                <div class="hm-HModule_TimeLogin ">
                     <time class="hm-Clock ">{{ times }} GMT+8</time>
                 </div>
                 <div class="hm-HeaderModule_Menus ">
                     <div></div>
-                    <div class="hm-LanguageDropDownSelections hm-DropDownSelections ">
-                        <span class="hm-DropDownSelections_Highlight ">我的投注</span>
+                    <div class="hm-LgDropDS  ">
+                        <span class="hm-DropDS_Highlight ">我的投注</span>
                     </div>
-                    <div class="hm-LanguageDropDownSelections hm-DropDownSelections ">
-                        <span class="hm-DropDownSelections_Highlight ">账目</span>
-                    </div>
-                    <div class="hm-LanguageDropDownSelections hm-DropDownSelections ">
-                        <span class="hm-DropDownSelections_Highlight ">账户</span>
+                    <div class="hm-LgDropDS  ">
+                        <span class="hm-DropDS_Highlight ">账目</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="wc-PageView ">
-            <div class="wc-PageView_Main wc-InPlayPage_MainContainer ">
+            <div class="wc-PageView_Main wc-InPage_M">
                 <div class="ip-ControlBar ">
                     <div class="ip-ControlBar_BBarItem ">
                         Dota 2 今日赛事
@@ -39,9 +36,9 @@
                     <div class="ip-ControlBar_msg">
                         公告：
                         <marquee class="ip-msg" behavior="scroll" direction="left"  onmouseover=this.stop() onmouseout=this.start()>
-                            2018年9月8日下午，大方县公安局接到群众报警称，猫场镇碧脚村有人被杀伤。接警后，民警立即赶到现场，
-                            将伤者陈某(男，40岁，纳雍锅圈岩乡人，)送到医院救治，陈某经送医后因伤势过重抢救无效死亡。
-                            该案发生后，我局高度重视，迅速成立专案组，全力开展侦破工作，迅速锁定犯罪嫌疑人沙某(男，37岁，居住大方县猫场镇前进村)并组织多个追捕组进行抓捕。
+                            2018年9月8日下午，大方县公安局接到群众报警称，猫场镇碧脚村有人嫖娼。接警后，民警立即赶到现场，
+                            将伤者陈某(男，40岁，纳雍锅圈岩乡人，)送到医院救治，陈某经送医后因嫖娼过度抢救无效死亡。
+                            该案发生后，我局高度重视，迅速成立专案组，全力开展侦破工作，迅速锁定犯罪嫌疑人沙某(女，37岁，居住大方县猫场镇前进村)并组织多个追捕组进行抓捕。
                             9月9日上午10时许，犯罪嫌疑人迫于强大压力，向我局投案自首。目前，犯罪嫌疑人沙某已被依法刑事拘留，案件还在进一步办理中。
                         </marquee>
                     </div>
@@ -50,14 +47,17 @@
                     </div>
                 </div>
                 <div class="ipe-EcventViewView ">
-                        <div :class="sidebar?'ipn-EventViewNavigation ipn-EventV-expanded':'ipn-EventViewNavigation ipn-EventV-expanded ipn_w'">
-                            <div :class="sidebar ? ' ipn-Scroller_Content' : 'ipn-Scroller_Content ipn-EventViewNavigation-scrollcollapse'">
+                    <div :class="sidebar?'ipn-EventViewN ipn-EventV-expanded':'ipn-EventViewN ipn-EventV-expanded ipn_w'">
+                        <div :class="sidebar ? ' ipn-Scroller_Content' : 'ipn-Scroller_Content ipn-EventV-s'">
                                 <div :class="sidebar ?'ipn-ControlBar ' :'ipn-ControlBar ipn-closed'">
                                     <span :class="sidebar?'ipn-Bar_C':'ipn-Bar_C ipn_right'" @click="sidebar = !sidebar"></span>
                                 </div>
-                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-closed'" v-for="(item,key) in eventBarList" :key="key">
+                                <div :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-closed'" v-for="(item,key) in eventBarList" :key="key"
+                                     @click="handleGetMatches(item.category)">
                                     <span class="ipn-Classification-num">
-                                        <span class="ci-ClassificationIcon ci-ClassificationIcon-12 "></span>
+                                        <img class="ci-ClassificationIcon" v-if="item.category !== 'CS:GO' && item.category !== '全部赛事'" :src="require('../assets/png/'+item.category+'.png')" alt="">
+                                        <img class="ci-ClassificationIcon" v-if="item.category === 'CS:GO'" src="../assets/png/CSGO.png">
+                                        <img class="ci-ClassificationIcon" v-if="item.category === '全部赛事'" src="../assets/png/ALL.png">
                                         <span class="ipn-Class-num">{{ item.count }}</span>
                                     </span>
                                     <span :class="sidebar ? 'ipn-Class_Label':'ipn-ClassificationButton_cls ipn-Class_Label'">
@@ -65,102 +65,158 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="ipe-EventViewDetail ">
+                    </div>
+                    <div class="ipe-EventViewDetail ">
                             <div class="ipe-EventVScroller ">
                                 <div class="ipe-Event_ContentContainer ">
-                                    <div class="ipe-EventViewDetail_MarketGrid ">
-                                        <table class="ipe-table">
+                                    <div class="ipe-table" v-if="matchList.length !== 0">
+                                        <table class="block_table">
                                             <thead class="fs">
                                              <tr>
-                                                <td class="col-time">
-                                                    时间
-                                                </td>
-                                                <td class="col-names">
+                                                 <td class="col-time">
+                                                   时间
+                                                 </td>
+                                                 <td class="col-names">
                                                    赛事
-                                                </td>
-                                                <td class="ipe-bor">
-                                                    胜负盘
-                                                </td>
-                                                <td class="ipe-bor">
-                                                    全场让球
-                                                </td>
+                                                 </td>
                                                  <td class="ipe-bor">
-                                                    全场大/小
+                                                   胜负盘
                                                  </td>
-                                                <td>+</td>
-                                             </tr>
+                                                 <td class="ipe-bor">
+                                                   全场让球
+                                                 </td>
+                                                 <td class="ipe-bor">
+                                                   全场大/小
+                                                 </td>
+                                                 <td class="col-more">+</td>
+                                                </tr>
                                             </thead>
-                                            <tbody v-for="(items, key) in matchList" :key="key">
-                                             <tr>
-                                                <td colspan="9" class="ipe-table-sc-title">{{ items.league }}</td>
-                                             </tr>
-                                             <tr>
-                                                <td colspan="9">
-                                                    <table class="events no-select">
-                                                        <tbody class="ipe-table-bg">
-                                                          <tr class=" mkline status_I e884219327" >
-                                                            <td class="col-time">
-                                                              23:30<span class="liveTm">滚球</span>
-                                                            </td>
-                                                            <td class="col-names live-c">
-                                                                <span class="sel" title="拉赫蒂">拉赫蒂‎</span>
-                                                                <br>
-                                                                <span class="favSel" title="HJK赫尔辛基">HJK赫尔辛基‎</span>
-                                                            </td>
-                                                            <td class="col-hdp">
-                                                                  <a class="sf_odds ">
-                                                                      5.340
-                                                                  </a>
-                                                                  <a class="sf_odds ">
-                                                                      2.530
-                                                                  </a>
-                                                              </td>
-                                                            <td class="col-hdp">
-                                                                <a class="half_50s">0.5-1</a>
-                                                                <a class="odds half_50" >
-                                                                   0.877
-                                                                </a>
-                                                                <br>
-                                                                <a class="odds half_50 f_r">
-                                                                   1.020
-                                                                </a>
-                                                            </td>
-                                                            <td class="col-hdp">
-                                                                <a class="half_50s">0-0.5</a>
-                                                                <a class="odds half_50">
-                                                                    0.892
-                                                                </a>
-                                                                <a class="odds half_50 f_r">
-                                                                    0.990
-                                                                </a>
-                                                            </td>
-                                                            <td class="col-more">
-                                                              <span id="more_884219327" class="more" @click = "showMore = key">
-                                                                <span class="sign">+</span>
-                                                                <span>10</span>
-                                                              </span>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                             </tr>
-                                             <tr v-if="showMore === key">
-                                                 <td colspan="9">
-                                                 </td>
-                                             </tr>
-                                            </tbody>
                                         </table>
+                                        <div class="block_table" v-for="(item, key) in matchList" :key="key">
+                                            <div class="ipe-table-sc-title">
+                                                <span>{{ item.league }}</span>
+                                            </div>
+                                            <div class="block_table" v-for="(itemx,keyx) in item.gameMatches" :key="keyx">
+                                               <div class="table_row ipe-table-bg">
+                                                   <div class="col-time in_block">
+                                                          {{ itemx.matchTime }}
+                                                       </div>
+                                                   <div class="col-names live-c in_block col-pad">
+                                                           <span class="sel" :title="itemx.teamLeft">{{ itemx.teamLeft }}‎</span>
+                                                           <br>
+                                                           <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight }}‎</span>
+                                                       </div>
+                                                   <div class="col-hdp in_block">
+                                                           <div class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2.map0" :key="keyn" v-if="itemn.betType === '2'">
+                                                               <a class="sf_odds" @click="handleClickBet(itemx, itemn.ratioH, itemx.teamLeft, '胜负盘')">
+                                                                   {{ itemn.ratioH }}
+                                                               </a>
+                                                               <a class="sf_odds" @click="handleClickBet(itemx, itemn.ratioV, itemx.teamRight, '胜负盘')">
+                                                                   {{ itemn.ratioV }}
+                                                               </a>
+                                                           </div>
+                                                       </div>
+                                                   <div class="col-hdp in_block">
+                                                           <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2.map0" :key="keyn" v-if="itemn.betType === '0'">
+                                                               <a class="half_50s">{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
+                                                               <a class="odds half_50" @click="handleClickBet(itemx, itemn.ratioH, itemx.teamLeft, '让球盘')">
+                                                                   {{   itemn.ratioH }}
+                                                               </a>
+                                                               <a class="half_50s">{{ itemn.betV > 0 ? itemn.betV : '' }}</a>
+                                                               <a class="odds half_50" @click="handleClickBet(itemx, itemn.ratioV, itemx.teamRight, '让球盘')">
+                                                                   {{ itemn.ratioV }}
+                                                               </a>
+                                                           </div>
+                                                       </div>
+                                                   <div class="col-hdp in_block">
+                                                           <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2.map0" :key="keyn" v-if="itemn.betType === '1'">
+                                                               <a class="half_50s"  >{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
+                                                               <a class="odds half_50" @click="handleClickBet(itemx, itemn.ratioH, itemx.teamLeft, '大小盘')">
+                                                                   {{ itemn.ratioH }}
+                                                               </a>
+                                                               <a class="half_50s">{{ itemn.betV > 0 ? itemn.betH : '' }}</a>
+                                                               <a class="odds half_50" @click="handleClickBet(itemx, itemn.ratioV, itemx.teamRight, '大小盘')">
+                                                                   {{ itemn.ratioH }}
+                                                               </a>
+                                                           </div>
+                                                       </div>
+                                                   <div class="col-more in_block">
+                                                           <!--<span  class="more">-->
+                                                              <!--<span class="sign">+</span>-->
+                                                              <!--<span>10</span>-->
+                                                           <!--</span>-->
+                                                   </div>
+                                               </div>
+                                               <div class="table_row">
+                                                    <ul class="select_map">
+                                                        <li v-for="(maps, mkey) in itemx.gameOddMap2"
+                                                            :key="mkey" v-if="mkey !== 'map0'" @click="mapSelect = mkey">
+                                                            {{ mapListObj[mkey] }}
+                                                        </li>
+                                                        </ul>
+                                                    </div>
+                                               <div v-for="(items,keys) in itemx.gameOddMap2" :key="keys">
+                                                      <div class="table_row ipe-table-bg" v-if="keys !== 'map0'&& mapSelect === keys">
+                                                          <div class="col-time in_block">
+                                                              {{ itemx.matchTime }}
+                                                          </div>
+                                                          <div class="col-names live-c in_block col-pad">
+                                                              <span class="sel" :title="itemx.teamLeft">{{ itemx.teamLeft +' (' + mapListObj[mapSelect] +')'}}‎</span>
+                                                              <br>
+                                                              <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight +' (' + mapListObj[mapSelect] +')'}}‎</span>
+                                                          </div>
+                                                          <div class="col-hdp in_block">
+                                                              <div class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '2'">
+                                                                  <a class="sf_odds" @click="handleClickBet(itemx, itemv.ratioH, itemx.teamLeft, '胜负盘')">
+                                                                      {{ itemv.ratioH }}
+                                                                  </a>
+                                                                  <a class="sf_odds" @click="handleClickBet(itemx, itemv.ratioV, itemx.teamRight, '胜负盘')">
+                                                                      {{ itemv.ratioV }}
+                                                                  </a>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-hdp in_block">
+                                                             <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '0'">
+                                                                 <a class="half_50s">{{ itemv.betH > 0 ? itemv.betH : '' }}</a>
+                                                                 <a class="odds half_50" @click="handleClickBet(itemx, itemv.ratioH, itemx.teamLeft, '让球盘')">
+                                                                     {{  itemv.ratioH }}
+                                                                 </a>
+                                                                 <a class="half_50s">{{ itemv.betV > 0 ? itemv.betV : '' }}</a>
+                                                                 <a class="odds half_50" @click="handleClickBet(itemx, itemv.ratioV, itemx.teamRight, '让球盘')">
+                                                                     {{ itemv.ratioV  }}
+                                                                 </a>
+                                                             </div>
+                                                          </div>
+                                                          <div class="col-hdp in_block">
+                                                             <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '1'">
+                                                                 <a class="half_50s">{{ itemv.betH > 0 ? itemv.betH : '' }}</a>
+                                                                 <a class="odds half_50" @click="handleClickBet(itemx, itemv.ratioH, itemx.teamLeft, '大小盘')">
+                                                                     {{ itemv.ratioH }}
+                                                                 </a>
+                                                                 <a class="half_50s">{{ itemv.betV > 0 ? itemv.betV : '' }}</a>
+                                                                 <a class="odds half_50" @click="handleClickBet(itemx, itemv.ratioV, itemx.teamRight, '大小盘')">
+                                                                     {{ itemv.ratioH }}
+                                                                 </a>
+                                                             </div>
+                                                          </div>
+                                                          <div class="col-more in_block"/>
+                                                      </div>
+                                                   </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ipe-table ipe-table-pad" v-if="matchList.length === 0">
+                                        暂无赛事
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <div class="wc-PageView_RightColumn">
+            <div :class="maxRight ? 'wc-PageView_R max' : 'wc-PageView_R'">
                 <p class="wc-PageView_header">
-                   <span>投注单</span>
+                   <span :class="maxRight ? 'wc-PageView_icon ssuo' : 'wc-PageView_icon'" @click="maxRight = !maxRight" ></span>
+                   <span class="wc-PageView_title">投注单</span>
                 </p>
                 <div class="bet_info" v-if="true">
                     <p class="wc-PageView_header text_r">标准投注单</p>
@@ -170,10 +226,11 @@
                     <ul class="bet_details">
                         <li>
                             <div class="bet_details_body">
-                                <h4 class="bet_details_body_title">西汉姆</h4>
-                                <p class="bet_details_body_type">全场赛果</p>
-                                <p class="bet_details_body_event">埃弗顿 <span>VS</span>西汉姆</p>
-                                <p class="bet_details_body_event"><input type="text" placeholder="本金">返还0.00</p>
+                                <h4 class="bet_details_body_title">{{ betObj.team }}</h4>
+                                <p class="bet_details_body_type">{{ betShowObj.pk }}</p>
+                                <p class="bet_details_body_event"> {{ betShowObj.lTeam }} <span> VS </span>{{ betShowObj.rTeam }}</p>
+                                <p class="bet_details_body_event">@{{ betShowObj.odds }}</p>
+                                <p class="bet_details_body_event"><input type="text" placeholder="本金" v-model="betObj.money"> 返还0.00</p>
                                 <p class="bet_details_body_event">最高投金</p>
                             </div>
                         </li>
@@ -196,7 +253,7 @@
                 </div>
                 <div class="button-panel">
                     <label class="all-leagues-container">
-                        <input id="all-leagues" class="all-leagues" type="checkbox" value="1" checked="checked" data-all-sports="29">
+                        <input class="all-leagues" type="checkbox" value="1" checked="checked" data-all-sports="29">
                         <label class="icon-all-leagues" for="all-leagues">
                         </label>
                         全选
@@ -204,40 +261,40 @@
                 </div>
                 <div class="s-dialog-body">
                     <label class="league-opt">
-                        <input id="league-9097" class="league" type="checkbox" data-id="29" value="9097" checked="checked">
-                        <label class="icon-league" for="league-9097"></label>
+                        <input class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league"></label>
                         韩国- 挑战K联赛
                     </label>
                     <label class="league-opt">
-                        <input id="league-2332" class="league" type="checkbox" data-id="29" value="2332" checked="checked">
-                        <label class="icon-league" for="league-2332"></label>
+                        <input class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league"></label>
                         挪威 - 乙级联赛 </label>
                     <label class="league-opt">
-                        <input id="league-2025" class="league" type="checkbox" data-id="29" value="2025" checked="checked">
-                        <label class="icon-league" for="league-2025"></label>
+                        <input  class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league" ></label>
                         芬兰甲级联赛
                     </label>
                     <label class="league-opt">
-                    <input id="league-2101" class="league" type="checkbox" data-id="29" value="2101" checked="checked">
-                        <label class="icon-league" for="league-2101"></label>
+                    <input  class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league"></label>
                         冰岛 - 杯赛 </label>
                     <label class="league-opt">
-                        <input id="league-2513" class="league" type="checkbox" data-id="29" value="2513" checked="checked">
-                        <label class="icon-league" for="league-2513"></label>
+                        <input  class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league"></label>
                         瑞典 - 南部甲级联赛
                     </label>
                     <label class="league-opt">
-                        <input id="league-9757" class="league" type="checkbox" data-id="29" value="9757" checked="checked">
-                        <label class="icon-league" for="league-9757"></label>
+                        <input  class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league"></label>
                         俄罗斯 - 乙级联赛 </label>
                     <label class="league-opt">
-                      <input id="league-1834" class="league" type="checkbox" data-id="29" value="1834" checked="checked">
-                      <label class="icon-league" for="league-1834"></label>
+                      <input class="league" type="checkbox"  checked="checked">
+                      <label class="icon-league"></label>
                        巴西 - 甲级联赛
                      </label>
                     <label class="league-opt">
-                        <input id="league-1835" class="league" type="checkbox" data-id="29" value="1835" checked="checked">
-                        <label class="icon-league" for="league-1835"></label>
+                        <input  class="league" type="checkbox"  checked="checked">
+                        <label class="icon-league"></label>
                         巴西 - 乙级联赛
                     </label>
                     <label class="league-opt">
@@ -280,12 +337,34 @@ export default {
     data () {
         return {
             sidebar: true,
-            eventType: 1,
+            eventType: 2,
             eventBarList: [],
             matchList:[],
             times: null,
             showModal: false,
-            showMore: false
+            showMore: false,
+            mapListObj: {
+                map1: '地图一',
+                map2: '地图二',
+                map3: '地图三',
+                map4: '地图四',
+                map5: '地图五',
+                map6: '地图六',
+                map7: '地图七',
+            },
+            mapSelect: 'map1',
+            betObj: {
+                oddId: '',
+                money: '',
+                team: ''
+            },
+            betShowObj: {
+                lTeam: '',
+                rTeam: '',
+                odds: '',
+                pk: ''
+            },
+            maxRight:false
         }
     },
     created () {
@@ -295,11 +374,11 @@ export default {
     mounted () {
         this.setTime()
         // this.matchList = lotteryData.resultMsg
-        // console.log(this.matchList)
     },
     methods: {
       ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postMatchesS' ]),
         handleGetEvents () {
+          this.eventBarList = []
           let data = {
              rtype: this.eventType
           }
@@ -316,16 +395,42 @@ export default {
               }
           })
         },
-        handleGetMatches () {
+        handleGetMatches (event) {
+            this.matchList = []
             let data = {
                 rtype: this.eventType
+            }
+            if (event) {
+                if (event === '全部赛事') {
+                    data.category = 'ALL'
+                } else {
+                    data.category = event
+                }
             }
             this.postMatchesS(data).then(res => {
                 if(res.length !==0) {
                     this.matchList = res
-                    console.log(res)
                 }
             })
+        },
+        handleClickBet(tm, od, bt, type) {
+          this.betObj.team = bt
+          this.betObj.oddId = tm.matchId
+          this.betShowObj.odds = od
+          this.betShowObj.lTeam = tm.teamLeft
+          this.betShowObj.rTeam = tm.teamRight
+          this.betShowObj.pk = type
+        },
+        handleSelectEType (type) {
+          if (type === 'jr') {
+              this.eventType = 1
+          } else if (type === 'zp') {
+              this.eventType = 2
+          } else {
+              this.eventType = 3
+          }
+          this.handleGetEvents()
+          this.handleGetMatches()
         },
         setTime () {
           setInterval(() => {
@@ -345,21 +450,20 @@ export default {
         display: table;
         table-layout: fixed;
         width: 100%;
-        background-color: #14805e;
+        background-color: #212b38;
         min-width: 1023px;
         .hm-HeaderModule_Primary {
             display: table;
             table-layout: fixed;
             width: 100%;
             padding: 0 25px;
-            border-bottom: 1px solid #189970;
             .hm-HeaderModule_Logo {
                 display: table-cell;
-                width: 119px;
+                width: 135px;
                 height: 25px;
                 background-position: 0 50%;
                 background-repeat: no-repeat;
-                background-image: url(../assets/ds.svg);
+                background-image: url('../assets/forweb.png');
             }
         }
         .hm-BigButtons {
@@ -374,7 +478,7 @@ export default {
             table-layout: fixed;
             margin: 0 auto;
             border-spacing: 15px 0;
-            .hm-BigButton {
+            .h-BigBtn {
                 height: 79px;
                 display: table-cell;
                 vertical-align: middle;
@@ -384,9 +488,9 @@ export default {
                 color: #e4e4e4;
                 line-height: 1;
             }
-            .hm-BigButton_Highlight {
+            .h-BigBtn_Hlight {
                 color: #fff;
-                border-bottom-color: #ffdf1b;
+                border-bottom-color: #0299a0;
             }
         }
         .hm-HeaderModule_Secondary {
@@ -396,7 +500,7 @@ export default {
             height: 30px;
             padding: 0 25px;
             position: relative;
-            .hm-HeaderModule_TimeLastLogin {
+            .hm-HModule_TimeLogin {
                 flex: 1 0 auto;
                 vertical-align: middle;
                 font-size: 11px;
@@ -408,12 +512,12 @@ export default {
                 text-align: right;
                 font-size: 11px;
                 color: #4acfa5;
-                .hm-LanguageDropDownSelections {
+                .hm-LgDropDS {
                     display: inline-table;
                     position: relative;
                     margin-right: 25px;
                 }
-                .hm-DropDownSelections_Highlight {
+                .hm-DropDS_Highlight {
                     color: #e4e4e4;
                     margin-left: 6px;
                 }
@@ -424,9 +528,13 @@ export default {
         display: flex;
         align-items: stretch;
         min-width: 1023px;
-        min-height: 88.5vh;
-        max-height: 88.5vh;
-        .wc-InPlayPage_MainContainer.wc-PageView_Main {
+        min-height: 88.9vh;
+        background-image: url('../assets/bg-main-page-v3 FIN.jpg');
+        background-position: center top,50% 113%;
+        background-size: auto 1350px,auto;
+        background-color: #151f2b;
+        background-repeat: no-repeat,no-repeat;
+        .wc-InPage_M.wc-PageView_Main {
             display: block;
             -ms-overflow-style: none;
         }
@@ -438,7 +546,7 @@ export default {
             align-items: stretch;
             overflow: hidden;
             .ip-ControlBar {
-                background-color: #474747;
+                /*background-color: #474747;*/
                 border-bottom: 1px solid #303030;
                 position: relative;
                 .ip-ControlBar_BBarItem {
@@ -459,11 +567,13 @@ export default {
                     button{
                         height: 100%;
                         width: 80px;
-                        border-radius: 5px;
+                        border-radius: 15px;
                         outline: none;
                         border: none;
-                        background-color: #999;
                         color: #fff;
+                        cursor: pointer;
+                        box-shadow: 0 2px 7px 0 rgba(0,0,0,.21);
+                        background:linear-gradient(180deg,#01fce1 0,#0c6f72 31.87%,#6d1699 90.06%);
                     }
                 }
                 .ip-ControlBar_msg{
@@ -498,16 +608,11 @@ export default {
                 right: 17px;
             }
             .ipn-Class-num{
-                display: inline-block;
-                width: 20px;
-                height: 20px;
                 text-align: center;
-                line-height: 20px;
-                border-radius: 50%;
-                background-color: #517372;
+                color:yellow;
             }
-            .ipn-EventViewNavigation {
-                background-color: #333;
+            .ipn-EventViewN {
+                /*background-color: #333;*/
                 transition: width .35s ease-in-out;
                 width: 214px;
                 cursor: pointer;
@@ -520,7 +625,7 @@ export default {
                 min-width: 64px;
                 transition: min-width .35s ease-in-out;
             }
-            .ipn-EventViewNavigation.ipn_w{
+            .ipn-EventViewN.ipn_w{
                 width: 64px;
                 transition: min-width .35s ease-in-out;
             }
@@ -539,27 +644,12 @@ export default {
             .ipn-EventV-expanded .ipn-Bar_C.ipn_right{
                 background-image: url(../assets/right.svg);
             }
-            .ipn-EventV-expanded .ipn-EventViewNavigationNativeScroller {
-                transition-duration: .35s;
-                background-color: #333;
-            }
-            .ipn-EventViewNavigationNativeScroller {
-                height: 100%;
-                overflow: hidden;
-                z-index: 20;
-            }
-            .ipn-EventViewNavigationNativeScroller_ContentContainer {
-                overflow: auto;
-                transition: width .35s ease-in-out;
-                max-height: calc(100vh - 132px);
-            }
             .ipn-Scroller_Content {
-                border-right: 1px solid #303030;
+                /*border-right: 1px solid #303030;*/
                 max-width: 213px;
-                border-bottom: 20px solid #333;
             }
             .ipn-ControlBar {
-                background-color: #3d3d3d;
+                /*background-color: #3d3d3d;*/
                 height: 30px;
                 position: relative;
                 border-bottom: 1px solid #3d3d3d;
@@ -605,47 +695,48 @@ export default {
                 position: relative;
                 top: 0;
                 color: #e4e4e4;
-                background-color: #333;
+                /*background-color: #333;*/
                 border-bottom: 1px solid #274526;
                 transition: min-width .4s ease-in-out;
             }
             .ipn-Classification:hover{
-                background-color: #14805e
+                background-color: #0299a0
             }
-            .ci-ClassificationIcon-12.ci-ClassificationIcon {
+            .ci-ClassificationIcon {
                 display: inline-block;
                 background-position: 50% 50%;
                 width: 24px;
-                height: 28px;
+                height: 20px;
                 transition: right .3s;
-                background-image: url('../assets/f t b.svg');
-                background-repeat: no-repeat;
-                background-size: auto 14px;
+                padding: 0 2px;
+                margin-right: 6px;
             }
             .ipn-Class_Label {
+                display: inline-block;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
-                display: inline-block;
                 width: 75%;
-                font-weight: 400;
                 padding-left: 10px;
-                font-size: 13px;
+                font-size: 14px;
                 position: relative;
                 bottom: 1px;
-                -moz-osx-font-smoothing: grayscale;
                 opacity: 1;
                 transition: opacity, width 1s ease-in-out;
+                -moz-osx-font-smoothing: grayscale;
+                color: #01fce1;
             }
             .ipe-EventViewDetail {
                 display: table-cell;
                 width: 100%;
+                background-color: #151f2b;
+                opacity: .82;
             }
             .ipe-EventVScroller {
                 position: relative;
                 border-right: 1px solid #373737;
                 height: 100%;
-                color: #ddd;
+                color: #fff;
             }
             .ipe-Event_ContentContainer {
                 overflow-y: scroll;
@@ -654,13 +745,12 @@ export default {
             }
             .ipe-EventVScroller:after {
                 content: " ";
-                width: 16px;
+                width: 17px;
                 height: 100%;
                 position: absolute;
                 top: 0;
                 right: 0;
-                background-color: #474747;
-                border-left: 1px solid #373737;
+                background-color: #151f2b;
                 opacity: 1;
                 transition-property: opacity;
                 transition-duration: .35s;
@@ -669,39 +759,57 @@ export default {
             .ipe-table{
                 width: 100%;
                 text-align: center;
+                .block_table {
+                   width: 100%;
+                }
+                .in_block {
+                    display: table-cell;
+                }
+                .fs td, .col-pad {
+                    padding: 8px 0;
+                }
                 .fs td {
-                    padding: 10px 0;
+                    font-weight: 700;
                 }
                 .ipe-bor,.col-hdp{
-                    width: 304px;
+                    width: 22%;
                 }
                 thead td{
-                    background-color: #48504e;
+                    /*background-color: #48504e;*/
                 }
                 .ipe-table-sc-title{
                     padding: 5px 0 5px 10px;
                     text-align: left;
-                    background-color: #189970;
+                    background-color: #0299a0;
                 }
                 .ipe-table-sc-table{
                     width: 100%;
                 }
                 .col-names{
-                    width: 330px;
+                    width: 23%;
                 }
                 .col-time{
-                    width: 100px;
+                    width: 8%;
                     border-right: 1px solid #999;
+                    border-bottom: 1px solid #999;
                 }
                 .ipe-table-bg{
-                    background-color: #7b7b7b;
+                    /*background-color: #7b7b7b;*/
+                    display: table;
+                    width: 100%;
                 }
+
                 .sf_odds{
                  display: inline-block;
                  width: 100%;
                 }
+                .col_body{
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-bottom: 10px;
+                }
                 a.sf_odds:hover,a.half_50:hover{
-                    background-color: #b5b0b0;
+                    background-color: #0299a0;
                 }
                 .half_50,.half_50s{
                     display: inline-block;
@@ -710,11 +818,12 @@ export default {
                 .half_50s {
                     color: #fde972;
                 }
-                .half_50,.sf_odds{
-                    padding: 5px 0;
+                .half_50,.sf_odds,.half_50s{
+                    padding: 3px 0;
                 }
-                .f_r{
-                    float: right;
+                .col-more {
+                    border-bottom: 1px solid #999;
+                    width: 3%;
                 }
                 .more {
                     background: #0b1d3b;
@@ -727,7 +836,27 @@ export default {
                 }
                 .col-hdp,.col-names,thead td,.ipe-bor{
                     border-right: 1px solid #999;
+                    border-bottom: 1px solid #999;
                 }
+                .select_map {
+                     text-align: left;
+                     /*background-color: #484040;*/
+                    border-bottom: 1px solid #999;
+                      li {
+                          display: inline-block;
+                          padding: 5px 10px;
+                          border-radius: 10px;
+                          background-color: #0299a0;
+                          cursor: pointer;
+                          margin: 6px;
+                      }
+                      li:hover{
+                          background-color: #116c4f;
+                      }
+                }
+            }
+            .ipe-table-pad {
+                padding: 50px;
             }
             .events{
                 width: 100%;
@@ -739,36 +868,49 @@ export default {
                     line-height: 14px;
                 }
             }
-            .ipn-EventViewNavigation-scrollcollapse {
+            .ipn-EventV-s {
                 overflow: hidden;
                 width: 64px;
                 padding-right: 14px;
             }
         }
     }
-    .wc-PageView_RightColumn {
+    .wc-PageView_R {
         flex: 0 0 auto;
-        background-color: #474747;
+        /*background-color: #474747;*/
         position: relative;
-        transition: width,min-width .3s ease-in-out;
-        width: 277px;
+        transition: width .4s ease-in-out;
+        width: 300px;
         max-width: 592px;
-        border-left: 2px solid #4d4d4d;
         .wc-PageView_header{
             height: 28px;
             line-height: 28px;
-            border-top:1px solid #4d4d4d;
-            background-color:#14805e;
+            /*border-top:1px solid #4d4d4d;*/
+            /*background-color:#474747;*/
             text-align: center;
             color: #ffdf1b;
-            span{
+            span.wc-PageView_title{
                 display: inline-block;
                 height: 100%;
-                border-bottom: 2px solid #ffdf1b;
+                border-bottom: 2px solid #0299a0;
+            }
+            span.wc-PageView_icon {
+                height: 100%;
+                width: 30px;
+                display: inline-block;
+                float: left;
+                cursor: pointer;
+                background: url(../assets/fda.svg) no-repeat 50% 50%;
+                background-size: 20px 15px;
+            }
+            span.wc-PageView_icon.ssuo {
+                background: url(../assets/sxiao.svg) no-repeat 50% 50%;
+                background-size: 20px 15px;
             }
         }
         .text_r {
             border-top:1px solid #179970;
+            background-color: #0299a0;
             text-align: right;
             padding-right: 5px;
         }
@@ -796,13 +938,17 @@ export default {
             .bet_details_body_title{
                 color:#333;
                 font-size: 13px;
-                padding: 0 3px;
+                padding: 3px 0;
             }
             .bet_details_body_event{
-                padding: 0 2px;
+                padding: 2px 0;
                 color: #666;
             }
         }
+    }
+    .wc-PageView_R.max {
+        width: 500px;
+        transition: width .4s ease-in-out;
     }
     .models{
         position: absolute;

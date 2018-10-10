@@ -1,17 +1,24 @@
+@font-face {
+  font-family: 'geometria';
+  src: url('../assets/font/geometria.3c6a7d3ae76a5aec78aa.woff');
+  src: url("../assets/font/geometria-bold.fdd15f825a6db43442a7.woff");
+  src: url("../assets/font/geometria-medium.45656b73e1a07f979bfb.woff");
+}
+
 * {
   margin:0;
   padding:0;
   font-size: 100%;
   box-sizing:border-box;
   font-weight: normal;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+  font-family: geometria,Arial,sans-serif;
   cursor: default;
 }
 ul,ol {
   list-style: none;
 }
 a,a:link,a:visited,a:active {
-  color: #fff;
+  color: #cffbff;
   text-decoration: none;
   -webkit-backface-visibility: hidden;
 }
