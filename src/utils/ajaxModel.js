@@ -82,5 +82,41 @@ export default {
     },
     postMatches (data) {
         return handleRequest(util.ajaxForm.post('/sv/match/matches', data))
-    }
+    },
+    postRollBallMatches (data) {
+        return handleRequest(util.ajaxForm.post('/s2/match/matches', data))
+    },
+    postInitESportBulletin (data) {
+        return handleRequest(util.ajaxForm.post('/initEsportBulletin', data))
+    },
+    postUserLogin (data) {
+        return handleRequest(util.ajaxForm.post('/v2/login', data))
+    },
+    postLeagues (data) {
+        return handleRequest(util.ajaxForm.post('/sv/match/leagues', data))
+    },
+    postListGameEndResult (data) {
+     return handleRequest(util.ajaxForm.post('/listGameEndResult', data))
+    },
+    postMultiTicket (data) {
+        return handleRequest(util.ajaxForm.post('/sv/line/multiTicket', data))
+    },
+    postUserListGameWager (data) {
+        return handleRequest(util.ajaxForm.post('/userListGameWager', data))
+    },
+    postMatchInfo (data) {
+        return handleRequest(util.ajaxForm.post('/s2/match/info', data))
+    },
+    postListStatementsResult (data) {
+        return handleRequest(util.ajaxForm.post('listStatementsResult', data))
+    },
+    postUserListGameWagerByDate (data) {
+        return handleRequest(util.ajaxForm.post('userListGameWagerByDate', data))
+    },
+    postUserInfo (data) {
+        return handleRequest(util.ajaxForm.post('/v2/user/info', data))
+    },
+    postLoginUserByToken (data) {
+        return handleRequest(util.ajaxForm.get('/v2/loginUserByToken'+data))
+    },
 }

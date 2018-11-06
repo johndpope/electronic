@@ -17,6 +17,7 @@ module.exports = {
                 // target: 'http://192.168.1.37:18083',     // Arron本地
                 target: 'http://192.168.1.44:18084',        // 测试开发
                 // target: 'http://192.168.1.45:18083',
+                // target: 'http://103.24.95.153:18084',
                 pathRewrite: {
                     "/webApi": ""
                 },
