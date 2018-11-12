@@ -119,4 +119,7 @@ export default {
     postLoginUserByToken (data) {
         return handleRequest(util.ajaxForm.get('/v2/loginUserByToken'+data))
     },
+    postChangeLanguagen (data) {
+        return handleRequest(util.ajaxForm.post('/changeLanguage', data))
+    },
 }

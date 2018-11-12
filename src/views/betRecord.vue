@@ -1,12 +1,15 @@
 <template>
     <div class="bet_record">
+        <div class="header">
+            <span class="logo"></span>
+        </div>
         <div class="bet_body">
             <div class="bet_from">
                 <div class="form-group">
-                    <label class="sr-only">状态</label>
+                    <label class="sr-only">{{$t('lang.betRecord.from_status')}}</label>
                     <select class="form-control select_w" name="league" v-model="selectVal">
-                        <option>未结算</option>
-                        <option>已结算</option>
+                        <option>{{$t('lang.betRecord.from_wjs')}}</option>
+                        <option>{{$t('lang.betRecord.from_yjs')}}</option>
                     </select>
                 </div>
                 <div class="bet_st" v-if="selectVal === '已结算'">
@@ -44,6 +47,7 @@
                         </td>
                         <td class="selection">
                             <p>
+                                <span class="win loss pd">{{ item.liveName }}</span>
                                 <span class="selection sel">{{ item.betDetail }}</span>
                             </p>
                             <p>
@@ -75,29 +79,31 @@
                         </td>
                         <td class="status OPEN">
                             <p>
-                                <span class="stake">{{ gameWagerObj.betStatus ===1 ? '进行中' : '已结算'}}</span>
+                                <span class="stake">{{ item.statusName}}</span>
                             </p>
                             <p>
-                                <span :class="item.winloss > 0? 'stake win' : 'stake win loss'" v-if="gameWagerObj.betStatus === 2" >
+                                <span :class="item.winloss > 0? 'stake win' : 'stake win loss'" v-if="item.betStatus === 3" >
                                     {{ item.winloss > 0 ? '赢' : '输' }}
                                 </span>
                             </p>
                         </td>
                     </tr>
                     <tr v-if="gameWagerObj.betStatus === 2 && gameWagerList.pages !== 0">
-                        <td colspan="4"/>
+                        <td colspan="3"/>
                         <td>
                             小计
                         </td>
+                        <td>{{ betTotal }}</td>
                         <td>{{ total }}</td>
                         <td/>
                     </tr>
                     <tr v-if="gameWagerObj.betStatus === 2 && gameWagerList.pages !== 0">
-                        <td colspan="4"/>
+                        <td colspan="3"/>
                         <td>
                             总计
                         </td>
-                        <td>{{ winLoss }}</td>
+                        <td>{{ winLoss.totalAmount.toFixed(2) }}</td>
+                        <td>{{ winLoss.totalWinloss.toFixed(2) }}</td>
                         <td/>
                     </tr>
                     <tr v-if="!gameWagerList.pages || gameWagerList.pages < 0">
@@ -158,7 +164,8 @@ export default {
             },
             soPage: '',
             winLoss: '',
-            range: [new Date(),new Date()]
+            range: [new Date(),new Date()],
+            betTotal: 0
         }
     },
     created () {
@@ -170,10 +177,15 @@ export default {
         ...mapActions([ 'postUserListGameWagerS' ]),
         handleGetUserListGameWager () {
             this.total = 0
+            this.betTotal = 0
+            this.gameWagerList = []
             if (this.gameWagerObj.betStatus === 2) {
                 this.range.forEach((arr,index) => {
-                    this.range[index] = this.range[index].getTime()
+                    if (typeof this.range[index] !== 'number') {
+                        this.range[index] = this.range[index].getTime()
+                    }
                 })
+                    // this.range[index] = this.range[index].getTime())
                 if (this.range[1] - this.range[0] > 2592000000) {
                     this.$refs.layer.open('日期范围不能超过30天', true, false, 1000)
                     this.range = [new Date(),new Date()]
@@ -186,12 +198,22 @@ export default {
             this.postUserListGameWagerS(this.gameWagerObj).then(res => {
                 if (res && !res.msg) {
                     this.gameWagerList = res.pageInfo
-                    this.winLoss = res.winLoss
+                    this.winLoss = res.gameWagerTotal
                     this.soPage = res.pageInfo.pages
-                    if (this.gameWagerObj.betStatus === 2)
                     this.gameWagerList.list.forEach(arr => {
-                        this.total += arr.winloss
+                        if (this.gameWagerObj.betStatus === 2) {
+                            this.total += Number(arr.winloss)
+                            if (arr.betStatus !== 4) {
+                                this.betTotal += Number(arr.betAmount)
+                            }
+                        }
+                        if (arr.liveType === '1') {
+                            arr.liveName = '滚球'
+                            arr.betDetail = arr.betDetail.substr(3)
+                        }
                     })
+                    this.total = this.total.toFixed(2)
+                    this.betTotal = this.betTotal.toFixed(2)
                 } else {
                     this.$refs.layer.open(res.msg, true, false, 1000)
                 }
@@ -206,10 +228,15 @@ export default {
     },
     watch: {
         selectVal (nev) {
-            if (nev === '已结算') {
+            if (nev === '已结算'|| nev === 'CLSD') {
                 this.gameWagerObj.betStatus = 2
             } else {
-                this.gameWagerObj.betStatus = 1
+                this.gameWagerObj = {
+                    pageNum: '1',
+                    pageSize: '10',
+                    betStatus: 1,
+                    TOKEN: sessionStorage.getItem('Tk')
+                }
             }
             this.handleGetUserListGameWager()
         }
@@ -380,8 +407,20 @@ export default {
      .win.loss {
          color: red;
      }
+     .pd {
+         padding-right: 10px;
+     }
      .pages-wrap {
          float: right;
      }
  }
+ .logo {
+     display: inline-block;
+     width: 200px;
+     height: 80px;
+     background-position: 0 50%;
+     background-repeat: no-repeat;
+     background-image: url('../assets/bluegreenF.png');
+ }
+
 </style>

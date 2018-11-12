@@ -1,5 +1,8 @@
 <template>
     <div class="bet_record">
+        <div class="header">
+            <span class="logo"></span>
+        </div>
         <div class="bet_body" v-if="!backMents">
             <div class="bet_from" v-if="!mHistory">
                 <div class="form-group">
@@ -36,7 +39,7 @@
                         <td class="statement-date">
                             {{ item.date }}
                         </td>
-                        <td>{{ mentsType[item.type] }}</td>
+                        <td>{{ item.type === '930' ? mentsType[item.type][item.betStatus] : mentsType[item.type] }}</td>
                         <td class="remark">
                            {{ item.remit }}
                         </td>
@@ -90,7 +93,7 @@
                         <p>{{ item.betTime }}</p>
                     </td>
                     <td class="remark">
-                        {{ item.betDetail }}
+                         <span class="win loss win_pd">{{ item.liveName }}</span>{{ item.betDetail }}
                         <p>{{ item.teamLeft +'-vs-'+ item.teamRight }}</p>
                         <p class="red_t">{{ item.betType }}</p>
                         <p>{{ item.category +'-'+ item.league }}</p>
@@ -106,12 +109,23 @@
                         <span v-if="item.winloss">
                             {{ item.winloss > 0 ? '赢' : '输' }}
                         </span>
+                        <span v-if="!item.winloss">
+                            {{ item.betStatus === 2 ? '进行中' : '已结算' }}
+                        </span>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4"></td>
+                    <td colspan="3"></td>
                     <td>小计:</td>
-                    <td>{{ total }}</td>
+                    <td>{{ betTotal }}</td>
+                    <td>{{ winLTotal }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                    <td>总计:</td>
+                    <td>{{ zjObj.totalAmount ?  zjObj.totalAmount.toFixed(2) : '0.00'}}</td>
+                    <td>{{ zjObj.totalWinloss ? zjObj.totalWinloss.toFixed(2) : '0.00'}}</td>
                     <td></td>
                 </tr>
                 <tr v-if="detailsList.length === 0">
@@ -163,8 +177,10 @@
             mentsType: {
                 201: '存款作业',
                 202: '提款作业',
-                930: '投注账目',
-                555: '未完成交易'
+                930: {
+                    2: '未完成交易',
+                    3: '投注账目'
+                },
             },
             pageInfo: {
                 current: 1,
@@ -174,7 +190,9 @@
             soPage: '',
             // xoPage: '',
             backMents: false,
-            total: 0,
+            winLTotal: 0,
+            betTotal: 0,
+            zjObj: {}
         }
     },
     mounted () {
@@ -196,10 +214,13 @@
                      this.mentsList = res.list
                      this.soPage = res.pages
                  }
+             }).catch(err => {
+                 this.$refs.layer.open(err.msg,true,false,1000)
              })
         },
         handleGetBillDetails(item) {
-            this.total = 0
+            this.winLTotal = 0
+            this.betTotal = 0
             this.detailsList = []
             if (item.type === '930' || item.type === '555') {
                 this.backMents = true
@@ -217,11 +238,22 @@
                     if (res.length !== 0 && !res.code) {
                         this.detailsList = res.pageInfo.list
                         this.detailsList.forEach(arr => {
-                            if (arr.winloss)
-                            this.total += arr.winloss
+                            if (arr.winloss) {
+                                this.winLTotal += Number(arr.winloss)
+                            }
+                            this.betTotal += Number(arr.betAmount)
+                            if (arr.liveType === '1') {
+                                arr.liveName = '滚球'
+                                arr.betDetail = arr.betDetail.substr(3)
+                            }
                         })
                         // this.xoPage = res.pageInfo.pages
+                        this.zjObj = res.gameWagerTotal
                     }
+                    this.winLTotal = this.winLTotal.toFixed(2)
+                    this.betTotal = this.betTotal.toFixed(2)
+                }).catch(err => {
+                    this.$refs.layer.open(err.msg,true,false,1000)
                 })
             }
         },
@@ -372,9 +404,28 @@
             td.win {
                 color: green;
             }
-            td.win.loss {
+            td.win.loss,span.win.loss {
                 color: red;
             }
+            .win_pd {
+                padding-right: 10px;
+            }
         }
+    }
+    .logo {
+        display: inline-block;
+        width: 200px;
+        height: 80px;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+        background-image: url('../assets/bluegreenF.png');
+    }
+    .title {
+        display: inline-block;
+        height: 80px;
+        padding-top: 40px;
+        padding-left: 10px;
+        vertical-align: top;
+        color: #4fdccb;
     }
 </style>

@@ -3,7 +3,7 @@
         <div class="hm-HeaderModule ">
             <div :class="headerHide ? 'hm-HeadModule_Primary' : 'hm-HeadModule_Primary sH'">
                 <a :class="headerHide ? 'hm-HeaderModule_Logo' : 'hm-HeaderModule_Logo H'"/>
-                <span :class="headerHide ? 'hm-HeaderModule_title': 'hm-HeaderModule_title H'">{{$t('lang.home.header_title')}}</span>
+                <!--<span :class="headerHide ? 'hm-HeaderModule_title': 'hm-HeaderModule_title H'">{{$t('lang.home.header_title')}}</span>-->
                 <div :class="headerHide ? 'hm-BigButtons' : 'hm-BigButtons H'">
                     <nav class="hm-BigButtons_Inner ">
                         <a :class="eventType === 1 ? 'h-BigBtn h-BigBtn_Hlight' : 'h-BigBtn'" @click="handleSelectEType('jr')">{{$t('lang.home.header_jr')}}</a>
@@ -23,7 +23,7 @@
                             <span class="hm_L_EN"/>
                             <span class="hm_L_lang">English</span>
                         </p>
-                        <p class="hm_L_p" @click="handleSelectLang('CN')">
+                        <p class="hm_L_p" @click="handleSelectLang('CH')">
                             <span class="hm_L_CN"/>
                             <span class="hm_L_lang">简体中文</span>
                         </p>
@@ -63,11 +63,11 @@
             <div class="wc-PageView_Main wc-InPage_M">
                 <div class="ip-ControlBar ">
                     <div class="ip-ControlBar_BBarItem ">
-                        <span>{{ eventList[eventType] }}</span>
-                        {{' / ' + selectEvent }}
+                        <span class="ip-ControlBar_BBarItem_c">{{ eventList[eventType] }}</span>
+                        <span :title="selectEvent" class="ip-ControlBar_BBarItem_b">{{' / ' + selectEvent }}</span>
                     </div>
                     <div class="ip-ControlBar_msg">
-                        公告：
+                        {{$t('lang.home.bar_msg')}}:
                         <marquee class="ip-msg" behavior="scroll" direction="left" @click="handleOpenNewPage('gg')" onmouseover=this.stop() onmouseout=this.start()>
                             <ul>
                               <li class="scope" v-for="(msgItems, key) in msgList" :key="key">
@@ -77,7 +77,7 @@
                         </marquee>
                     </div>
                     <div @click="handleGetLeagues()" class="ip-ControlBar-btn">
-                        <button :disabled="eventType === 3" class="o-button">选择联赛</button>
+                        <button :disabled="eventType === 3" class="o-button">{{$t('lang.home.bar_select')}}</button>
                     </div>
                 </div>
                 <div class="ipe-EcventViewView ">
@@ -88,8 +88,8 @@
                                 </div>
                                 <div class="balances" v-if="balance && sidebar">
                                      <p class="account">
-                                         <span>可用资金:</span>
-                                         <span @click="handleRefUserInfo" class="ref"/>
+                                         <span>{{$t('lang.home.bar_kyzj')}}:</span>
+                                         <i :class="refMoney? 'bet_ref sync_skip r' : 'bet_ref r'" @click="handleRefUserInfo"></i>
                                      </p>
                                      <p class="account my">CNY: {{ balance }}</p>
                                 </div>
@@ -97,9 +97,8 @@
                                     <div  :class="sidebar ? 'ipn-Classification' :'ipn-Classification ipn-closed'" v-for="(item,key) in eventBarList" :key="key"
                                           v-if="eventType !== 3"   @click="handleGetMatches(item.category)">
                                         <span class="ipn-Classification-num">
-                                          <img class="ci-ClassificationIcon" v-if="item.category !== 'CS:GO' && item.category !== '全部赛事'" :src="require('../assets/png/'+item.category+'.png')" alt="">
+                                          <img class="ci-ClassificationIcon" v-if="item.category !== 'CS:GO'" :src="require('../assets/png/'+item.category+'.png')" alt="">
                                           <img class="ci-ClassificationIcon" v-if="item.category === 'CS:GO'" src="../assets/png/CSGO.png">
-                                          <img class="ci-ClassificationIcon" v-if="item.category === '全部赛事'" src="../assets/png/ALL.png">
                                           <span class="ipn-Class-num">{{ item.count }}</span>
                                         </span>
                                         <span :class="sidebar ? 'ipn-Class_Label':'ipn-ClassftnBtn_cls ipn-Class_Label'">
@@ -109,7 +108,7 @@
                                     <div v-if="eventType === 3 " class="ipn-EventViewN_rollB" v-for="(rItem,rkey) in rollBallList" :key="rkey">
                                         <div  :class="sidebar ? 'ipn-Classification_gq' :'ipn-Classification_gq ipn-closed'" @click="handleIPWHide($event,'hd')">
                                              <span class="ipn-Classification-num">
-                                               <img class="ci-ClassificationIcon" v-if="rkey !== 'CS:GO' && rkey !== '全部赛事'" :src="require('../assets/png/'+rkey+'.png')" alt="">
+                                               <img class="ci-ClassificationIcon" v-if="rkey !== 'CS:GO'" :src="require('../assets/png/'+rkey+'.png')" alt="">
                                                <img class="ci-ClassificationIcon" v-if="rkey === 'CS:GO'" src="../assets/png/CSGO.png">
                                              </span>
                                              <span :class="sidebar ? 'ipn-Class_Label':'ipn-ClassftnBtn_cls ipn-Class_Label'">
@@ -119,15 +118,15 @@
                                         <div class="ipn_body" v-for="(rItemx,rkeyx) in rItem" :key="rkeyx">
                                             <div :class="sidebar ?'ipn-EventViewN_rollBd' : 'ipn-EventViewN_rollBd hide'">
                                                 <div class="ipn-EventViewN_event" v-for="(rItems,rkeys) in rItemx.gameMatches" :key="rkeys">
-                                                    <p :class="sidebar ? 'ipn-EventViewN_row ipw_hd' : 'ipn-EventViewN_row ipw_h ipw_hd'" @click="handleIPWHide($event)">
+                                                    <p :title="rItemx.league" v-if="rkeys ===0 " :class="sidebar ? 'ipn-EventViewN_row ipw_hd' : 'ipn-EventViewN_row ipw_h ipw_hd'" @click="handleIPWHide($event)">
                                                         {{ rItemx.league }}
                                                     </p>
-                                                    <div @click="handleGetRollMatchInfo(rItems)">
+                                                    <div class="ipn_team" @click="handleGetRollMatchInfo(rItems, rItemx)">
                                                         <p :class="sidebar ? 'ipn-EventViewN_row' : 'ipn-EventViewN_row ipw_h'">
                                                             <span class="team">{{ rItems.teamLeft }}</span>
                                                             <span> {{ rItems.scoreLeft + ' - ' + rItems.scoreRight }}</span>
                                                         </p>
-                                                        <p :class="sidebar ? 'ipn-EventViewN_row' : 'ipn-EventViewN_row ipw_h'">
+                                                        <p :class="sidebar ? 'ipn-EventViewN_row b_btm' : 'ipn-EventViewN_row ipw_h'">
                                                             <span class="team">{{ rItems.teamRight }}</span>
                                                         </p>
                                                     </div>
@@ -140,54 +139,56 @@
                     </div>
                     <div class="ipe-EventViewDetail ">
                         <div class="ipe-EventVScroller ">
+                            <div class="ipe-EventVScroller_title">
+                                <table class="block_table table_title">
+                                    <thead class="fs">
+                                    <tr>
+                                        <td class="col-time">
+                                            {{$t('lang.home.table_sj')}}
+                                        </td>
+                                        <td class="col-names">
+                                            {{$t('lang.home.table_ss')}}
+                                        </td>
+                                        <td class="ipe-bor">
+                                            {{$t('lang.home.table_sfp')}}
+                                        </td>
+                                        <td class="ipe-bor">
+                                            {{$t('lang.home.table_rq')}}
+                                        </td>
+                                        <td class="ipe-bor">
+                                            {{$t('lang.home.table_dx')}}
+                                        </td>
+                                        <td class="col-more">
+                                            <span class="cur" v-if="eventType === 3" @click="scoreShow = !scoreShow"> {{ scoreShow ? $t('lang.home.table_hide') : $t('lang.home.table_show')}} </span>
+                                            <span v-if="eventType !== 3">+</span>
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
                             <div class="ipe-Event_ContentContainer ">
                                 <div class="ipe-table" v-if="matchList.length !== 0">
                                     <div class="live_frame" v-if="eventType === 3 && scoreShow">
-                                        <iframe v-if="matchText" :src="matchText"  class="frame" frameborder="0"></iframe>
-                                        <div class="frame_child" v-if="!matchText">暂无比分直播</div>
-                                        <!--<iframe src="http://www.1zplay.com/h5app/score/5bcdf21694d802261e19d19f/" scrolling="no"  class="frame" frameborder="0"></iframe>-->
+                                        <iframe v-if="matchText" :src="matchText" scrolling="no" class="frame_r" frameborder="0"></iframe>
+                                        <div class="frame_child" v-if="!matchText">{{ $t('lang.home.table_score') }}</div>
                                     </div>
-                                    <table class="block_table">
-                                        <thead class="fs">
-                                          <tr>
-                                            <td class="col-time">
-                                                时间
-                                            </td>
-                                            <td class="col-names">
-                                                赛事
-                                            </td>
-                                            <td class="ipe-bor">
-                                                胜负盘
-                                            </td>
-                                            <td class="ipe-bor">
-                                                全场让球
-                                            </td>
-                                            <td class="ipe-bor">
-                                                全场大/小
-                                            </td>
-                                            <td class="col-more">
-                                                <span class="cur" v-if="eventType === 3" @click="scoreShow = !scoreShow"> {{ scoreShow ? '隐藏比分' : '显示比分'}} </span>
-                                                <span v-if="eventType !== 3">+</span>
-                                            </td>
-                                          </tr>
-                                        </thead>
-                                    </table>
-                                    <div class="block_table" v-for="(item, key) in matchList" :key="key" v-if="eventType !==3">
+                                    <div class="block_table table_body" v-for="(item, key) in matchList" :key="key" v-if="eventType !==3">
+                                        <i :class="refBet? 'bet_ref sync_skip' : 'bet_ref'" @click="handleGetMatches()"></i>
                                         <div @click="handleHideNext($event)" class="ipe-table-sc-title">
-                                                <span>{{ item.category + ' - ' + item.league }}</span>
-                                            </div>
+                                            <span>{{ item.category + ' - ' + item.league }}</span>
+                                        </div>
                                         <div class="block_table" v-for="(itemx,keyx) in item.gameMatches" :key="keyx">
                                                <div class="table_row ipe-table-bg">
                                                    <div class="col-time in_block">
                                                           {{ itemx.matchTime }}
                                                        </div>
-                                                   <div class="col-names live-c in_block col-pad">
+                                                   <div class="col-names in_block col-pad">
                                                            <span class="sel" :title="itemx.teamLeft">{{ itemx.teamLeft }}‎</span>
                                                            <br>
                                                            <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight }}‎</span>
                                                        </div>
                                                    <div class="col-hdp in_block">
-                                                           <div class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '2'">
+                                                           <div class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '2' && itemn.status">
                                                                <a class="sf_odds" @click="handleClickBet(itemx, itemn, itemx.teamLeft, '1')">
                                                                    {{ itemn.ratioH }}
                                                                    <span :class="itemn.changs_h"/>
@@ -199,7 +200,7 @@
                                                            </div>
                                                        </div>
                                                    <div class="col-hdp in_block">
-                                                           <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '0'">
+                                                           <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '0' && itemn.status">
                                                                <a class="half_50s">{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
                                                                <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamLeft,'1')">
                                                                    {{   itemn.ratioH }}
@@ -213,7 +214,7 @@
                                                            </div>
                                                        </div>
                                                    <div class="col-hdp in_block">
-                                                           <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '1'">
+                                                           <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '1' && itemn.status">
                                                                <a class="half_50s"  >{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
                                                                <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamLeft, '1')">
                                                                    {{ itemn.ratioH }}
@@ -248,7 +249,7 @@
                                                                 <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight }}‎</span>
                                                             </div>
                                                             <div class="col-hdp in_block">
-                                                                <div class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '2'">
+                                                                <div class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '2' && itemv.status">
                                                                     <a class="sf_odds" @click="handleClickBet(itemx, itemv, itemx.teamLeft, '1')">
                                                                         {{ itemv.ratioH }}
                                                                         <span :class="itemv.changs_h"/>
@@ -260,7 +261,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-hdp in_block">
-                                                                <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '0'">
+                                                                <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '0' && itemv.status">
                                                                     <a class="half_50s">{{ itemv.betH > 0 ? itemv.betH : '' }}</a>
                                                                     <a class="odds half_50" @click="handleClickBet(itemx, itemv, itemx.teamLeft, '1')">
                                                                         {{  itemv.ratioH }}
@@ -274,7 +275,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-hdp in_block">
-                                                                <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '1'">
+                                                                <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '1' && itemv.status">
                                                                     <a class="half_50s">{{ itemv.betH > 0 ? itemv.betH : '' }}</a>
                                                                     <a class="odds half_50" @click="handleClickBet(itemx, itemv, itemx.teamLeft, '1')">
                                                                         {{ itemv.ratioH }}
@@ -293,55 +294,63 @@
                                                 </div>
                                             </div>
                                     </div>
-                                    <div class="block_table" v-if="eventType === 3">
-                                        <div class="block_table" v-for="(itemx,keyx) in matchList" :key="keyx">
+                                    <div class="block_table table_body" v-if="eventType === 3" >
+                                        <i :class="refBet? 'bet_ref sync_skip' : 'bet_ref'" @click="handleGetRollMatchInfo()"></i>
+                                        <div @click="handleHideNext($event)" class="ipe-table-sc-title">
+                                            <span>{{ rollBallNameObj.category + ' - ' + rollBallNameObj.league }}</span>
+                                        </div>
+                                        <div class="block_table" v-for="(itemx,keyx) in matchList" :key="keyx" >
                                             <div class="table_row ipe-table-bg">
                                                 <div class="col-time in_block">
                                                     {{ itemx.matchTime }}
                                                 </div>
-                                                <div class="col-names live-c in_block col-pad">
+                                                <div class="col-names in_block col-pad">
                                                     <span class="sel" :title="itemx.teamLeft">{{ itemx.teamLeft }}‎</span>
                                                     <br>
                                                     <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight }}‎</span>
+
                                                 </div>
                                                 <div class="col-hdp in_block">
-                                                    <div class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '2'">
-                                                        <a class="sf_odds" @click="handleClickBet(itemx, itemn, itemx.teamLeft, '1')">
-                                                            {{ itemn.ratioH }}
-                                                            <span :class="itemn.changs_h"/>
-                                                        </a>
-                                                        <a class="sf_odds" @click="handleClickBet(itemx, itemn, itemx.teamRight, '2')">
-                                                            {{ itemn.ratioV }}
-                                                            <span :class="itemn.changs_v"/>
-                                                        </a>
+                                                    <div class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '2' && itemn.status">
+                                                            <span v-if="itemn.liveType === 1" class="col_body_live"/>
+                                                            <a class="sf_odds" @click="handleClickBet(itemx, itemn, itemx.teamLeft, '1')">
+                                                                {{ itemn.ratioH }}
+                                                                <span :class="itemn.changs_h"/>
+                                                            </a>
+                                                            <a class="sf_odds" @click="handleClickBet(itemx, itemn, itemx.teamRight, '2')">
+                                                                {{ itemn.ratioV }}
+                                                                <span :class="itemn.changs_v"/>
+                                                            </a>
                                                     </div>
                                                 </div>
                                                 <div class="col-hdp in_block">
-                                                    <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '0'">
-                                                        <a class="half_50s">{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
-                                                        <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamLeft,'1')">
-                                                            {{   itemn.ratioH }}
-                                                            <span :class="itemn.changs_h"/>
-                                                        </a>
-                                                        <a class="half_50s">{{ itemn.betV > 0 ? itemn.betV : '' }}</a>
-                                                        <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamRight, '2')">
-                                                            {{ itemn.ratioV }}
-                                                            <span :class="itemn.changs_v"/>
-                                                        </a>
+                                                    <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '0' && itemn.status">
+                                                            <span v-if="itemn.liveType === 1" class="col_body_live big"/>
+                                                            <a class="half_50s">{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
+                                                            <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamLeft,'1')">
+                                                                {{   itemn.ratioH }}
+                                                                <span :class="itemn.changs_h"/>
+                                                            </a>
+                                                            <a class="half_50s">{{ itemn.betV > 0 ? itemn.betV : '' }}</a>
+                                                            <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamRight, '2')">
+                                                                {{ itemn.ratioV }}
+                                                                <span :class="itemn.changs_v"/>
+                                                            </a>
                                                     </div>
                                                 </div>
                                                 <div class="col-hdp in_block">
-                                                    <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '1'">
-                                                        <a class="half_50s"  >{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
-                                                        <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamLeft, '1')">
-                                                            {{ itemn.ratioH }}
-                                                            <span :class="itemn.changs_h"/>
-                                                        </a>
-                                                        <a class="half_50s">{{ itemn.ratioV ? 'u' : '' }}</a>
-                                                        <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamRight, '2')">
-                                                            {{ itemn.ratioV }}
-                                                            <span :class="itemn.changs_v"/>
-                                                        </a>
+                                                    <div  class="col_body" v-for="(itemn,keyn) in itemx.gameOddMap2[0]" :key="keyn" v-if="itemn.betType === '1' && itemn.status">
+                                                            <span v-if="itemn.liveType === 1" class="col_body_live big"/>
+                                                            <a class="half_50s"  >{{ itemn.betH > 0 ? itemn.betH : '' }}</a>
+                                                            <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamLeft, '1')">
+                                                                {{ itemn.ratioH }}
+                                                                <span :class="itemn.changs_h"/>
+                                                            </a>
+                                                            <a class="half_50s">{{ itemn.ratioV ? 'u' : '' }}</a>
+                                                            <a class="odds half_50" @click="handleClickBet(itemx, itemn, itemx.teamRight, '2')">
+                                                                {{ itemn.ratioV }}
+                                                                <span :class="itemn.changs_v"/>
+                                                            </a>
                                                     </div>
                                                 </div>
                                                 <div @click="handleHideNext($event,'2')" class="col-more in_block">
@@ -352,25 +361,27 @@
                                                 <div v-for="(items,keys) in itemx.gameOddMap2" :key="keys" :data-key="keys" v-if="keys > 0">
                                                     <div class="table_row ipe-table-bg" v-if="keys !== 0">
                                                         <div class="col-time in_block reBor"/>
-                                                        <div class="col-names  live-c in_block col-pad">
-                                                            <span class="sel" :title="itemx.teamLeft">{{ itemx.teamLeft }}‎</span>
+                                                        <div class="col-names in_block col-pad">
+                                                            <span class="sel" :title="itemx.teamLeft">{{ itemx.teamLeft +' (MAP ' + keys +')'}}‎</span>
                                                             <br>
-                                                            <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight }}‎</span>
+                                                            <span class="favSel" :title="itemx.teamRigh">{{ itemx.teamRight +' (MAP ' + keys + ')'}}‎</span>
                                                         </div>
                                                         <div class="col-hdp in_block">
-                                                            <div class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '2'">
+                                                            <div class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '2' && itemv.status">
+                                                                <span v-if="itemv.liveType === 1" class="col_body_live"/>
                                                                 <a class="sf_odds" @click="handleClickBet(itemx, itemv, itemx.teamLeft, '1')">
-                                                                    {{ itemv.ratioH }}
-                                                                    <span :class="itemv.changs_h"/>
-                                                                </a>
+                                                                        {{ itemv.ratioH }}
+                                                                        <span :class="itemv.changs_h"/>
+                                                                    </a>
                                                                 <a class="sf_odds" @click="handleClickBet(itemx, itemv, itemx.teamRight, '2')">
-                                                                    {{ itemv.ratioV }}
-                                                                    <span :class="itemv.changs_v"/>
-                                                                </a>
+                                                                        {{ itemv.ratioV }}
+                                                                        <span :class="itemv.changs_v"/>
+                                                                    </a>
                                                             </div>
                                                         </div>
                                                         <div class="col-hdp in_block">
-                                                            <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '0'">
+                                                            <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '0' && itemv.status">
+                                                                <span v-if="itemv.liveType === 1" class="col_body_live big"/>
                                                                 <a class="half_50s">{{ itemv.betH > 0 ? itemv.betH : '' }}</a>
                                                                 <a class="odds half_50" @click="handleClickBet(itemx, itemv, itemx.teamLeft, '1')">
                                                                     {{  itemv.ratioH }}
@@ -384,7 +395,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-hdp in_block">
-                                                            <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '1'">
+                                                            <div  class="col_body" v-for="(itemv,keyv) in items" :key="keyv" v-if="itemv.betType === '1' && itemv.status">
+                                                                <span v-if="itemv.liveType === 1" class="col_body_live big"/>
                                                                 <a class="half_50s">{{ itemv.betH > 0 ? itemv.betH : '' }}</a>
                                                                 <a class="odds half_50" @click="handleClickBet(itemx, itemv, itemx.teamLeft, '1')">
                                                                     {{ itemv.ratioH }}
@@ -405,7 +417,7 @@
                                     </div>
                                 </div>
                                 <div class="ipe-table ipe-table-pad" v-if="matchList.length === 0">
-                                    暂无赛事
+                                    {{$t('lang.home.table_msg')}}
                                 </div>
                             </div>
                         </div>
@@ -415,58 +427,58 @@
             <div :class="maxRight ? 'wc-PageView_R max' : 'wc-PageView_R'">
                 <p class="wc-PageView_header" v-if="eventType === 3">
                    <span :class="maxRight ? 'wc-PageView_icon ssuo' : 'wc-PageView_icon'" @click="maxRight = !maxRight" ></span>
-                   <span class="hm-DropDS_Highlight wc-PageView_header_mr" @click="handleSelectLive('sp')">视频直播</span>
-                   <span class="hm-DropDS_Highlight wc-PageView_header_mr" @click="handleSelectLive('bf')">比分直播</span>
+                   <span class="hm-DropDS_Highlight wc-PageView_header_mr" @click="handleSelectLive('sp')">{{$t('lang.home.pageView_video')}}</span>
+                   <span class="hm-DropDS_Highlight wc-PageView_header_mr" @click="handleSelectLive('bf')">{{$t('lang.home.pageView_score')}}</span>
                 </p>
-                <div class="wc-PageView_i_v" v-if="eventType === 3">
+                <div :class="sizeSwitch ? 'wc-PageView_i_v' : 'wc-PageView_i_v small'" v-if="eventType === 3">
                     <div class="frame" v-if="selectLive === 'bf'">
                         <iframe v-if="matchText" :src="matchText"  class="frame" frameborder="0"></iframe>
-                        <div class="frame_child" v-if="!matchText">暂无比分直播</div>
+                        <div class="frame_child" v-if="!matchText">{{$t('lang.home.table_score')}}</div>
                     </div>
                     <div class="frame" v-if="selectLive === 'sp'">
-                        <div v-html="liveText"></div>
-                        <div class="frame_child" v-if="!liveText">暂无视频直播</div>
+                        <div class="frame_child_f" v-html="liveText"></div>
+                        <div class="frame_child" v-if="!liveText">{{$t('lang.home.pageView_nVideo')}}</div>
                     </div>
                 </div>
                 <p class="wc-PageView_header">
                     <span v-if="eventType !== 3" :class="maxRight ? 'wc-PageView_icon ssuo' : 'wc-PageView_icon'" @click="maxRight = !maxRight" ></span>
-                    <span class="wc-PageView_title">投注单</span>
+                    <span class="wc-PageView_title">{{$t('lang.home.pageView_tzd')}}</span>
                 </p>
-                <div :class="eventType === 3 ? 'wc-PageView_R_item_m' : 'wc-PageView_R_item'">
+                <div :class="sizeSwitch  ? 'wc-PageView_R_item_m' : 'wc-PageView_R_item_m big'">
                     <div class="bet_info bet_In" v-if="betBoxShow">
-                        <p class="wc-PageView_header text_r">标准投注单</p>
+                        <p class="wc-PageView_header text_r">{{$t('lang.home.pageView_bztzd')}}</p>
                         <ul class="bet_details">
                             <li>
                                 <div class="bet_details_body">
                                     <p class="bet_count_down bet_cd_r">
                                         <span class="num">{{ countDown }}</span>
-                                        <button class="o-button" @click="handleCountDown('ref')">刷新</button>
+                                        <button class="o-button" @click="handleCountDown('ref')">{{$t('lang.home.pageView_sx')}}</button>
                                     </p>
                                     <h3 class="bet_details_body_title">{{ betShowObj.team }}</h3>
                                     <p class="bet_details_body_type">{{ betShowObj.pk }}</p>
                                     <p class="bet_details_body_event"> {{ betShowObj.lTeam }} <span> VS </span>{{ betShowObj.rTeam }}</p>
                                     <p class="bet_details_body_event"><b>@</b>{{ betShowObj.odds }}</p>
-                                    <p class="bet_details_body_event"><input type="text" placeholder="本金" class="bet_input" v-model="betMoney"></p>
+                                    <p class="bet_details_body_event"><input type="text" :placeholder="$t('lang.home.pageView_bj')" class="bet_input" v-model="betMoney"></p>
                                     <p class="bet_details_body_event">
                                         <input type="checkbox" id="accept_new_odds" v-model="oddsChoose">
-                                        <label for="accept_new_odds">是否接受最新赔率</label>
+                                        <label for="accept_new_odds">{{$t('lang.home.pageView_rule')}}</label>
                                     </p>
-                                    <p class="bet_details_body_event">赢取金额: {{ winMoney }}</p>
-                                    <p class="bet_details_body_event">最低投注: {{ betLimit.minStake }}</p>
-                                    <p class="bet_details_body_event">最高投注: {{ betLimit.maxStake }}</p>
+                                    <p class="bet_details_body_event">{{$t('lang.home.pageView_pcje')}}: {{ winMoney }}</p>
+                                    <p class="bet_details_body_event">{{$t('lang.home.pageView_zdtz')}}: {{ betLimit.minStake }}</p>
+                                    <p class="bet_details_body_event">{{$t('lang.home.pageView_zgtz')}}: {{ betLimit.maxStake }}</p>
                                     <p class="bet_details_body_event">
-                                        <button class="wager_btn" @click="handleClickSBet()">确认</button>
-                                        <button class="wager_btn" @click="handleClickSBet('cl')">取消</button>
+                                        <button class="wager_btn" @click="handleClickSBet()">{{$t('lang.home.pageView_qr')}}</button>
+                                        <button class="wager_btn" @click="handleClickSBet('cl')">{{$t('lang.home.pageView_qx')}}</button>
                                     </p>
                                 </div>
                             </li>
                         </ul>
                     </div>
                     <div class="bet_prompt" v-if="!betBoxShow">
-                        点击赔率以添加选项
+                        {{$t('lang.home.pageView_djpl')}}
                     </div>
                     <div class="bet_info" v-if="pendBetting">
-                        <p class="wc-PageView_header text_r">待清算注单</p>
+                        <p class="wc-PageView_header text_r">{{$t('lang.home.pageView_dqszd')}}</p>
                         <ul class="bet_details" >
                             <li>
                                 <div class="bet_details_bodys">
@@ -476,9 +488,7 @@
                                             <span class="wager-date">{{ pendBetObj.betTime }}</span>
                                         </div>
                                         <div class="wager-id-date" v-if="pendBetObj.date && pendBetObj.category">
-                                            <span class="event-date">{{ pendBetObj.date }}</span>
-                                            <br>
-                                            <span class="league">{{ pendBetObj.category }}</span>
+                                            <span class="event-date">{{ pendBetObj.date + ' ' + pendBetObj.category }}</span>
                                         </div>
                                         <div class="wager-id-date" v-if="pendBetObj.teamLeft && pendBetObj.teamRight">
                                             <span class="team-name sel">{{ pendBetObj.teamLeft }}</span>
@@ -489,19 +499,19 @@
                                             <span class="selection">{{ pendBetObj.betDetail }}</span>
                                             <span class="at">@</span>
                                             <span class="odds ">{{ pendBetObj.betOdds }}</span>
-                                            <span class="of">(香港赔率)</span>
+                                            <span class="of">{{$t('lang.home.pageView_xgpl')}}</span>
                                         </div>
                                         <div class="wager-id-date" v-if="pendBetObj.toWin ">
-                                            <span>可赢 :</span>
+                                            <span> {{$t('lang.home.pageView_ky')}}:</span>
                                             <span class="stake">{{ pendBetObj.toWin }}</span>
                                         </div>
                                         <div class="wager-id-date" v-if="pendBetObj.betAmount">
-                                            <span>投注金额 :</span>
+                                            <span>{{$t('lang.home.pageView_tzje')}} :</span>
                                             <span class="stake">{{ pendBetObj.betAmount }}</span>
-                                            <span class="status OPEN">进行中</span>
+                                            <span class="status OPEN">{{$t('lang.home.pageView_jxz')}}</span>
                                         </div>
                                         <div class="wager-id-date">
-                                            <button class="wager_btn" @click="handleOpenNewPage('tz')">查看更多</button>
+                                            <button class="wager_btn" @click="handleOpenNewPage('tz')">{{$t('lang.home.pageView_ckgd')}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -538,7 +548,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import modal from '@/components/modal'
 import Mixin from '@/utils/Mixin'
 import layer from '@/components/diaoLog'
@@ -549,6 +559,9 @@ export default {
     components: {
         modal,
         layer
+    },
+    computed : {
+        ...mapState([ 'balance' ])
     },
     data () {
         return {
@@ -562,6 +575,8 @@ export default {
             betBoxShow: false,
             pendBetting: false,
             selectLangShow: false,
+            sizeSwitch: false,
+            refBet: false,
             mapListObj: {
                 1: 'MAP 1',
                 2: 'MAP 2',
@@ -587,7 +602,7 @@ export default {
             maxRight: true,
             headerHide: true,
             eventList: [ '','今日赛事', '早盘赛事', '滚球赛事' ],
-            selectEvent: '全部赛事',
+            selectEvent: 'All',
             betMoney: '',
             winMoney: '',
             userObj: {
@@ -596,7 +611,6 @@ export default {
             },
             pendBetObj: {},
             betLimit: {},
-            balance: null,
             selectLang: 'CN',
             sendChild: {
                 showModal: false,
@@ -611,7 +625,8 @@ export default {
             liveText: null,
             matchText: null,
             socket: null,
-            oddsChoose: true
+            oddsChoose: true,
+            rollBallNameObj: {}
         }
     },
     created () {
@@ -626,10 +641,11 @@ export default {
     },
     methods: {
       ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postMatchesS', 'postInitESportBulletinS',
-          'postUserLoginS', 'postMultiTicketS', 'postRollBallMatchesS', 'postMatchInfoS', 'postUserInfoS' ]),
+          'postUserLoginS', 'postMultiTicketS', 'postRollBallMatchesS', 'postMatchInfoS' ]),
         handleCreate () {
             this.handleGetEvents()
             this.handleGetMatches()
+            this.handleWebSocket()
         },
         handleGetEvents () {
           this.eventBarList = []
@@ -642,9 +658,9 @@ export default {
           this.postMatchCountS(data).then(res => {
               if(res.length !== 0 && res.code !== 500) {
                  res.forEach(arr => {
-                  if(arr.category === 'ALL') {
-                      arr.category = '全部赛事'
-                  }
+                  // if(arr.category === 'ALL') {
+                  //     arr.category = '全部赛事'
+                  // }
                   if(arr.category) {
                       this.eventBarList.push(arr)
                   }
@@ -653,7 +669,7 @@ export default {
           })
         },
         handleGetMatches (event, lid) {
-            this.matchList = []
+            this.refBet = true
             let data = {
                 rtype: this.eventType
             }
@@ -667,6 +683,7 @@ export default {
                 }
             }
             this.postMatchesS(data).then(res => {
+                this.matchList = []
                 if(res.length !==0 && !res.code) {
                     this.matchList = res
                     this.matchList.forEach(arr => {
@@ -675,11 +692,15 @@ export default {
                                 arrL.gameOddMap2[arrS].forEach(arrE => {
                                     arrE.changs_h = false
                                     arrE.changs_v = false
+                                    arrE.status = true
                                 })
                             })
                         })
                     })
                     this.handleShowFirst()
+                    setTimeout(() => {
+                        this.refBet = false
+                    },1000)
                 }
             })
         },
@@ -692,6 +713,8 @@ export default {
             this.postRollBallMatchesS(data).then(res => {
                 if (res.length !== 0 && !res.code) {
                     this.rollBallList = res
+                    this.rollBallNameObj.category = this.rollBallList[0].category
+                    this.rollBallNameObj.league = this.rollBallList[0].league
                     this.handleGetRollMatchInfo(this.rollBallList[0].gameMatches[0])
                     let list = {},name = res[0].category,arrs = []
                     this.rollBallList.forEach((arr,index) => {
@@ -708,12 +731,19 @@ export default {
                 }
             })
         },
-        handleGetRollMatchInfo (item) {
+        handleGetRollMatchInfo (item, bt) {
+           this.refBet = true
            this.liveText = null
            this.matchText = null
            this.matchList = []
-           let data = {
-               gid: item.gid
+           let data = {}
+           if (item && bt) {
+             data.gid = item.gid
+             this.rollBallNameObj.category = bt.category
+             this.rollBallNameObj.league = bt.league
+             sessionStorage.setItem('gid',item.gid)
+           } else {
+             data.gid = sessionStorage.getItem('gid')
            }
            this.postMatchInfoS(data).then(res => {
                if(res.length !==0 && !res.code) {
@@ -723,6 +753,7 @@ export default {
                            arr.gameOddMap2[key].forEach(arrC => {
                                arrC.changs_h = false
                                arrC.changs_v = false
+                               arrC.status = true
                            })
                        }
                    })
@@ -730,11 +761,15 @@ export default {
                            this.liveText = this.matchList[0].liveUrl
                            this.matchText = this.matchList[0].matchLive
                    }
+                   setTimeout(() => {
+                       this.refBet = false
+                   },1000)
                }
            })
         },
         handleClickBet(tm, od, bt, nt) {
           clearInterval(this.countDownFn)
+          this.sizeSwitch = false
           this.countDown = 10
           this.betMoney = null
           this.betShowObj.team = bt
@@ -753,16 +788,21 @@ export default {
         handleSelectEType (type) {
           if (type === 'jr') {
               this.eventType = 1
+              this.sizeSwitch = false
               this.handleGetMatches()
           } else if (type === 'zp') {
+              this.sizeSwitch = false
               this.eventType = 2
               this.handleGetMatches()
           } else {
               this.eventType = 3
+              this.selectLive = 'bf'
+              this.sizeSwitch = true
               this.handleGetRollMatches()
           }
           this.handleGetEvents()
-          this.selectEvent = '全部赛事'
+          this.selectEvent = 'All'
+          this.refBet = false
         },
         handleClickSBet (cl) {
           this.pendBetObj = {}
@@ -775,11 +815,14 @@ export default {
              clearInterval(this.countDownFn)
              this.betBoxShow = false
              this.countDown = 10
+             if (this.selectLive === 'sp') {
+                  this.sizeSwitch = true
+             }
              return
           }
           this.betObj.TOKEN = sessionStorage.getItem('Tk')
           if (this.betObj.money < this.betLimit.minStake || this.betObj.money > this.betLimit.maxStake) {
-              this.$refs.layer.open('注意投注限额',true,false,2000)
+              this.$refs.layer.open(this.$t('lang.home.bet_tzxe'),true,false,2000)
               this.betMoney = null
               return false
           }
@@ -792,16 +835,20 @@ export default {
           this.postBetGameS(this.betObj).then(res => {
               clearInterval(this.countDownFn)
               if (res && !res.code) {
-                this.$refs.layer.open('下注成功',true,false,1000)
+                this.$refs.layer.open(this.$t('lang.home.bet_xzcg'),true,false,1000)
                 this.betBoxShow = false
                 this.pendBetting = true
                 this.pendBetObj = res
                 this.pendBetObj.betTime = this.formattingTime(this.pendBetObj.betTime,'ss')
                 this.pendBetObj.date = this.formattingTime(this.pendBetObj.betTime,'dd')
+                this.sizeSwitch = true
                 this.oddsChoose = true
+                if (this.selectLive !== 'sp') {
+                    this.sizeSwitch = false
+                }
                 this.handleRefUserInfo()
               } else {
-                  this.$refs.layer.open('是否接受最新赔率',true,true)
+                  this.$refs.layer.open(this.$t('lang.home.pageView_rule'),true,true)
               }
           }).catch(err => {
               this.$refs.layer.open(err.msg,true,false,2000)
@@ -844,7 +891,7 @@ export default {
         //             alert('登录成功')
         //             sessionStorage.setItem('Tk', res.token)
         //             this.handleGetBulletin()
-        //             this.balance = res.amount
+        //             this.refreshMoney(res.amount)
         //             this.handleWebSocket()
         //         }
         //     })
@@ -867,7 +914,9 @@ export default {
         handleSelectLang (e) {
           if (e) {
             this.selectLang = e
+            this.$i18n.locale = e
             this.selectLangShow = false
+
           } else {
             this.selectLangShow = !this.selectLangShow
           }
@@ -883,6 +932,7 @@ export default {
             }
         },
         handleHideNext (e, type) {
+          e.stopPropagation()
           let nextSibling  = null
           if (type) {
               let target = e.currentTarget
@@ -913,8 +963,15 @@ export default {
         handleSelectLive (type) {
             if (type === 'bf') {
                 this.selectLive = 'bf'
+                this.sizeSwitch = true
             } else {
                 this.selectLive = 'sp'
+                this.sizeSwitch = false
+                setTimeout(() => {
+                    let em = document.getElementsByTagName('embed')
+                    em[0].style.width = '100%'
+                    em[0].style.height = '100%'
+                },100)
             }
         },
         handleRefOdds () {
@@ -924,11 +981,14 @@ export default {
                     team: this.betObj.team
                 }
                 this.postMultiTicketS(data).then(res => {
-                    if (res) {
+                    if (res && !res.msg) {
                         this.betBoxShow = true
                         this.betLimit = res
                         this.betShowObj.pk = res.oddsName
                         this.betShowObj.odds = res.odds
+                    } else {
+                        this.$refs.layer.open(res.msg,true,false,1500)
+                        clearInterval(this.countDownFn)
                     }
                 })
             }
@@ -954,25 +1014,22 @@ export default {
               ipw_List.forEach(arr => {
                   if (arr.style.display === 'none') {
                       arr.style.display = 'block'
+                 } else {
+                      arr.style.display = 'none'
+                  }
+              })
+          }
+          else {
+              let $src = e.currentTarget.parentElement.parentElement
+              let team = $src.querySelectorAll('.ipn_team')
+              team.forEach(arr => {
+                  if (arr.style.display === 'none') {
+                      arr.style.display = 'block'
                   } else {
                       arr.style.display = 'none'
                   }
               })
-          } else {
-              let $src = e.currentTarget.nextElementSibling
-              if ($src.style.display === 'none') {
-                  $src.style.display = 'block'
-              } else {
-                  $src.style.display = 'none'
-              }
           }
-        },
-        handleRefUserInfo () {
-            this.postUserInfoS().then(res => {
-               if(res && !res.code) {
-                   this.balance = res.amount
-               }
-            })
         },
         setTime () {
             setInterval(() => {
@@ -990,32 +1047,47 @@ export default {
                   for (let key in arr.gameOddMap2){
                       arr.gameOddMap2[key].forEach(arrC => {
                           if (Number(arrC.id) === Number(item.oddId)){
-                              arrC.ratioH > item.oddH ? arrC.changs_h = 'odds_down' : arrC.changs_h = 'odds_up'
-                              arrC.ratioV > item.oddV ? arrC.changs_v = 'odds_down' : arrC.changs_v = 'odds_up'
-                              arrC.ratioH = item.oddH
-                              arrC.ratioV = item.oddV
-                              setTimeout(()=> {
-                                  arrC.changs_h = false
-                                  arrC.changs_v = false
-                              },5000)
+                              if (item.oddsStatus === 0) {
+                                  arrC.ratioH = item.ratioH
+                                  arrC.ratioV = item.ratioV
+                                  arrC.status = true
+                              } else if (item.oddsStatus === 1) {
+                                  arrC.status = false
+                              } else {
+                                  arrC.ratioH > item.oddH ? arrC.changs_h = 'odds_down' : arrC.changs_h = 'odds_up'
+                                  arrC.ratioV > item.oddV ? arrC.changs_v = 'odds_down' : arrC.changs_v = 'odds_up'
+                                  arrC.ratioH = item.oddH
+                                  arrC.ratioV = item.oddV
+                                  setTimeout(()=> {
+                                      arrC.changs_h = false
+                                      arrC.changs_v = false
+                                  },5000)
+                              }
                           }
                       })
                   }
               })
-          } else {
-              this.matchList.forEach(arr => {
-                  arr.gameMatches.forEach(arrL => {
+          } else { this.matchList.forEach(arr => {
+                   arr.gameMatches.forEach(arrL => {
                       Object.keys(arrL.gameOddMap2).forEach(arrS => {
                           arrL.gameOddMap2[arrS].forEach(arrE => {
                               if (Number(arrE.id) === Number(item.oddId)){
-                                  arrE.ratioH > item.oddH ? arrE.changs_h = 'odds_down' : arrE.changs_h = 'odds_up'
-                                  arrE.ratioV > item.oddV ? arrE.changs_v = 'odds_down' : arrE.changs_v = 'odds_up'
-                                  arrE.ratioH = item.oddH
-                                  arrE.ratioV = item.oddV
-                                  setTimeout(()=> {
-                                      arrE.changs_h = false
-                                      arrE.changs_v = false
-                                  },5000)
+                                  if (item.oddsStatus === 0) {
+                                      arrE.ratioH = item.ratioH
+                                      arrE.ratioV = item.ratioV
+                                      arrE.status = true
+                                  } else if (item.oddsStatus === 1) {
+                                      arrE.status = false
+                                  } else {
+                                      arrE.ratioH > item.oddH ? arrE.changs_h = 'odds_down' : arrE.changs_h = 'odds_up'
+                                      arrE.ratioV > item.oddV ? arrE.changs_v = 'odds_down' : arrE.changs_v = 'odds_up'
+                                      arrE.ratioH = item.oddH
+                                      arrE.ratioV = item.oddV
+                                      setTimeout(()=> {
+                                          arrE.changs_h = false
+                                          arrE.changs_v = false
+                                      },5000)
+                                  }
                               }
                           })
                       })
@@ -1030,19 +1102,32 @@ export default {
               //192.168.1.44:18084
               //103.24.95.153:18083
               Wurl = 'ws://103.24.95.153:18083/ws?token=' + sessionStorage.getItem('Tk')
+              this.socket = new WebSocket(Wurl)
+              this.socket.onopen = this.webSocketOnOpen
+              this.socket.onmessage = this.webSocketOnMessage
+              // this.socket.onerror = this.webSocketOnError
+              // this.socket.send =  this.webSocketSend
           }
-          this.socket = new WebSocket(Wurl)
-          this.socket.onopen = this.webSocketOnOpen
-          this.socket.onmessage = this.webSocketOnMessage
-          this.socket.onerror = this.webSocketOnError
         },
-        // webSocketOnOpen() {
-        //     console.log("WebSocket连接成功");
-        // },
+        webSocketOnOpen() {
+            this.webSocketSend()
+        },
         webSocketOnMessage(e){ //数据接收
             const redata = JSON.parse(e.data);
             this.handleUpdateOdds(redata.content)
+            // console.log(redata.content)
         },
+        webSocketSend () {
+            // this.socket.send(JSON.stringify({gId: "all"}))
+            if (this.socket.readyState === this.socket.OPEN) {
+                this.socket.send(JSON.stringify({gId: "all"}))
+            } else if (this.socket.readyState === this.socket.CONNECTING) { // 若是 正在开启状态，则等待300毫秒
+                let that = this // 保存当前对象this
+                setTimeout(function () {
+                    that.socket.send(JSON.stringify({gId: "all"}))
+                }, 300)
+            }
+        }
         // webSocketOnError(e) { //错误
         //     console.log("WebSocket连接发生错误" +e);
         // },
@@ -1052,6 +1137,13 @@ export default {
             this.winMoney =  Number(this.betShowObj.odds * nev) + Number(nev)
             this.winMoney = this.winMoney.toFixed(2)
             this.betObj.money = nev
+        },
+        selectLang (nev) {
+            if (nev === 'EN') {
+                this.eventList = ['', 'Today', 'Early Market', 'Live']
+            } else {
+                this.eventList = [ '','今日赛事', '早盘赛事', '滚球赛事' ]
+            }
         }
     }
  }
@@ -1075,11 +1167,11 @@ export default {
             height: 50px;
             .hm-HeaderModule_Logo {
                 display: table-cell;
-                width: 135px;
+                width: 200px;
                 height: 100%;
                 background-position: 0 50%;
                 background-repeat: no-repeat;
-                background-image: url('../assets/forweb.png');
+                background-image: url('../assets/bluegreenF.png');
             }
             .hm-HeaderModule_Logo.H{
                 display: none;
@@ -1088,7 +1180,7 @@ export default {
                 display: table-cell;
                 height: 100%;
                 vertical-align: bottom;
-                padding-bottom: 10px;
+                padding: 10px;
                 color: #4fdccb;
             }
         }
@@ -1157,7 +1249,7 @@ export default {
                 line-height: 2.5;
                 span {
                     display: inline-block;
-                    width: 45px;
+                    width: 50px;
                 }
             }
             .hm-HModule_TimeLogin.H{
@@ -1266,16 +1358,29 @@ export default {
                 border-bottom: 1px solid #303030;
                 position: relative;
                 .ip-ControlBar_BBarItem {
-                    padding-left: 15px;
+                    padding-left: 10px;
                     font-size: 12px;
                     color: #29f3db;
                     display: inline-block;
                     vertical-align: top;
-                    line-height: 29px;
+                    height: 25px;
+                    width: 220px;
+                    line-height: 25px;
                     pointer-events: auto;
-                    padding-right: 25px;
                     span {
                         color: #cffbff;
+                        display: inline-block;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                    .ip-ControlBar_BBarItem_c {
+                        width: 36%;
+                        text-align: center;
+                    }
+                    .ip-ControlBar_BBarItem_b {
+                        width: 64%;
+                        color: #29f3db;
                     }
                 }
                 .ip-ControlBar-btn{
@@ -1288,9 +1393,9 @@ export default {
                     position: absolute;
                     top: 0;
                     right: 120px;
-                    width: 79.1%;
-                    height: 29px;
-                    line-height: 29px;
+                    width: 76.1%;
+                    height: 25px;
+                    line-height: 25px;
                     color: #e4e4e4;
                     .ip-msg{
                         position: absolute;
@@ -1337,13 +1442,13 @@ export default {
                 opacity: 0;
                 visibility: hidden;
                 overflow: visible;
-                transition: opacity .35s ease-in-out;
+                transition: opacity .2s ease-in-out;
             }
             .ipn-Class_Label.ipn-ClassftnBtn_cls{
                 opacity: 0;
                 visibility: hidden;
                 overflow: visible;
-                transition: opacity .35s ease-in-out;
+                transition: opacity .2s ease-in-out;
             }
             .ipn-Bar_C.ipn_right{
                 background-image: url(../assets/right.svg);
@@ -1355,19 +1460,6 @@ export default {
                     padding:5px 8px;
                     background-color:#212b38;
                     color: #c6fbff;
-                    .ref {
-                        display: inline-block;
-                        width: 20px;
-                        height: 20px;
-                        float: right;
-                        background: url(../assets/refresh.svg) no-repeat center center;
-                        background-size: 80% 80%;
-                    }
-                    .ref:hover {
-                        background: url(../assets/refresh2.svg) no-repeat center center;
-                        background-size: 80% 80%;
-                        cursor: pointer;
-                    }
                 }
                 .account.my {
                     color: #f60;
@@ -1474,15 +1566,24 @@ export default {
                     white-space: nowrap;
                 }
             }
+            p.ipn-EventViewN_row.b_btm {
+                border-bottom: 1px solid #504545;
+            }
             p.ipn-EventViewN_row.ipw_h {
                 height: 0;
                 overflow: hidden;
                 transition: height .3s ease-in-out;
             }
             p.ipn-EventViewN_row.ipw_hd {
+                display: block;
                 background-color: #12151d;
                 height: 25px;
                 line-height: 25px;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                border-bottom: 1px solid #504545;
             }
             .ipn-EventViewN_event p:first-child {
                 display: flex;
@@ -1496,7 +1597,7 @@ export default {
                 background-position: 50% 50%;
                 width: 24px;
                 height: 20px;
-                transition: right .3s;
+                transition: right .2s;
                 padding: 0 2px;
                 margin-right: 6px;
             }
@@ -1511,7 +1612,7 @@ export default {
                 position: relative;
                 bottom: 1px;
                 opacity: 1;
-                transition: opacity, width 1s ease-in-out;
+                transition: opacity, width .2s ease-in-out;
                 -moz-osx-font-smoothing: grayscale;
             }
             .ipe-EventViewDetail {
@@ -1526,10 +1627,17 @@ export default {
                 height: 100%;
                 color: #fff;
             }
+            .ipe-EventVScroller_title{
+                padding-right: 17px;
+                table {
+                    width: 100%;
+                }
+
+            }
             .ipe-Event_ContentContainer {
                 overflow-y: scroll;
                 overflow-x: hidden;
-                max-height: calc(100vh - 135px)
+                max-height: calc(100vh - 151px)
             }
             .ipe-EventVScroller:after {
                 content: " ";
@@ -1545,16 +1653,20 @@ export default {
                 transition-duration: .35s;
                 pointer-events: none;
             }
-            .ipe-table{
+            .ipe-table, .ipe-EventVScroller_title{
                 width: 100%;
                 text-align: center;
                 .live_frame{
                     position: relative;
-                    width: 100%;
-                    height: 313px;
-                    .frame {
+                    margin: 0 auto;
+                    width: 558px;
+                    height: 236px;
+                    .frame,.frame_r {
                         width: 100%;
                         height: 100%;
+                    }
+                    .frame_r {
+                        width: 96%;
                     }
                     >div {
                      position: absolute;
@@ -1564,6 +1676,7 @@ export default {
                 }
                 .block_table {
                    width: 100%;
+                   position: relative;
                 }
                 .sel,.favSel {
                     color: #01fce1;
@@ -1581,19 +1694,19 @@ export default {
                  background-color: #1b232d;
                 }
                 .col-pad {
+                    position: relative;
                     padding: 3px 0;
+                    text-align: left;
                 }
                 .fs td {
-                    padding: 10px 0;
+                    padding: 7px 0;
                     font-weight: 700;
                 }
                 .ipe-bor,.col-hdp{
                     width: 18%;
                 }
-                 thead td{
-                    /*background-color: #48504e;*/
-                }
                 .ipe-table-sc-title{
+                    position: relative;
                     padding: 10px 0 10px 10px;
                     text-align: left;
                     background-color: #0299a0;
@@ -1605,9 +1718,6 @@ export default {
                 }
                 .col-names{
                     width: 30%;
-                }
-                .live-c {
-                    text-align: left;
                 }
                 .col-time{
                     width: 10%;
@@ -1633,7 +1743,24 @@ export default {
                 .col_body{
                     display: flex;
                     flex-wrap: wrap;
-                    margin-bottom: 5px;
+                    position: relative;
+                    border-bottom: 1px solid #352d2d;
+                    padding-bottom: 5px;
+                }
+                .col_body_live {
+                    position: absolute;
+                    z-index: 100;
+                    left: 50px;
+                    width: 30px;
+                    height: 30px;
+                    background: url(../assets/giphy.gif) no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                .col_body_live.big {
+                    left: 90px;
+                }
+                .col_body.live {
+                    background-color: #7b6204;
                 }
                 a.sf_odds:hover,a.half_50:hover{
                     background-color: #0299a0;
@@ -1737,6 +1864,25 @@ export default {
             .ipn-EventV-s {
                 overflow: hidden;
                 width: 64px;
+            }
+            .bet_ref {
+                position: absolute;
+                right: 20px;
+                top: 6px;
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                z-index: 100;
+                background: url("../assets/CNGaming.png") no-repeat center center;
+                background-size: 100% 100%;
+
+            }
+            .bet_ref.r {
+                right: 12px;
+                top: 40px;
+            }
+            .bet_ref.sync_skip {
+                animation: ship 1s linear infinite;
             }
         }
     }
@@ -1845,7 +1991,7 @@ export default {
     .wc-PageView_R {
         flex: 0 0 auto;
         position: relative;
-        transition: width .4s ease-in-out;
+        transition: width .1s ease-in-out;
         width: 300px;
         max-width: 592px;
         .wc-PageView_header{
@@ -1903,6 +2049,7 @@ export default {
                 color: #f60;
             }
             .status {padding-left: 10px}
+            .of {padding-left: 5px}
         }
         .bet_prompt{
             text-align: center;
@@ -1942,7 +2089,7 @@ export default {
                     padding-right: 10px;
                 }
                 button.o-button {
-                    width: 50px;
+                    width: 60px;
                     color: #fff;
                 }
             }
@@ -1962,35 +2109,54 @@ export default {
             box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.21);
             background: linear-gradient(180deg, #01fce1 0, #0c6f72 31.87%, #6d1699 90.06%);
         }
-        .wc-PageView_R_item {
-            color: #fff;
-        }
         .wc-PageView_R_item_m {
             color: #fff;
-            height: 53.2%;
+            height: 13%;
             overflow-y: scroll;
+
         }
-        .frame,.frame_child {
+        .wc-PageView_R_item_m.big {
+            height: 52.3%;
+            overflow-y: auto;
+        }
+        .frame,.frame_child,.frame_child_f {
             width: 100%;
             height: 100%;
-            .frame_child{
-                text-align: center;
-                line-height: 25;
-                color: #fff;
-            }
+        }
+        .frame_child{
+            text-align: center;
+            line-height: 25;
+            color: #fff;
         }
         .wc-PageView_i_v {
             width: 100%;
-            height: 40%;
+            height: 80%;
+        }
+        .wc-PageView_i_v.small {
+            height: 41%;
         }
     }
     .wc-PageView_R.max {
         width: 500px;
-        transition: width .4s ease-in-out;
+        transition: width .1s ease-in-out;
     }
     @media (min-width: 1109px) {
         .hm-BigButtons_Inner {
             border-spacing: 20px 0;
+        }
+    }
+    @keyframes ship {
+        0% {
+            transform: rotate(0deg);
+            opacity: .2;
+        }
+        50% {
+            transform: rotate(180deg);
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(360deg);
+            opacity: .2;
         }
     }
     .o-button{

@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+      balance: null
   },
   mutations: {
    [GET_EVENTS] (stat) {
@@ -15,7 +15,10 @@ export default new Vuex.Store({
    },
   [GET_MATCHES] (stat) {
      return stat
-  }
+  },
+   refreshMoney (state, data) {
+      state.balance = data
+   }
   },
   actions: {
       // 下注
@@ -177,6 +180,17 @@ export default new Vuex.Store({
           commit(GET_MATCHES)
           let re = ''
           await ajaxModel.postLoginUserByToken(data).then(res => {
+              re = res
+          }).catch(err => {
+              re = err
+          })
+          return re
+      },
+      // 切换语言
+      async postChangeLanguagenS ({ commit }, data) {
+          commit(GET_MATCHES)
+          let re = ''
+          await ajaxModel.postChangeLanguagen(data).then(res => {
               re = res
           }).catch(err => {
               re = err

@@ -1,5 +1,8 @@
 <template>
     <div class="bet_record">
+        <div class="header">
+            <span class="logo"></span>
+        </div>
         <div class="bet_body">
             <div class="bet_from">
                 <div class="Soccer">最新消息</div>
@@ -33,16 +36,21 @@
                 </tbody>
             </table>
         </div>
+        <layer ref="layer"></layer>
     </div>
 </template>
 
 <script>
 // import { mapActions } from 'vuex'
 import Mixin from '@/utils/Mixin'
+import layer from '@/components/diaoLog'
 
 export default {
  name: "announcement",
  mixins: [Mixin],
+ components : {
+        layer
+    },
  data () {
     return {
     }
@@ -117,4 +125,13 @@ export default {
     .msg {
         width: 75%;
     }
+    .logo {
+        display: inline-block;
+        width: 200px;
+        height: 80px;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+        background-image: url('../assets/bluegreenF.png');
+    }
+
 </style>

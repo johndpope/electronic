@@ -1,5 +1,8 @@
 <template>
     <div class="bet_record">
+        <div class="header">
+            <span class="logo"></span>
+        </div>
         <div class="bet_body">
             <div class="bet_from">
                 <div class="form-group">
@@ -34,7 +37,7 @@
             <table class="info-div-table bd">
                 <tbody v-for="(item,key) in resultList" :key="key" v-if="resultList.length !== 0">
                  <tr class="l">
-                    <td colspan="10">{{ item.categoryCn + ' - ' + item.leagueCn }}</td>
+                    <td colspan="10">{{ item.category + ' - ' + item.league }}</td>
                 </tr>
                  <tr class="even" v-for="(items,keys) in item.gameMatches" :key="keys">
                     <td class="date">{{ items.matchTime }}</td>
@@ -86,6 +89,7 @@
             </table>
         </div>
         <modal :modalShow="sendChild" @listenFromChild="handleFromChild"/>
+        <layer ref="layer"></layer>
     </div>
 </template>
 
@@ -94,11 +98,14 @@ import { mapActions } from 'vuex'
 import VueDatepickerLocal from 'vue-datepicker-local'
 import modal from '@/components/modal'
 import Mixin from '@/utils/Mixin'
+import layer from '@/components/diaoLog'
+
 export default {
     name: "results",
     components: {
         VueDatepickerLocal,
-        modal
+        modal,
+        layer
     },
     mixins: [Mixin],
     data () {
@@ -120,21 +127,34 @@ export default {
         this.handleGetResult()
     },
     methods: {
-       ...mapActions([ 'postListGameEndResultS' ]),
+       ...mapActions([ 'postListGameEndResultS', 'postChangeLanguagenS' ]),
        handleGetResult () {
            this.resultList = []
-           let data = {
-               date: this.formattingTime(this.time,'dd'),
-               TOKEN: sessionStorage.getItem('Tk'),
+           let lData = {}
+           if (this.$i18n.locale === 'CH') {
+               lData.language = 'zh'
+           } else {
+               lData.language = 'en'
            }
-           if (this.leagueIds) {
-               data.leagueIds = this.leagueIds
-           }
-           this.postListGameEndResultS(data).then(res => {
-              if (!res.msg && res) {
-                  this.resultList = res
-              }
+           this.postChangeLanguagenS(lData).then(res => {
+               if (res === 'success') {
+                   let data = {
+                       date: this.formattingTime(this.time,'dd'),
+                       TOKEN: sessionStorage.getItem('Tk'),
+                   }
+                   if (this.leagueIds) {
+                       data.leagueIds = this.leagueIds
+                   }
+                   this.postListGameEndResultS(data).then(res => {
+                      if (!res.msg && res) {
+                          this.resultList = res
+                      }
+                   })
+               }
+           }).catch(err => {
+               this.$refs.layer.open(err.msg, true, false, 1000)
            })
+
        },
        handleFromChild (data) {
            this.sendChild.showModal = data.mShow
@@ -281,5 +301,13 @@ export default {
         .bd {
             margin-top: 125px;
         }
+    }
+    .logo {
+        display: inline-block;
+        width: 200px;
+        height: 80px;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+        background-image: url('../assets/bluegreenF.png');
     }
 </style>

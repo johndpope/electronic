@@ -9,11 +9,14 @@
 <script>
     import { mapActions } from 'vuex'
     import layer from '@/components/diaoLog'
+    import Mixin from '@/utils/Mixin'
+
     export default {
         name: "loginByToken",
         components: {
            layer
         },
+        mixins: [Mixin],
         data (){
             return {
                 w_token: null,
@@ -22,9 +25,11 @@
         },
         created (){
             let w_url = window.location.search;
-            let token = w_url.split('=')
-            this.w_token = token[1]
-            this.handleGetToken(this.w_token)
+            if (w_url) {
+                let token = w_url.split('=')
+                this.w_token = token[1]
+                this.handleGetToken(this.w_token)
+            }
         },
         methods: {
             ...mapActions([ 'postLoginUserByTokenS' ]),
@@ -36,6 +41,7 @@
                      if (res === 'success') {
                          this.$router.push('/')
                          window.sessionStorage.setItem('Tk', this.w_token)
+                         this.handleRefUserInfo()
                      } else {
                          this.loading = false
                          this.$refs.layer.open('请登录',true,false)

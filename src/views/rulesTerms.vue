@@ -1,5 +1,8 @@
 <template>
     <div class="bet_record">
+        <div class="header">
+            <span class="logo"></span>
+        </div>
         <div class="bet_body">
             <div class="bet_from">
                 <div class="Soccer">西恩电竞--条款规则</div>
@@ -244,5 +247,13 @@
             font-size: 15px;
             font-weight: bold;
         }
+    }
+    .logo {
+        display: inline-block;
+        width: 200px;
+        height: 80px;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+        background-image: url('../assets/bluegreenF.png');
     }
 </style>

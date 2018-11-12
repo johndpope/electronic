@@ -12,31 +12,31 @@ Vue.prototype.$axios = axios
 Vue.use(VueI18n) ;
 
 const i18n = new VueI18n({
-    locale: 'ch',    // 语言标识, 通过切换locale的值来实现语言切换,this.$i18n.locale
+    locale: 'CH',    // 语言标识, 通过切换locale的值来实现语言切换,this.$i18n.locale
     messages: {
-        'ch': require('@/utils/ch'),   // 中文语言包
-        'en': require('@/utils/en')    // 英文语言包
+        'CH': require('@/utils/ch'),   // 中文语言包
+        'EN': require('@/utils/en')    // 英文语言包
     }
 })
-
-router.beforeEach((to, from, next) => {
-    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-        let session = sessionStorage.getItem('Tk')
-        if (session) {  // 通过vuex state获取当前的token是否存在
-            next();
-        }
-        else {
-            next({
-                path: '/loginByToken',
-                // query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-            })
-            // next(false)
-        }
-    }
-    else {
-        next();
-    }
-})
+//
+// router.beforeEach((to, from, next) => {
+//     if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+//         let session = sessionStorage.getItem('Tk')
+//         if (session) {  // 通过vuex state获取当前的token是否存在
+//             next();
+//         }
+//         else {
+//             next({
+//                 path: '/loginByToken',
+//                 // query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+//             })
+//             // next(false)
+//         }
+//     }
+//     else {
+//         next();
+//     }
+// })
 
 new Vue({
   router,
