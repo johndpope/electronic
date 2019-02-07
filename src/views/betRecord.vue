@@ -12,14 +12,14 @@
                         <option>{{$t('lang.betRecord.from_yjs')}}</option>
                     </select>
                 </div>
-                <div class="bet_st" v-if="selectVal === '已结算'">
+                <div class="bet_st" v-if="selectVal === '已结算' || selectVal ==='CLSD'">
                     <div class="form-group">
-                        <label class="sr-only">选择时间</label>
+                        <label class="sr-only">{{$t('lang.betRecord.from_xzsj')}}</label>
                         <vue-datepicker-local :popupClass="'set_w'" v-model="range"></vue-datepicker-local>
                     </div>
                     <div class="form-group">
                         <label class="sr-only">&nbsp;</label>
-                        <button type="button" class="btn btn-default" @click="handleGetUserListGameWager">查询</button>
+                        <button type="button" class="btn btn-default" @click="handleGetUserListGameWager">{{$t('lang.betRecord.from_cx')}}</button>
                     </div>
                 </div>
             </div>
@@ -27,12 +27,12 @@
                 <thead>
                  <tr>
                   <th class="h num">#</th>
-                  <th class="h detail">下注时间</th>
-                  <th class="h seletion">详细信息</th>
-                  <th class="h odds">赔率</th>
-                  <th class="h stake">投注金额 (CNY)&nbsp;</th>
-                  <th>输赢</th>
-                  <th class="h status">状态</th>
+                  <th class="h detail">{{$t('lang.betRecord.table_xzsj')}}</th>
+                  <th class="h seletion">{{$t('lang.betRecord.table_detailed_info')}}</th>
+                  <th class="h odds">{{$t('lang.betRecord.table_odds')}}</th>
+                  <th class="h stake">{{$t('lang.betRecord.table_txje')}} (CNY)&nbsp;</th>
+                  <th>{{$t('lang.betRecord.table_sy')}}</th>
+                  <th class="h status">{{$t('lang.betRecord.table_zt')}}</th>
                  </tr>
                 </thead>
                 <tbody>
@@ -41,33 +41,37 @@
                         <td class="bet-detail">
                             <i>{{ item.wagerId }}</i>
                             <h4 class="sport">
-                                电子竞技
+                                {{ sportType[item.sportType] }}
                             </h4>
                             <span>{{ item.betTime }}</span>
                         </td>
                         <td class="selection">
-                            <p>
-                                <span class="win loss pd">{{ item.liveName }}</span>
-                                <span class="selection sel">{{ item.betDetail }}</span>
-                            </p>
-                            <p>
-                                <span class="team-name">{{ item.teamLeft }}</span>
-                                <span class="vs">-vs-</span>
-                                <span class="team-name">{{ item.teamRight }}</span>
-                            </p>
-                            <p>
+                            <div class="item" v-for="(items, keys) in item.gameWagerInfos" :key="keys">
+                                <p>
+                                    <span class="win loss pd">{{ items.liveName }}</span>
+                                    <span class="selection sel">{{ items.betDetail }}</span>
+                                </p>
+                                <p>
+                                    <span class="team-name">{{ items.teamLeft }}</span>
+                                    <span class="vs">-vs-</span>
+                                    <span class="team-name">{{ items.teamRight }}</span>
+                                </p>
+                                <p>
                                 <span class="betType">
-                                    {{ item.betType }}
+                                    {{ betType[items.betType] }}
                                 </span>
-                            </p>
-                            <p class="league">
-                                {{ item.category + '-' + item .league}}
-                            </p>
+                                </p>
+                                <p class="league">
+                                    {{ items.category + '-' + items .league}}
+                                </p>
+                                <span :class="items.winner === '1' ? 'winner win': 'winner win loss'">{{handleReturnWords(items.winner)}}</span>
+                            </div>
                         </td>
                         <td class="odds ">
                             {{ item.betOdds }} <br>
                             <span>
-                                <b>香港赔率</b>
+                                <b v-if="item.sportType === '1'">{{$t('lang.betRecord.table_xgpl')}}</b>
+                                <b v-if="item.sportType === '2'">{{$t('lang.betRecord.table_ozpl')}}</b>
                             </span>
                         </td>
                         <td class="stake">
@@ -83,7 +87,7 @@
                             </p>
                             <p>
                                 <span :class="item.winloss > 0? 'stake win' : 'stake win loss'" v-if="item.betStatus === 3" >
-                                    {{ item.winloss > 0 ? '赢' : '输' }}
+                                    {{ item.winloss > 0 ? $t('lang.betRecord.table_y') : $t('lang.betRecord.table_s') }}
                                 </span>
                             </p>
                         </td>
@@ -91,7 +95,7 @@
                     <tr v-if="gameWagerObj.betStatus === 2 && gameWagerList.pages !== 0">
                         <td colspan="3"/>
                         <td>
-                            小计
+                            {{$t('lang.betRecord.table_xj')}}
                         </td>
                         <td>{{ betTotal }}</td>
                         <td>{{ total }}</td>
@@ -100,7 +104,7 @@
                     <tr v-if="gameWagerObj.betStatus === 2 && gameWagerList.pages !== 0">
                         <td colspan="3"/>
                         <td>
-                            总计
+                            {{$t('lang.betRecord.table_zj')}}
                         </td>
                         <td>{{ winLoss.totalAmount.toFixed(2) }}</td>
                         <td>{{ winLoss.totalWinloss.toFixed(2) }}</td>
@@ -108,7 +112,7 @@
                     </tr>
                     <tr v-if="!gameWagerList.pages || gameWagerList.pages < 0">
                         <td colspan="7">
-                            暂无数据
+                            {{$t('lang.betRecord.table_zwsj')}}
                         </td>
                     </tr>
                     <tr v-if="gameWagerList.pages > 0">
@@ -119,8 +123,8 @@
                     <tr class="tz">
                         <td colspan="7">
                             <h6 class="form-inline">
-                                <span class="note">请注意：</span>
-                                根据时区GMT+8决定日期 。
+                                <span class="note">{{$t('lang.betRecord.table_qzy')}}：</span>
+                                {{$t('lang.betRecord.table_gjsq')}} GMT+8 {{$t('lang.betRecord.table_jdrq')}}。
                             </h6>
                         </td>
                     </tr>
@@ -155,7 +159,7 @@ export default {
                 TOKEN: sessionStorage.getItem('Tk')
             },
             gameWagerList: [],
-            selectVal: '未结算',
+            selectVal: sessionStorage.getItem('18n') === 'CH' ? '未结算': 'Accountopen',
             total: 0,
             pageInfo: {
                 current: 1,
@@ -165,11 +169,20 @@ export default {
             soPage: '',
             winLoss: '',
             range: [new Date(),new Date()],
-            betTotal: 0
+            betTotal: 0,
+            betType: [
+                '让分', '大小', '独赢'
+            ],
+            sportType: [
+                '', '电子竞技', '混合过关', '冠军'
+            ]
         }
     },
     created () {
         this.handleGetUserListGameWager()
+        if (sessionStorage.getItem('18n')){
+            this.$i18n.locale = sessionStorage.getItem('18n')
+        }
     },
     mounted () {
     },
@@ -187,7 +200,7 @@ export default {
                 })
                     // this.range[index] = this.range[index].getTime())
                 if (this.range[1] - this.range[0] > 2592000000) {
-                    this.$refs.layer.open('日期范围不能超过30天', true, false, 1000)
+                    this.$refs.layer.open(this.$t('lang.betRecord.table_sjfw'), true, false, 1000)
                     this.range = [new Date(),new Date()]
                     return false
                 } else {
@@ -224,6 +237,16 @@ export default {
         handlePageChange (data) {
             this.gameWagerObj.pageNum = data
             this.handleGetUserListGameWager()
+        },
+        handleReturnWords (wd) {
+            if (wd === '0') {
+                return  this.$t('lang.betRecord.table_s')
+            } else if (wd === '1') {
+                return  this.$t('lang.betRecord.table_y')
+            } else if (wd === '2') {
+                return  this.$t('lang.home.pageView_qx')
+            }
+
         }
     },
     watch: {
@@ -254,6 +277,18 @@ export default {
      .selection p {
          padding: 3px 0;
      }
+ }
+ td .item {
+     position: relative;
+     border-bottom: 1px solid #fff;
+     .winner {
+         position: absolute;
+         right: 100px;
+         top: 45%;
+     }
+ }
+ td .item:last-child {
+     border-bottom: none;
  }
  .bet_body {
      position: absolute;

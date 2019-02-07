@@ -90,7 +90,7 @@ export default {
         return handleRequest(util.ajaxForm.post('/initEsportBulletin', data))
     },
     postUserLogin (data) {
-        return handleRequest(util.ajaxForm.post('/v2/login', data))
+        return handleRequest(util.ajaxForm.post('/v2/loginTest', data))
     },
     postLeagues (data) {
         return handleRequest(util.ajaxForm.post('/sv/match/leagues', data))
@@ -121,5 +121,17 @@ export default {
     },
     postChangeLanguagen (data) {
         return handleRequest(util.ajaxForm.post('/changeLanguage', data))
+    },
+    postMixParlayInfo (data) {
+        return handleRequest(util.ajaxJson.post('/sv/match/mixParlayInfo', data))
+    },
+    postBetMixParlay (data) {
+        return handleRequest(util.ajaxJson.post('/sv/match/betMixParlay?money='+data.money, JSON.stringify(data.mixParlayInfoList)))
+    },
+    postMatchesMixParlay (data) {
+        return handleRequest(util.ajaxForm.post('/sv/match/matchesMixParlay', data))
+    },
+    postMixParlayCount (data) {
+        return handleRequest(util.ajaxForm.post('/s2/match/mixParlayCount', data))
     },
 }

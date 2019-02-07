@@ -7,7 +7,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      balance: null
+      balance: null,
+      userTk: sessionStorage.getItem('Tk') ? sessionStorage.getItem('Tk') : '',
+      eventType: 1,
+      liveText: null,
+      matchText: null,
+      betItemList: [],
+      betLimit: {},
+      countDown: 10,
+      mixParlayObj: {},
+      betObj: {
+          status: 1,
+          money: null,
+          team: null,
+          oddsId: null
+      },
+      betBoxShow: false,
   },
   mutations: {
    [GET_EVENTS] (stat) {
@@ -18,6 +33,56 @@ export default new Vuex.Store({
   },
    refreshMoney (state, data) {
       state.balance = data
+   },
+   saveToken (state, data) {
+       sessionStorage.setItem('Tk', data)
+       state.userTk = data
+   },
+   startCountDown (state) {
+       state.countDown = state.countDown -1
+   },
+   changeCountDown (state, data) {
+       state.countDown = data
+   },
+   changEventType (state, data) {
+       state.eventType = data
+   },
+   changLiveText (state, data) {
+       state.liveText = data
+   },
+   changMatchText (state, data) {
+       state.matchText = data
+   },
+   pushMixBetList (state, data) {
+       state.betItemList.push(data)
+   },
+   deleteMixListItem (state) {
+       state.betItemList.pop()
+   },
+   handleDelItem (state, data) {
+       state.mixParlayObj.oddList = state.mixParlayObj.oddList.filter((arr) => arr.gid !== data)
+       state.betItemList = state.betItemList.filter((arr) => arr.gid !== data)
+   },
+   updateLimit (state, data) {
+       state.betLimit = data
+   },
+   updateParlayObj (state, data) {
+      state.mixParlayObj = data
+   },
+   deleteParlayObj (state) {
+       state.mixParlayObj = {}
+       state.betItemList = []
+   },
+   setBetObj (state, data) {
+      if (data.team && data.oddsId) {
+          state.betObj.team = data.team
+          state.betObj.oddsId = data.oddsId
+      } else {
+          state.betObj.money = data.money
+      }
+   },
+   changeBetBoxShow (state) {
+       state.betBoxShow = !state.betBoxShow
    }
   },
   actions: {
@@ -191,6 +256,50 @@ export default new Vuex.Store({
           commit(GET_MATCHES)
           let re = ''
           await ajaxModel.postChangeLanguagen(data).then(res => {
+              re = res
+          }).catch(err => {
+              re = err
+          })
+          return re
+      },
+      // 串关查看一串的详情
+      async postMixParlayInfoS ({ commit }, data) {
+          commit(GET_MATCHES)
+          let re = ''
+          await ajaxModel.postMixParlayInfo(data).then(res => {
+              re = res
+          }).catch(err => {
+              re = err
+          })
+          return re
+      },
+      // 串关投注
+      async postBetMixParlayS ({ commit }, data) {
+          commit(GET_MATCHES)
+          let re = ''
+          await ajaxModel.postBetMixParlay(data).then(res => {
+              re = res
+          }).catch(err => {
+              re = err
+          })
+          return re
+      },
+      // 查询赛事列表(串关)
+      async postMatchesMixParlayS ({ commit }, data) {
+          commit(GET_MATCHES)
+          let re = ''
+          await ajaxModel.postMatchesMixParlay(data).then(res => {
+              re = res
+          }).catch(err => {
+              re = err
+          })
+          return re
+      },
+      // 查询串关赛事
+      async postMixParlayCountS ({ commit }, data) {
+          commit(GET_MATCHES)
+          let re = ''
+          await ajaxModel.postMixParlayCount(data).then(res => {
               re = res
           }).catch(err => {
               re = err

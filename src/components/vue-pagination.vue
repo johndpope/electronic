@@ -1,14 +1,14 @@
 <template id="template_pagination">
     <section class="pages-wrap">
         <ul class="pagination clearfix">
-            <li :class="{'disabled': pageInfo.current == 1}"><a href="javascript:;" @click="clickCurrent(1)"> 首页 </a></li>
+            <li :class="{'disabled': pageInfo.current == 1}"><a href="javascript:;" @click="clickCurrent(1)"> First </a></li>
             <li v-if=" pageInfo.current != 1" :class="{'disabled': pageInfo.current == 1}"><a href="javascript:;" @click="clickCurrent(pageInfo.current - 1)"> 上一页 </a></li>
             <li v-for="(p,key) in setList" :key="key" :class="{'active': pageInfo.current == p.val}" >
                 <a href="javascript:;" v-if="pageInfo.current == p.val" :style="{backgroundColor:pageInfo.skin , borderColor:pageInfo.skin}" @click="clickCurrent(p.val)"> {{ p.text }} </a>
                 <a href="javascript:;" v-else  @click="clickCurrent(p.val)"> {{ p.text }} </a>
             </li>
             <li v-if="setList.length>1" :class="{'disabled': pageInfo.current == pageInfo.page}"><a href="javascript:;" @click="clickCurrent(pageInfo.current + 1)"> 下一页</a></li>
-            <li :class="{'disabled': pageInfo.current == pageInfo.page}"><a href="javascript:;" @click="clickCurrent(soPage)"> 尾页 </a></li>
+            <li :class="{'disabled': pageInfo.current == pageInfo.page}"><a href="javascript:;" @click="clickCurrent(soPage)"> Last </a></li>
         </ul>
     </section>
 </template>

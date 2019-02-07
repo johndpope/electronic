@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions, mapMutations } from 'vuex'
     import layer from '@/components/diaoLog'
     import Mixin from '@/utils/Mixin'
 
@@ -33,14 +33,15 @@
         },
         methods: {
             ...mapActions([ 'postLoginUserByTokenS' ]),
+            ...mapMutations([ 'saveToken' ]),
             handleGetToken (tk) {
                 if (tk) {
                     let data = '?token=' + this.w_token
 
                     this.postLoginUserByTokenS(data).then(res => {
-                     if (res === 'success') {
+                     if (res) {
                          this.$router.push('/')
-                         window.sessionStorage.setItem('Tk', this.w_token)
+                         this.saveToken(res)
                          this.handleRefUserInfo()
                      } else {
                          this.loading = false

@@ -6,22 +6,22 @@
         <div class="bet_body">
             <div class="bet_from">
                 <div class="form-group">
-                    <label class="sr-only">日期</label>
+                    <label class="sr-only">{{$t('lang.results.from_date')}}</label>
                     <vue-datepicker-local v-model="time"></vue-datepicker-local>
                 </div>
                 <div class="form-group" @click="handleGetLeagues()">
                     <label class="sr-only">&nbsp;</label>
-                    <button type="submit" class="btn btn-default">选择联赛</button>
+                    <button type="submit" class="btn btn-default">{{$t('lang.results.from_xzls')}}</button>
                 </div>
                 <div class="form-group" @click="handleGetResult()">
                     <label class="sr-only">&nbsp;</label>
-                    <button type="submit" class="btn btn-default">查询</button>
+                    <button type="submit" class="btn btn-default">{{$t('lang.results.from_cx')}}</button>
                 </div>
                 <table class=" info-div-table hd">
                     <thead>
                     <tr>
-                        <th class="h date">日期时间</th>
-                        <th class="h event">赛事</th>
+                        <th class="h date">{{$t('lang.results.from_date')}}</th>
+                        <th class="h event">{{$t('lang.results.table_event')}}</th>
                         <th>Match</th>
                         <th>Map 1</th>
                         <th>Map 2</th>
@@ -82,7 +82,7 @@
                 <tbody v-if="resultList.length ===0">
                    <tr>
                        <td class="text" colspan="10">
-                           暂无赛果
+                           {{$t('lang.results.table_zwsg')}}
                        </td>
                    </tr>
                 </tbody>
@@ -110,7 +110,7 @@ export default {
     mixins: [Mixin],
     data () {
       return {
-        time: new Date(),
+        // time: new Date(),
         eventType: 4,
         sendChild: {
            showModal: false,
@@ -122,6 +122,9 @@ export default {
       }
     },
     created () {
+        if (sessionStorage.getItem('18n')){
+            this.$i18n.locale = sessionStorage.getItem('18n')
+        }
     },
     mounted () {
         this.handleGetResult()
@@ -243,7 +246,7 @@ export default {
                     user-select: none;
                 }
                 .btn-default {
-                    width: 83px!important;
+                    width: 110px!important;
                     border: 0;
                     color: #fff!important;
                     text-align: center!important;

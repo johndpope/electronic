@@ -6,32 +6,32 @@
         <div class="bet_body" v-if="!backMents">
             <div class="bet_from" v-if="!mHistory">
                 <div class="form-group">
-                    <label class="sr-only">时间</label>
+                    <label class="sr-only">{{$t('lang.statements.from_time')}}</label>
                     <vue-datepicker-local v-model="mentsObj.date" format="YYYY-MM"></vue-datepicker-local>
                 </div>
                 <div class="form-group">
                     <label class="sr-only">&nbsp;</label>
-                    <button type="button" class="btn btn-default" @click="handleListStatementsResult('dy')">查询</button>
+                    <button type="button" class="btn btn-default" @click="handleListStatementsResult('dy')">{{$t('lang.statements.from_sub')}}</button>
                 </div>
             </div>
             <div class="bet_from" v-if="mHistory">
                 <div class="form-group">
                     <label class="sr-only">&nbsp;</label>
-                    <button type="submit" class="btn btn-default" @click="mHistory =! mHistory">查询历史记录</button>
+                    <button type="submit" class="btn btn-default" @click="mHistory =! mHistory">{{$t('lang.statements.from_cxlsjl')}}</button>
                 </div>
             </div>
             <h5>
-                <span class="note">请注意：</span>
-                根据时区GMT+08:00决定日期。钱包指的是体育博彩. 您可以查看最近一年半年内任何月份的数据报告。 </h5>
+                <span class="note">{{$t('lang.statements.header_note')}}：</span>
+                {{$t('lang.betRecord.table_gjsq')}} GMT+08:00 {{$t('lang.betRecord.table_jdrq')}}. {{$t('lang.statements.header_text')}} </h5>
             <table class="info-div-table">
                 <thead>
                     <tr>
-                        <th class="h date">日期</th>
-                        <th class="h remark">备注</th>
-                        <th class="h amt">交易额</th>
-                        <th class="h amt">支出/收入</th>
-                        <th class="h amt">余额 (CNY)&nbsp;</th>
-                        <th>操作</th>
+                        <th class="h date">{{$t('lang.statements.table_date')}}</th>
+                        <th class="h remark">{{$t('lang.statements.table_bz')}}</th>
+                        <th class="h amt">{{$t('lang.statements.table_jye')}}</th>
+                        <th class="h amt">{{$t('lang.statements.table_zcsr')}}</th>
+                        <th class="h amt">{{$t('lang.statements.table_ye')}}</th>
+                        <th>{{$t('lang.statements.table_cz')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                     </tr>
                     <tr v-if="mentsList.length === 0">
                         <td colspan="6">
-                            暂无记录
+                            {{$t('lang.statements.table_zwjl')}}
                         </td>
                     </tr>
                     <tr v-if="soPage > 0">
@@ -65,22 +65,22 @@
             <div class="bet_from">
                 <div class="form-group">
                     <label class="sr-only">&nbsp;</label>
-                    <button type="submit" class="btn btn-default" @click="backMents =! backMents">返回</button>
+                    <button type="submit" class="btn btn-default" @click="backMents =! backMents">{{$t('lang.statements.from_back')}}</button>
                 </div>
             </div>
             <h5>
-                <span class="note">请注意：</span>
-                根据时区GMT+08:00决定日期。钱包指的是体育博彩. 您可以查看最近一年半年内任何月份的数据报告。 </h5>
+                <span class="note">{{$t('lang.statements.header_note')}}：</span>
+                {{$t('lang.betRecord.table_gjsq')}} GMT+08:00 {{$t('lang.betRecord.table_jdrq')}}. {{$t('lang.statements.header_text')}}</h5>
             <table class="info-div-table">
                 <thead>
                 <tr>
-                    <th class="h date">序号</th>
-                    <th class="h remark">交易时间</th>
-                    <th class="h amt">下注详情</th>
-                    <th class="h amt">赔率</th>
-                    <th class="h amt">投注金额</th>
-                    <th>输赢</th>
-                    <th>状态</th>
+                    <th class="h date">{{$t('lang.statements.table_xh')}}</th>
+                    <th class="h remark">{{$t('lang.statements.table_jysj')}}</th>
+                    <th class="h amt">{{$t('lang.statements.table_xzxq')}}</th>
+                    <th class="h amt">{{$t('lang.statements.table_pl')}}</th>
+                    <th class="h amt">{{$t('lang.statements.table_xzje')}}</th>
+                    <th>{{$t('lang.statements.table_sy')}}</th>
+                    <th>{{$t('lang.statements.table_status')}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -93,14 +93,17 @@
                         <p>{{ item.betTime }}</p>
                     </td>
                     <td class="remark">
-                         <span class="win loss win_pd">{{ item.liveName }}</span>{{ item.betDetail }}
-                        <p>{{ item.teamLeft +'-vs-'+ item.teamRight }}</p>
-                        <p class="red_t">{{ item.betType }}</p>
-                        <p>{{ item.category +'-'+ item.league }}</p>
+                        <div class="item" v-for="(items, keys) in item.gameWagerInfos" :key="keys">
+                            <span class="win loss win_pd">{{ item.liveName }}</span>{{ items.betDetail }}
+                            <p>{{ items.teamLeft +'-vs-'+ items.teamRight }}</p>
+                            <p class="red_t">{{ betType[items.betType] }}</p>
+                            <p>{{ items.category +'-'+ items.league }}</p>
+                        </div>
+
                     </td>
                     <td>
                         <p>{{ item.betOdds }}</p>
-                        <p class="red_t">香港盘</p></td>
+                        <p class="red_t">{{$t('lang.statements.table_HKD')}}</p></td>
                     <td >{{ item.betAmount }}</td>
                     <td :class="item.winloss > 0 ? 'win' : 'win loss'">
                         {{ item.winloss }}
@@ -130,7 +133,7 @@
                 </tr>
                 <tr v-if="detailsList.length === 0">
                     <td colspan="7">
-                        暂无记录
+                        {{$t('lang.statements.table_zwjl')}}
                     </td>
                 </tr>
                 <!--<tr v-if="xoPage > 0">-->
@@ -187,6 +190,9 @@
                 pagegroup: 5,
                 skin: '#0b1422',
             },
+            betType: [
+                this.$t('lang.statements.hdp'), this.$t('lang.statements.ou'), this.$t('lang.statements.OT')
+            ],
             soPage: '',
             // xoPage: '',
             backMents: false,
@@ -197,6 +203,9 @@
     },
     mounted () {
         this.handleListStatementsResult()
+        if (sessionStorage.getItem('18n')){
+            this.$i18n.locale = sessionStorage.getItem('18n')
+        }
     },
     methods: {
         ...mapActions([ 'postUserListGameWagerByDateS', 'postListStatementsResultS' ]),
@@ -339,7 +348,7 @@
                     user-select: none;
                 }
                 .btn-default {
-                    width: 105px;
+                    width: 115px;
                     border: 0;
                     color: #fff;
                     text-align: center;
@@ -377,7 +386,7 @@
             }
             tr {
                 border-top: 1px solid #dcedff;
-                border-bottom: 1px solid #dcedff;
+                border-bottom: 1px solid #bdd9e6;
                 background-color: #ededed;
                 td.statement-date {
                     border-left: 1px solid #ededed;
@@ -394,7 +403,7 @@
                 border-bottom: 1px solid #fff;
             }
             td.caoz {
-                width: 50px;
+                width: 70px;
                 cursor: pointer;
             }
             td.caoz.more {
@@ -427,5 +436,18 @@
         padding-left: 10px;
         vertical-align: top;
         color: #4fdccb;
+    }
+    td .item {
+        position: relative;
+        border-bottom: 1px solid #fff;
+        padding: 2px 0;
+        .winner {
+            position: absolute;
+            right: 100px;
+            top: 45%;
+        }
+    }
+    td .item:last-child {
+        border-bottom: none;
     }
 </style>
