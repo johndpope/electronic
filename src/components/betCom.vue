@@ -132,40 +132,42 @@
                     </div>
                 </div>
             </div>
-            <div v-if="mixParlayObj.oddList" class="bet-box">
-                <p class="bet-box-list">
-                    <span @click="handleChangeBetMoney('10')">10</span>
-                    <span @click="handleChangeBetMoney('50')">50</span>
-                    <span @click="handleChangeBetMoney('100')">100</span>
-                    <span @click="handleChangeBetMoney('200')">200</span>
-                    <span @click="handleChangeBetMoney('MAX')">MAX</span>
-                </p>
-                <P class="bet-box-sum">
-                    <span>{{ $t('lang.statements.table_pl') }}</span>
-                    {{ mixParlayObj.betOdd }}
-                </P>
-                <P class="bet-box-sum">
-                    <span>{{$t('lang.home.pageView_yxzs')}}:</span>
-                    {{ mixParlayObj.oddList.length }}
-                </P>
-                <P class="bet-box-sum">
-                    <span>{{$t('lang.home.pageView_zdtz')}}:</span>
-                    {{ mixParlayObj.minStake }}
-                </P>
-                <P class="bet-box-sum">
-                    <span>{{$t('lang.home.pageView_zgtz')}}:</span> {{ mixParlayObj.maxStake }}
-                </P>
-                <P class="bet-box-sum">
-                    <span>{{$t('lang.home.pageView_pcje')}}:</span>
-                     {{ typeof winMoney === 'string' && !isNaN(winMoney) ? winMoney : '0.00' }}
-                </P>
-                <P class="bet-box-sum bet_p">
-                    <input type="number" class="bet_input" v-model="betMoney">
-                    <span class="bet-items-del cls" @click="betMoney = null"></span>
-                </P>
-                <p class="bet-box-sum">
-                    <button @click="handleConfirmBet()">{{betItemList.length &lt;= 1 ? '最低两注' : '立即下注' }}</button>
-                </p>
+            <div  class="bet-box">
+                <div v-if="mixParlayObj.oddList">
+                    <p class="bet-box-list">
+                        <span @click="handleChangeBetMoney('10')">10</span>
+                        <span @click="handleChangeBetMoney('50')">50</span>
+                        <span @click="handleChangeBetMoney('100')">100</span>
+                        <span @click="handleChangeBetMoney('200')">200</span>
+                        <span @click="handleChangeBetMoney('MAX')">MAX</span>
+                    </p>
+                    <P class="bet-box-sum">
+                        <span>{{ $t('lang.statements.table_pl') }}</span>
+                        {{ mixParlayObj.betOdd }}
+                    </P>
+                    <P class="bet-box-sum">
+                        <span>{{$t('lang.home.pageView_yxzs')}}:</span>
+                        {{ mixParlayObj.oddList.length }}
+                    </P>
+                    <P class="bet-box-sum">
+                        <span>{{$t('lang.home.pageView_zdtz')}}:</span>
+                        {{ mixParlayObj.minStake }}
+                    </P>
+                    <P class="bet-box-sum">
+                        <span>{{$t('lang.home.pageView_zgtz')}}:</span> {{ mixParlayObj.maxStake }}
+                    </P>
+                    <P class="bet-box-sum">
+                        <span>{{$t('lang.home.pageView_pcje')}}:</span>
+                        {{ typeof winMoney === 'string' && !isNaN(winMoney) ? winMoney : '0.00' }}
+                    </P>
+                    <P class="bet-box-sum bet_p">
+                        <input type="number" class="bet_input" v-model="betMoney">
+                        <span class="bet-items-del cls" @click="betMoney = null"></span>
+                    </P>
+                    <p class="bet-box-sum">
+                        <button @click="handleConfirmBet()">{{betItemList.length &lt;= 1 ? '最低两注' : '立即下注' }}</button>
+                    </p>
+                </div>
             </div>
             <div v-if="!mixParlayObj.oddList" class="bet_title">
                 {{$t('lang.home.pageView_djpl')}}
@@ -203,9 +205,6 @@ export default {
             return this.mixParlayObj.betOdd
         }
     },
-    mounted(){
-        console.log(document.querySelector('.bet_p'))
-    },
     methods: {
         ...mapActions([ 'postBetMixParlayS', 'postBetMixParlayS', 'postBetGameS' ]),
         ...mapMutations([ 'handleDelItem', 'setBetObj', 'changeBetBoxShow', 'deleteParlayObj' ]),
@@ -233,7 +232,7 @@ export default {
             if (num === 'ET') {
                 this.betMoney = ''
                 return false
-            } else if (this.betMoney >= Number(this.betLimit.maxStake)) {
+            } else if (this.betMoney > Number(this.betLimit.maxStake)) {
                 this.$refs.layer.open(this.$t('lang.home.bet_tzxe'),true,false,2000)
                 return false
             } else {
@@ -329,7 +328,7 @@ export default {
                     this.$refs.layer.open(this.$t('lang.home.bet_tzxe'),true,false,2000)
                     return false
                 } else {
-                    this.winMoney =  Number(this.mixParlayObj.betOdd * nev) + Number(nev)
+                    this.winMoney =  Number(this.mixParlayObj.betOdd * nev)
                 }
             } else {
                 if (Number(nev)> this.betLimit.maxStake) {
@@ -411,23 +410,6 @@ export default {
         padding-left:15%;
         border-bottom: 1px solid #0299a0;
     }
-    .bet-content:after {
-        position: absolute;
-        content: '';
-        right: 0;
-        top: 0;
-        width: 17px;
-        height: 600px;
-        background-color: #581f63;
-
-    }
-    .bet_title {
-        height: 100%;
-        width: 100%;
-        text-align: center;
-        padding-top: 60px;
-        color: #fff;
-    }
     .bet_body {
         position: relative;
         height: 600px;
@@ -503,22 +485,7 @@ export default {
         transition:height .3s  ease-in-out;
     }
     .bet-box {
-        height: 20.5%;
-        .bet-box-list {
-            text-align: center;
-            border-bottom: 1px solid #333;
-            span{
-                display: inline-block;
-                width: 20%;
-                height: 30px;
-                line-height: 30px;
-                color: #fff;
-                border-right: 1px solid #333;
-            }
-            span:hover {
-                background-color: #6b7177;
-            }
-        }
+        /*height: 20.5%;*/
         .bet-box-sum {
             position: relative;
             padding: 2px 15px;

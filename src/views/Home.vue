@@ -1,5 +1,5 @@
 <template>
-    <div class="home trial">
+    <div :class="'home ' + cssStyle">
         <div class="hm-HeaderModule ">
             <div :class="headerHide ? 'hm-HeadModule_Primary' : 'hm-HeadModule_Primary sH'">
                 <a :class="headerHide ? 'hm-HeaderModule_Logo' : 'hm-HeaderModule_Logo H'"/>
@@ -27,6 +27,20 @@
                         <p class="hm_L_p" @click="handleSelectLang('CH')">
                             <span class="hm_L_CN"/>
                             <span class="hm_L_lang">简体中文</span>
+                        </p>
+                    </div>
+                </div>
+                <div :class="headerHide ? 'hm_style' : 'hm_style H'">
+                    <div class="hm_L_ch" @click="handleChangeStyle()">
+                        <b>模式切换</b>
+                        <span class="hm_L_more"/>
+                    </div>
+                    <div :class="changeStyle? 'hm_L_sl' : 'hm_L_sl H'">
+                        <p class="style" @click="handleChangeStyle('trial')" >
+                            日间模式
+                        </p>
+                        <p class="style" @click="handleChangeStyle('normal')">
+                            夜间模式
                         </p>
                     </div>
                 </div>
@@ -520,7 +534,7 @@ export default {
     },
     computed : {
         ...mapState([ 'balance', 'userTk', 'eventType',
-            'betItemList', 'countDown', 'betObj', 'betBoxShow' ])
+            'betItemList', 'countDown', 'betObj', 'betBoxShow', 'cssStyle' ])
     },
     data () {
         return {
@@ -536,6 +550,7 @@ export default {
             scoreShow: false,
             ipBarSelect: false,
             showTimeSort: false,
+            changeStyle: false,
             mapListObj: {
                 1: 'MAP 1',
                 2: 'MAP 2',
@@ -568,26 +583,24 @@ export default {
             mitem: null,
         }
     },
-    created () {
-        this.handleCreate()
-    },
     mounted () {
         this.setTime()
         this.handleWebSocket()
         this.$nextTick(()=>{
             this.ScrollBar('#scrollBar')
         })
+        this.handleSendSign()
     },
     beforeDestroy() {
         this.handleCountDown('cl')
         clearInterval(this.matchCountDown)
     },
     methods: {
-      ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postMatchesS', 'postInitESportBulletinS',
-          'postUserLoginS', 'postMultiTicketS', 'postRollBallMatchesS', 'postMatchInfoS',
-       'postMatchesMixParlayS', 'postMixParlayCountS' ]),
-      ...mapMutations([ 'saveToken', 'changEventType', 'changLiveText', 'changMatchText', 'pushMixBetList',
-          'changeCountDown', 'setBetObj', 'changeBetBoxShow' ]),
+      ...mapActions([ 'postBetGameS', 'postMatchCountS', 'postInitESportBulletinS',
+          'postUserLoginS', 'postMultiTicketS', 'postMixParlayCountS', 'postSignS' ]),
+      ...mapMutations([ 'saveToken', 'changEventType', 'changLiveText',
+          'changMatchText', 'pushMixBetList', 'changeCountDown',
+          'setBetObj', 'changeBetBoxShow', 'changeCssStyle' ]),
         handleCreate () {
             this.handleGetEvents()
             this.handleGetMatches({})
@@ -650,25 +663,25 @@ export default {
                 if (!event && sessionStorage.getItem('category')) {
                     data.category = sessionStorage.getItem('category')
                 }
-                this.postMatchesS(data).then(res => {
-                    if (/.*[\u4e00-\u9fa5]+.*/.test(res)) {
-                        this.$refs.layer.open(res,true,false,1500)
-                        return false
-                    }
-                    if(Array.isArray(res)  && !res.code) {
-                        this.matchList = res
+                this.handleCreateSend('/sv/match/matches',data).then(res => {
+                    if (res.status === 200 && Array.isArray(res.data.resultMsg)) {
+                        this.matchList = res.data.resultMsg
                         this.handleMatchCountDown()
                         this.handleShowFirst()
                         this.handleRegularList(this.matchList)
+                    } else {
+                        return false
                     }
                 })
               } else if (this.eventType === 5) {
-                 this.postMatchesMixParlayS(data).then(res => {
-                    if(res.length !==0 && !res.code) {
-                        this.matchList = res
+                this.handleCreateSend('/sv/match/matchesMixParlay',data).then(res => {
+                    if (res.status === 200 && Array.isArray(res.data.resultMsg)) {
+                        this.matchList = res.data.resultMsg
                         this.handleMatchCountDown()
                         this.handleShowFirst()
                         this.handleRegularList(this.matchList)
+                    } else {
+                        return false
                     }
                 })
             }
@@ -707,12 +720,11 @@ export default {
         handleGetRollMatches () {
             this.matchList = []
             this.rollBallList = []
-            let data = {
-                rtype: 3
-            }
-            this.postRollBallMatchesS(data).then(res => {
-                if (res.length !== 0 && !res.code) {
-                    this.rollBallList = res
+            let data = {}
+            data.rtype = 3
+            this.handleCreateSend('/s2/match/matches',data).then(res => {
+                if (res.status === 200 && Array.isArray(res.data.resultMsg)) {
+                    this.rollBallList = res.data.resultMsg
                     this.rollBallNameObj.category = this.rollBallList[0].category
                     this.rollBallNameObj.league = this.rollBallList[0].league
                     this.handleGetRollMatchInfo(this.rollBallList[0].gameMatches[0])
@@ -728,6 +740,8 @@ export default {
                         })
                     }
                     this.rollBallList = lists
+                } else {
+                    return false
                 }
             })
         },
@@ -746,34 +760,35 @@ export default {
            } else {
              data.gid = sessionStorage.getItem('gid')
            }
-           this.postMatchInfoS(data).then(res => {
-               if(res.length !==0 && !res.code) {
-                   this.matchList = res
-                   this.matchList.forEach(arr => {
-                       for (let key in arr.gameOddMap2){
-                           arr.gameOddMap2[key].forEach(arrC => {
-                               if (Number(arrC.status) !== 0) {
-                                   arrC.ratioH = null
-                                   arrC.ratioV = null
-                               }
-                               arrC.changs_h = false
-                               arrC.changs_v = false
-                               // arrC.status = true
-                           })
-                       }
-                   })
-                   if (this.matchList[0].liveUrl|| this.matchList[0].matchLive) {
-                           this.changLiveText(this.matchList[0].liveUrl)
-                           this.changMatchText(this.matchList[0].matchLive)
-                   } else {
-                       this.changLiveText('')
-                       this.changLiveText('')
-                   }
-                   setTimeout(() => {
-                       this.refBet = false
-                   },1000)
-               }
-           })
+           this.handleCreateSend('/s2/match/info',data).then(res => {
+              if (res.status === 200 && Array.isArray(res.data.resultMsg)) {
+                    this.matchList = res.data.resultMsg
+                    this.matchList.forEach(arr => {
+                        for (let key in arr.gameOddMap2){
+                            arr.gameOddMap2[key].forEach(arrC => {
+                                if (Number(arrC.status) !== 0) {
+                                    arrC.ratioH = null
+                                    arrC.ratioV = null
+                                }
+                                arrC.changs_h = false
+                                arrC.changs_v = false
+                            })
+                        }
+                    })
+                    if (this.matchList[0].liveUrl|| this.matchList[0].matchLive) {
+                        this.changLiveText(this.matchList[0].liveUrl)
+                        this.changMatchText(this.matchList[0].matchLive)
+                    } else {
+                        this.changLiveText('')
+                        this.changLiveText('')
+                    }
+                    setTimeout(() => {
+                        this.refBet = false
+                    },1000)
+                } else {
+                    return false
+                }
+            })
         },
         handleClickBet({ item, itemn, type }) {
           this.handleCountDown('cl')
@@ -883,7 +898,14 @@ export default {
           } else {
             this.selectLangShow = !this.selectLangShow
           }
-
+        },
+        handleChangeStyle (st) {
+          if (st) {
+              this.changeCssStyle(st)
+              this.changeStyle = false
+          } else {
+              this.changeStyle = !this.changeStyle
+          }
         },
         handleFromChild (data) {
             let slg = null
@@ -1031,6 +1053,17 @@ export default {
               })
           }
         },
+        handleSendSign () {
+            sessionStorage.removeItem('sign')
+            this.postSignS().then(res => {
+                if (res) {
+                    sessionStorage.setItem('sign',res)
+                    this.handleCreate()
+                } else {
+                    sessionStorage.removeItem('sign')
+                }
+            })
+        },
         handleMatchCountDown () {
             this.matchRef = 60
             this.matchCountDown = setInterval(() => {
@@ -1045,10 +1078,10 @@ export default {
           let Wurl =null
           if (sessionStorage.getItem('Tk')){
               //192.168.1.44:18083
-              //192.168.1.44:18084
+              //103.84.109.162:18084
               //103.24.95.153:18083
               //175.176.192.106
-              Wurl = 'wss://cnesports.asia//ws?token=' + sessionStorage.getItem('Tk')
+              Wurl = 'ws://103.84.109.162:18084//ws?token=' + sessionStorage.getItem('Tk')
               this.socket = new WebSocket(Wurl)
               this.socket.onopen = this.webSocketOnOpen
               this.socket.onmessage = this.webSocketOnMessage
@@ -1103,9 +1136,7 @@ export default {
         /*background-color: #212b38;*/
         min-width: 1023px;
         .hm-HeadModule_Primary {
-            display: table;
-            table-layout: fixed;
-            width: 100%;
+            display: flex;
             padding: 0 25px;
             height: 50px;
             .hm-HeaderModule_Logo {
@@ -1138,7 +1169,7 @@ export default {
             text-align: center;
             padding-right: 16px;
         }
-        .hm-BigButtons.H,.hm_L.H,.hm-HeaderModule_title.H{
+        .hm-BigButtons.H,.hm_L.H,.hm-HeaderModule_title.H,.hm_style.H{
             display: none;
         }
         .hm-BigButtons_Inner {
@@ -1190,7 +1221,7 @@ export default {
         .hm-Clock{
             color:#fff;
         }
-        .hm_L {
+        .hm_L, .hm_style {
             position: relative;
             height: 100%;
             color: #cffbff;
@@ -1199,12 +1230,16 @@ export default {
                 align-items: center;
                 height: 100%;
             }
-            .hm_L_p {
+            .hm_L_p{
                 display:flex;
                 align-items: center;
                 padding: 5px 11px;
             }
-            .hm_L_p:hover {
+            .style {
+                text-align: center;
+                padding: 5px 11px;
+            }
+            .hm_L_p:hover,.style:hover {
                 background-color: #6b7177;
             }
              span {
@@ -1249,7 +1284,9 @@ export default {
                 overflow: hidden;
                 transition: height 1s ease-in-out;
             }
-
+        }
+        .hm_style {
+            padding-left: 50px;
         }
     }
     .wc-PageView {

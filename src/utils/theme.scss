@@ -107,6 +107,12 @@ $skin-Trial-bor-color:#c3bdbd;
     cursor: default;
     color: #fff;
   }
+  .bet_title {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding-top: 60px;
+  }
   .select_map {
     text-align: left;
     li {
@@ -143,6 +149,27 @@ $skin-Trial-bor-color:#c3bdbd;
     height: 100%;
     width: 80px;
   }
+  .bet-content:after {
+    position: absolute;
+    content: '';
+    right: 0;
+    top: 0;
+    width: 17px;
+    height: 600px;
+  }
+  .bet-box-list {
+    text-align: center;
+    span{
+      display: inline-block;
+      width: 20%;
+      height: 30px;
+      line-height: 30px;
+      color: #fff;
+    }
+    span:hover {
+      background-color: #6b7177;
+    }
+  }
   //.ipe-EventVScroller:after {
   //  content: " ";
   //  width: 17px;
@@ -176,9 +203,9 @@ $skin-Trial-bor-color:#c3bdbd;
     background-size: auto 1350px,auto;
     background-color: #151f2b;
     background-repeat: no-repeat,no-repeat;
-      .ip-ControlBar {
-        border-bottom: 1px solid #303030;
-      }
+    .ip-ControlBar {
+      border-bottom: 1px solid #303030;
+    }
     .balances{
       background-color: $skin-normal-color;
     }
@@ -245,6 +272,9 @@ $skin-Trial-bor-color:#c3bdbd;
         border-top: solid 1px #116c4f;
         color: #999;
      }
+    .bet_title {
+      color: #999;
+    }
      .select_map {
        li {
            background: linear-gradient(180deg, #01fce1 0, #0c6f72 31.87%, #6d1699 90.06%);
@@ -269,6 +299,15 @@ $skin-Trial-bor-color:#c3bdbd;
       background-color: #0299a0;
       /*#ff9159ba*/
      }
+    .bet-content:after {
+      background-color: #581f63;
+    }
+    .bet-box-list {
+      border-bottom: 1px solid #333;
+      span{
+        border-right: 1px solid #333;
+      }
+    }
   }
 }
 //
@@ -361,6 +400,7 @@ $skin-Trial-bor-color:#c3bdbd;
     }
     .bet_prompt{
       border-top: solid 1px $skin-Trial-bor-color;
+      color: #999;
     }
     .select_map {
       li {
@@ -385,6 +425,21 @@ $skin-Trial-bor-color:#c3bdbd;
     a.sf_odds:hover,a.half_50:hover{
       background-color: #666;
       /*#ff9159ba*/
+    }
+    .bet_title {
+      color: #999;
+    }
+    .bet-content:after {
+      background-color: #ffdf80;
+    }
+    .bet-box {
+      background-color: #a9996a;
+    }
+    .bet-box-list {
+      border-bottom: 1px solid #c5ca9a;
+      span{
+        border-right: 1px solid #c5ca9a;
+      }
     }
   }
 }

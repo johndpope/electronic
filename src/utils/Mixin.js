@@ -24,14 +24,15 @@ let MyMixin = {
         box: null,
         con: null,
         barBox: null,
-        bar: null
+        bar: null,
+        resContent: null
     }
   },
   computed : {
      ...mapState([ 'countDown', 'betItemList', 'betObj' ]),
   },
   methods: {
-    ...mapActions([  'postInitESportBulletinS', 'postLeaguesS', 'postUserInfoS',
+    ...mapActions([  'postInitESportBulletinS', 'postUserInfoS',
         'postMultiTicketS', 'postMixParlayInfoS' ]),
     ...mapMutations([ 'refreshMoney', 'updateLimit', 'startCountDown', 'changeCountDown',
         'updateParlayObj', 'changeBetBoxShow', 'deleteMixListItem' ]),
@@ -76,15 +77,17 @@ let MyMixin = {
           if (window.location.href.indexOf('results')!== -1) {
               data.date = this.formattingTime(this.time, 'dd')
           }
-          this.postLeaguesS(data).then(res => {
-              if (res && !res.msg) {
-                  res.forEach(arr => {
-                      arr.entity.forEach(arr1 =>{
-                          this.sendChild.leaguesList.push(arr1)
-                      })
-                  })
-              }
-          })
+          this.handleCreateSend('/sv/match/matchesMixParlay',data).then(res => {
+            if (res.status === 200 && Array.isArray(res.data.resultMsg)) {
+                res.data.resultMsg.forEach(arr => {
+                    arr.entity.forEach(arr1 =>{
+                        this.sendChild.leaguesList.push(arr1)
+                    })
+                })
+            } else {
+                return false
+            }
+        })
       },
     handleShowFirst () {
         this.$nextTick(() => {
@@ -233,6 +236,21 @@ let MyMixin = {
           }
           window.open(LUrl, '_blank', 'height=700, width=1200, top=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=yes, status=no')
       },
+    handleCreateSend (urls, data) {
+       return this.$axios({method:'POST',baseURL: '/webApi',url:urls,
+            transformRequest: [function transformRequest () {
+                let ret = ''
+                for (let it in data) {
+                    let value = encodeURIComponent(data[it])
+                    if (value === 'null') {
+                        value = ''
+                    }
+                    ret += encodeURIComponent(it) + '=' + value + '&'
+                }
+                return ret
+            }],headers: {'sign': sessionStorage.getItem('sign')
+        }})
+    },
     ScrollBar(ele){
      let that = this;
      this.coord_Y = null;

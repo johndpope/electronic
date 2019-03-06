@@ -80,23 +80,23 @@ export default {
     postMatchCount (data) {
         return handleRequest(util.ajaxForm.post('/s2/match/matchCount', data))
     },
-    postMatches (data) {
-        return handleRequest(util.ajaxForm.post('/sv/match/matches', data))
-    },
-    postRollBallMatches (data) {
-        return handleRequest(util.ajaxForm.post('/s2/match/matches', data))
-    },
+    // postMatches (data) {
+    //     return handleRequest(util.ajaxForm.post('/sv/match/matches', data))
+    // },
+    // postRollBallMatches (data) {
+    //     return handleRequest(util.ajaxForm.post('/s2/match/matches', data))
+    // },
     postInitESportBulletin (data) {
         return handleRequest(util.ajaxForm.post('/initEsportBulletin', data))
     },
     postUserLogin (data) {
         return handleRequest(util.ajaxForm.post('/v2/loginTest', data))
     },
-    postLeagues (data) {
-        return handleRequest(util.ajaxForm.post('/sv/match/leagues', data))
-    },
+    // postLeagues (data) {
+    //     return handleRequest(util.ajaxForm.post('/sv/match/leagues', data))
+    // },
     postListGameEndResult (data) {
-     return handleRequest(util.ajaxForm.post('/listGameEndResult', data))
+        return handleRequest(util.ajaxForm.post('/listGameEndResult', data))
     },
     postMultiTicket (data) {
         return handleRequest(util.ajaxForm.post('/sv/line/multiTicket', data))
@@ -128,10 +128,13 @@ export default {
     postBetMixParlay (data) {
         return handleRequest(util.ajaxJson.post('/sv/match/betMixParlay?money='+data.money, JSON.stringify(data.mixParlayInfoList)))
     },
-    postMatchesMixParlay (data) {
-        return handleRequest(util.ajaxForm.post('/sv/match/matchesMixParlay', data))
-    },
+    // postMatchesMixParlay (data) {
+    //     return handleRequest(util.ajaxForms.post('/sv/match/matchesMixParlay', data))
+    // },
     postMixParlayCount (data) {
         return handleRequest(util.ajaxForm.post('/s2/match/mixParlayCount', data))
+    },
+    postSign (data) {
+        return handleRequest(util.ajaxForm.post('/v2/sign', data))
     },
 }

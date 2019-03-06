@@ -29,15 +29,15 @@
                 let token = w_url.split('=')
                 this.w_token = token[1]
                 this.handleGetToken(this.w_token)
+                this.handleSendSign()
             }
         },
         methods: {
-            ...mapActions([ 'postLoginUserByTokenS' ]),
+            ...mapActions([ 'postLoginUserByTokenS', 'postSignS' ]),
             ...mapMutations([ 'saveToken' ]),
             handleGetToken (tk) {
                 if (tk) {
                     let data = '?token=' + this.w_token
-
                     this.postLoginUserByTokenS(data).then(res => {
                      if (res) {
                          this.$router.push('/')
@@ -49,7 +49,7 @@
                      }
                 })
                 }
-            }
+            },
         }
     }
 </script>

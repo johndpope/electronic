@@ -23,6 +23,7 @@ export default new Vuex.Store({
           oddsId: null
       },
       betBoxShow: false,
+      cssStyle: 'normal'
   },
   mutations: {
    [GET_EVENTS] (stat) {
@@ -83,6 +84,9 @@ export default new Vuex.Store({
    },
    changeBetBoxShow (state) {
        state.betBoxShow = !state.betBoxShow
+   },
+   changeCssStyle (state, data) {
+       state.cssStyle = data
    }
   },
   actions: {
@@ -108,17 +112,17 @@ export default new Vuex.Store({
           })
           return re
       },
-      // 查询查询赛事列表
-      async postMatchesS ({ commit }, data) {
-          commit(GET_MATCHES)
-          let re = ''
-          await ajaxModel.postMatches(data).then(res => {
-              re = res
-          }).catch(err => {
-              re = err
-          })
-          return re
-      },
+      // // 查询查询赛事列表
+      // async postMatchesS ({ commit }, data) {
+      //     commit(GET_MATCHES)
+      //     let re = ''
+      //     await ajaxModel.postMatches(data).then(res => {
+      //         re = res
+      //     }).catch(err => {
+      //         re = err
+      //     })
+      //     return re
+      // },
       // 查询公告
       async postInitESportBulletinS ({ commit }, data) {
           commit(GET_MATCHES)
@@ -141,17 +145,17 @@ export default new Vuex.Store({
           })
           return re
       },
-      // 查询联赛
-      async postLeaguesS ({ commit }, data) {
-          commit(GET_MATCHES)
-          let re = ''
-          await ajaxModel.postLeagues(data).then(res => {
-              re = res
-          }).catch(err => {
-              re = err
-          })
-          return re
-      },
+      // // 查询联赛
+      // async postLeaguesS ({ commit }, data) {
+      //     commit(GET_MATCHES)
+      //     let re = ''
+      //     await ajaxModel.postLeagues(data).then(res => {
+      //         re = res
+      //     }).catch(err => {
+      //         re = err
+      //     })
+      //     return re
+      // },
       // 查询赛果
       async postListGameEndResultS ({ commit }, data) {
           commit(GET_MATCHES)
@@ -185,17 +189,17 @@ export default new Vuex.Store({
           })
           return re
       },
-      // 查询滚球赛事
-      async postRollBallMatchesS ({ commit }, data) {
-          commit(GET_MATCHES)
-          let re = ''
-          await ajaxModel.postRollBallMatches(data).then(res => {
-              re = res
-          }).catch(err => {
-              re = err
-          })
-          return re
-      },
+      // // 查询滚球赛事
+      // async postRollBallMatchesS ({ commit }, data) {
+      //     commit(GET_MATCHES)
+      //     let re = ''
+      //     await ajaxModel.postRollBallMatches(data).then(res => {
+      //         re = res
+      //     }).catch(err => {
+      //         re = err
+      //     })
+      //     return re
+      // },
       // 查询滚球赛事
       async postMatchInfoS ({ commit }, data) {
           commit(GET_MATCHES)
@@ -284,22 +288,33 @@ export default new Vuex.Store({
           })
           return re
       },
-      // 查询赛事列表(串关)
-      async postMatchesMixParlayS ({ commit }, data) {
+      // // 查询赛事列表(串关)
+      // async postMatchesMixParlayS ({ commit }, data) {
+      //     commit(GET_MATCHES)
+      //     let re = ''
+      //     await ajaxModel.postMatchesMixParlay(data).then(res => {
+      //         re = res
+      //     }).catch(err => {
+      //         re = err
+      //     })
+      //     return re
+      // },
+      // 查询串关赛事
+      async postMixParlayCountS ({ commit }, data) {
           commit(GET_MATCHES)
           let re = ''
-          await ajaxModel.postMatchesMixParlay(data).then(res => {
+          await ajaxModel.postMixParlayCount(data).then(res => {
               re = res
           }).catch(err => {
               re = err
           })
           return re
       },
-      // 查询串关赛事
-      async postMixParlayCountS ({ commit }, data) {
+      // 验证
+      async postSignS ({ commit }, data) {
           commit(GET_MATCHES)
           let re = ''
-          await ajaxModel.postMixParlayCount(data).then(res => {
+          await ajaxModel.postSign(data).then(res => {
               re = res
           }).catch(err => {
               re = err

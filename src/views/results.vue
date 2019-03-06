@@ -40,8 +40,11 @@
                     <td colspan="10">{{ item.category + ' - ' + item.league }}</td>
                 </tr>
                  <tr class="even" v-for="(items,keys) in item.gameMatches" :key="keys">
-                    <td class="date">{{ items.matchTime }}</td>
-                    <td class="event">
+                    <td class="h date">
+                        <span>{{ items.matchTime }}</span>
+                        <span class="cel" v-if="items.matchStatus === 2">Canceled</span>
+                    </td>
+                    <td class="h event">
                         <h6 class="bold">{{ items.teamLeftCn }}</h6>
                         <h6 class="">{{ items.teamRightCn }}</h6>
                     </td>
@@ -133,14 +136,14 @@ export default {
        ...mapActions([ 'postListGameEndResultS', 'postChangeLanguagenS' ]),
        handleGetResult () {
            this.resultList = []
-           let lData = {}
-           if (this.$i18n.locale === 'CH') {
-               lData.language = 'zh'
-           } else {
-               lData.language = 'en'
-           }
-           this.postChangeLanguagenS(lData).then(res => {
-               if (res === 'success') {
+           // let lData = {}
+           // if (this.$i18n.locale === 'CH') {
+           //     lData.language = 'zh'
+           // } else {
+           //     lData.language = 'en'
+           // }
+           // this.postChangeLanguagenS(lData).then(res => {
+           //     if (res === 'success') {
                    let data = {
                        date: this.formattingTime(this.time,'dd'),
                        TOKEN: sessionStorage.getItem('Tk'),
@@ -153,10 +156,10 @@ export default {
                           this.resultList = res
                       }
                    })
-               }
-           }).catch(err => {
-               this.$refs.layer.open(err.msg, true, false, 1000)
-           })
+               // }
+           // }).catch(err => {
+           //     this.$refs.layer.open(err.msg, true, false, 1000)
+           // })
 
        },
        handleFromChild (data) {
@@ -273,10 +276,10 @@ export default {
                 border-bottom: 1px solid #fff;
                 text-align: center;
             }
-            td,th{
-                width: 10%;
+            th.h,td.h{
+                width: 20%;
             }
-            td {
+            td{
                 background-color: #ebebeb;
                 border-bottom: 1px solid #f9f9f9;
                 border-right: 1px solid #f9f9f9;
@@ -290,6 +293,10 @@ export default {
             .period,.date {
                 text-align: center;
                 vertical-align: middle;
+            }
+            .cel {
+                padding-left: 15px;
+                color: red;
             }
             .l td {
                 background: #363d48;
